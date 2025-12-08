@@ -24,6 +24,7 @@ jobs:
         - name: Build Web
           run: hugo -D
 
+          # 推送到Github仓库的Jul1en-Lin.github.io 仓库
         - name: Deploy Web
           uses: peaceiris/actions-gh-pages@v4
           with:
@@ -32,3 +33,23 @@ jobs:
               PUBLISH_BRANCH: main
               PUBLISH_DIR: ./public
               commit_message: auto deploy
+              # 【关键】为了 Gitee 小绿点，这里必须填你 Gitee 绑定的邮箱和昵称！
+              # 这样生成的 Commit 才会归属到你名下，同步过去才有绿点。
+              user_name: 'Jul1en-Lin' 
+              user_email: '1577045857@qq.com'
+
+        # 同步到 Gitee
+        - name: Sync to Gitee
+          uses: Yikun/hub-mirror-action@master
+          if: always() # 保证即使上面步骤偶尔抽风，这一步也尝试执行
+          with:
+            # 你的 GitHub 用户名
+            src: github/Jul1en-Lin
+            # 你的 Gitee 用户名
+            dst: gitee/Cary_C
+            # 只需要同步存放静态页面的那个仓库
+            dst_key: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
+            dst_token: ${{ secrets.GITEE_TOKEN }} # 需要去 Gitee 生成一个私人令牌(Access Token)
+            static_list: "Jul1en-Lin.github.io" # 这里填你要同步的仓库名
+            force_update: true
+            debug: true

@@ -22,11 +22,11 @@ languages:
     #             subtitle: Example description
     zh-cn:
         languageName: 中文
-        title: Jul1en
+        title: Jul1en-Blog
         weight: 2
         params:
             sidebar:
-                subtitle: 学会等候 期待有天
+                subtitle: 欢迎来到我的博客网站😽
 
 services:
     # Change it to your Disqus shortname before using
@@ -215,6 +215,12 @@ menu:
           url: https://github.com/Jul1en-Lin
           params:
               icon: brand-github
+
+        - identifier: csdn
+          name: CSDN
+          url: https://blog.csdn.net/TwoCat_C?spm=1000.2115.3001.10640
+          params:
+              icon: csdn-logo
 
 related:
     includeNewer: true

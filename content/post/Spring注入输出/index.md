@@ -1,3 +1,9 @@
++++
+date = '2025-12-08T17:12:08+08:00'
+draft = true
+title = 'SpringIoC & DI'
++++
+
 # SpringIoC & DI
 
 Spring两个核心思想：IoC和AOP

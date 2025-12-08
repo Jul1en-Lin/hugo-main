@@ -50,6 +50,6 @@ jobs:
             # 只需要同步存放静态页面的那个仓库
             dst_key: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
             dst_token: ${{ secrets.GITEE_TOKEN }} # 需要去 Gitee 生成一个私人令牌(Access Token)
-            static_list: "Jul1en-Lin.github.io" # 这里填你要同步的仓库名
+            static_list: "jul1en-lin.github.io" # 这里填你要同步的仓库名
             force_update: true
             debug: true

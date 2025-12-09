@@ -840,3 +840,69 @@ input[name="keyword"]::placeholder {
     width: 100% !important;
     border-radius: 0 !important; /* 让图片直角贴合卡片边缘，由卡片的 overflow 负责裁剪 */
 }
+
+
+/* =========================================
+   动态背景粒子效果 (Floating Dust & Fireflies)
+   ========================================= */
+
+/* 1. 粒子容器：覆盖全屏，但不可点击 */
+#particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 关键：放在背景图之上，但内容之下 */
+    pointer-events: none; /* 让鼠标穿透，不影响点击 */
+    overflow: hidden;
+}
+
+/* 2. 粒子本体样式 */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0; /* 初始透明，由动画控制显示 */
+    filter: blur(1px); /* 轻微模糊，增加空气感 */
+    
+    /* 动画配置：名字 时长 匀速 无限循环 */
+    animation: floatUp linear infinite;
+}
+
+/* 3. 动画关键帧：上浮 + 左右摆动 + 呼吸渐变 */
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1.0; /* 浮现 */
+    }
+    50% {
+        transform: translateY(-40vh) translateX(20px); /* 向上游动 */
+        opacity: 0.4; /* 呼吸变暗 */
+    }
+    80% {
+        opacity: 0.6; /* 再次变亮 */
+    }
+    100% {
+        transform: translateY(-100vh) translateX(-20px); /* 飞出屏幕 */
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   配色方案：白天 vs 黑夜
+   ========================================= */
+
+/* 白天模式：金色的微尘 (模拟阳光) */
+.particle {
+    background: rgba(210, 180, 140, 0.6); /* 浅卡其/金色 */
+    box-shadow: 0 0 10px rgba(210, 180, 140, 0.4); /* 微弱发光 */
+}
+
+/* 黑暗模式：冷白色的流萤 (模拟星光) */
+:root[data-scheme="dark"] .particle {
+    background: rgba(200, 230, 255, 0.5); /* 冷白微蓝 */
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* 萤火虫光晕 */
+}

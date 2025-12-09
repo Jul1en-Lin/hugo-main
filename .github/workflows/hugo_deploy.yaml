@@ -38,18 +38,4 @@ jobs:
               user_name: 'Jul1en-Lin' 
               user_email: '1577045857@qq.com'
 
-        # 同步到 Gitee
-        - name: Sync to Gitee
-          uses: Yikun/hub-mirror-action@master
-          if: always() # 保证即使上面步骤偶尔抽风，这一步也尝试执行
-          with:
-            # 你的 GitHub 用户名
-            src: github/Jul1en-Lin
-            # 你的 Gitee 用户名
-            dst: gitee/Cary_C
-            # 只需要同步存放静态页面的那个仓库
-            dst_key: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
-            dst_token: ${{ secrets.GITEE_TOKEN }} # 需要去 Gitee 生成一个私人令牌(Access Token)
-            static_list: "jul1en-lin.github.io" # 这里填你要同步的仓库名
-            force_update: true
-            debug: true
+      

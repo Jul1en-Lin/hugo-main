@@ -122,17 +122,28 @@ a {
 //-------------------------------------------------
 //文章封面高度更改
 .article-list article .article-image img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
+  width: 100% !important;
+  
+  /* 1. 高度调整：想要“题头图”效果，高度要改小 */ 
+  
+  /* 关键属性：保持图片比例，填满容器 */
+  object-fit: cover !important;
+  
+  /* 2. 显示区域调整 (重点！) */
+  /* center center 是默认值 (居中) */
+  /* bottom center 表示：强制显示图片的【底部】，剪裁掉顶部 */
+  /* 你的原图人都在下面，所以用 bottom 非常合适 */
+  object-position: center center !important; 
+  /* 如果觉得 bottom 太靠底了，可以用百分比微调，比如 0% 80% (X轴 Y轴) */
 
-  @include respond(md) {
-    height: 200px;
-  }
-
+  /* 原来是 305px (太高了)，改为 160px - 180px 就很有 Banner 的感觉了 */
   @include respond(xl) {
-    height: 305px;
+    height: 160px !important; 
   }
+  
+  /* 3. 细节优化：防止图片本身有圆角干扰外层卡片的圆角 */
+  margin: 0 !important;
+  border-radius: 0 !important;
 }
 
 //---------------------------------------------------
@@ -906,3 +917,137 @@ input[name="keyword"]::placeholder {
     background: rgba(200, 230, 255, 0.5); /* 冷白微蓝 */
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* 萤火虫光晕 */
 }
+
+/* =========================================
+   侧边栏标题 (Widget Title) 样式微调
+   ========================================= */
+
+.widget .widget-title {
+    /* 1. 调整字体大小 */
+    /* 建议值：1rem (标准) 到 1.3rem (稍微大一点) */
+    /* Stack 默认可能很大，我们把它改小 */
+    font-size: 1.2rem !important; 
+    
+    /* 2. 调整粗细 (可选) */
+    /* 如果觉得太粗了不够秀气，可以改小一点 (400-600) */
+    font-weight: 600 !important;
+    
+    /* 3. 调整标题和下面内容的间距 */
+    /* 字体变小后，间距可能看起来会变大，适当收缩一下 */
+    margin-bottom: 15px !important;
+    
+    /* 4. (可选) 让标题变为全大写，增加秩序感 */
+    text-transform: uppercase;
+    
+    /* 5. (可选) 给标题加一点点字间距，显得更透气 */
+    letter-spacing: 1px;
+
+    /* --- 关键修改：让标题往右挪 --- */
+    /* 这里的 10px 是移动距离，你可以改成 15px 或 20px 试试 */
+    margin-left: 3px !important;
+}
+
+/* =========================================
+   隐藏底部的 Powered by Hugo ...
+   ========================================= */
+.powerby {
+    display: none !important;
+}
+
+
+
+
+/* =========================================
+   文章详情页 (Inside Post) 题头图限制
+   ========================================= */
+
+/* 针对文章详情页最上面的那张大图 */
+.article-page .article-header .article-image img {
+    width: 100% !important;
+    
+    /* 1. 限制高度：这里可以比主页稍微高一点点，但不要太高 */
+    /* 建议设置在 200px - 250px 之间，既有气势又不会占满屏幕 */
+    height: 250px !important; 
+    
+    /* 2. 保持比例 & 底部对齐 (和你主页的逻辑保持一致) */
+    object-fit: cover !important;
+    object-position: center center !important; /* 也是重点看底部 */
+    
+    /* 3. 细节：圆角处理 */
+    border-radius: 16px !important;
+    margin-bottom: 30px; /* 图片和文章标题的距离 */
+}
+
+/* 手机端适配：手机上不需要那么高 */
+@include respond(md) {
+     .article-page .article-header .article-image img {
+         height: 150px !important;
+     }
+}
+
+
+
+
+/* =========================================
+   文章详情页 (.main-article) 整体统一修复
+   ========================================= */
+
+/* 1. 给整个文章大卡片穿上“米汤色毛玻璃” */
+.main-article {
+    /* --- 核心配方 (方案一：米汤白) --- */
+    background-color: rgba(252, 249, 244, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* 边框与阴影 */
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+    
+    /* 圆角与间距 */
+    border-radius: 16px !important;
+    overflow: hidden; /* 防止图片圆角溢出 */
+    padding: 0 !important; /* 清除默认内边距，由内部控制 */
+}
+
+/* 2. 关键：把内部所有子区块的背景“洗掉” */
+/* 让 .article-details (标题) 和 .article-content (正文) 都变透明 */
+/* 这样它们就会统一透出最外层的颜色，消除色差 */
+.main-article .article-details,
+.main-article .article-content {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* 3. 给正文加一点内边距，防止文字贴边 */
+.main-article .article-content {
+    padding: 20px 35px 40px 35px !important; /* 上 右 下 左 */
+}
+
+/* 手机端内边距稍微小一点 */
+@include respond(md) {
+    .main-article .article-content {
+        padding: 20px 20px 30px 20px !important;
+    }
+}
+
+
+/* =========================================
+   黑暗模式适配 (文章详情页)
+   ========================================= */
+:root[data-scheme="dark"] .main-article {
+    background-color: rgba(30, 30, 30, 0.5) !important; /* 你的深色半透明 */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+}
+
+/* 确保黑暗模式下，内部也是完全透明 */
+:root[data-scheme="dark"] .main-article .article-details,
+:root[data-scheme="dark"] .main-article .article-content {
+    background: transparent !important;
+    border: none !important;
+    backdrop-filter: none !important;
+}
+

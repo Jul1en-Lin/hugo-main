@@ -26,7 +26,7 @@ languages:
         weight: 2
         params:
             sidebar:
-                subtitle: 欢迎来到我的博客网站😽
+                subtitle: 欢迎来到我的博客😽
 
 services:
     # Change it to your Disqus shortname before using

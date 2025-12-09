@@ -55,6 +55,9 @@
     --code-background-color: #ff6d1b17;
     // 行内代码前景色
     --code-text-color: #e96900;
+
+    --bg-image: url('/background/Gemini_Image_1ws0.png'); /* 你的亮色背景路径 */
+    --bg-opacity: 0.9; /* 遮罩透明度，可选 */
   }
 }
 
@@ -428,3 +431,412 @@ html {
   }
 }
 
+/* 1. 亮色模式（默认） */
+:root {
+    /* 这里的路径是相对于网站根目录的绝对路径 */
+    --main-bg-image: url('/background/Gemini_light.png'); 
+}
+
+/* 2. 黑暗模式 */
+/* 你确认了 HTML 头是 <html ... data-scheme="dark">，所以这里的写法是完全正确的 */
+:root[data-scheme="dark"] {
+    --main-bg-image: url('/background/Gemini_dark.png');
+}
+
+/* 3. 应用样式 */
+body {
+    /* 使用变量 */
+    background-image: var(--main-bg-image);
+    
+    /* 必须设置的标准背景属性 */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+    /* 过渡效果 */
+    transition: background-image 2.1s ease-in-out;
+}
+
+/* =========================================
+   卡片交互动画配置 (.article-details)
+   ========================================= */
+
+/* 1. 基础状态：定义过渡属性 */
+
+.welcome,
+.article-details {
+
+    /* 1. 核心颜色：不再是纯白，而是调了一点点暖色的“米汤白” */
+    /* 0.75 的不透明度，既遮得住背景的杂乱，又透出背景的颜色 */
+    background-color: rgba(252, 249, 244, 0.75);
+
+    /* 2. 滤镜：磨砂感保持 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    /* 3. 边框：现在可以看到白色的边框了！ */
+    /* 因为卡片底色微黄，这个纯白的边框会像一道光一样勾勒在边缘 */
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    
+    /* 4. 阴影：用暖灰色的阴影，而不是纯黑阴影 */
+    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
+
+    /* 开启硬件加速，让动画更丝滑 */
+    will-change: transform;
+    
+    /* 设定过渡时间：0.3秒，ease-out (减速曲线，停下来的感觉更自然) */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease;
+    
+}
+
+/* 2. 鼠标悬停状态 (Hover) */
+.article-details:hover {
+    /* 核心动作：向上轻微浮动 6像素 */
+    transform: translateY(-6px);
+    
+    /* 悬停时，卡片稍微变亮一点点，模拟光照 */
+    background-color: rgba(252, 249, 244, 0.85);
+    box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25);
+    border-color: #ffffff; /* 边框变实 */
+}
+
+/* 3. 黑暗模式专用适配 */
+/* 在暗色背景下，普通黑色阴影看不清，我们需要加深阴影 */
+:root[data-scheme="dark"] .welcome,
+:root[data-scheme="dark"] .article-details:hover {
+    /* 方案 A: 使用更深、更浓的黑色阴影，制造“深邃感” */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);  
+}
+
+/* =========================================
+   黑暗模式适配
+   ========================================= */
+:root[data-scheme="dark"] .welcome,
+:root[data-scheme="dark"] .article-details {
+    /* 1. 黑暗模式下的背景色：黑色半透明 */
+    /* 使用深灰/黑色，透明度设为 0.5 左右，让背后的深色水彩透出来 */
+    background-color: rgba(30, 30, 30, 0.5);
+
+    /* 2. 黑暗模式下的描边 */
+    /* 边框要非常淡，隐约可见即可 */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================
+   侧边栏通用样式 (归档、分类、标签等)
+   ========================================= */
+
+/* 这里的 .widget 是为了尝试覆盖所有侧边栏卡片 */
+/* .widget-archive--list 是你指定的归档卡片 */
+.widget, 
+.widget-archive--list {
+    /* --- 核心配方 (复制自方案一) --- */
+    background-color: rgba(252, 249, 244, 0.75); /* 米汤白 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8); /* 高光边框 */
+    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15); /* 暖灰阴影 */
+    
+    /* --- 布局优化 --- */
+    border-radius: 12px; /* 圆角要和文章卡片保持一致 */
+    width: 95%;
+    margin: 0 auto 24px auto;
+    padding: 10px 12px;       /* 内边距，防止文字贴边 */
+    
+    /* --- 动画基础 --- */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+/* 侧边栏卡片悬停效果 (稍微克制一点，不要浮起太高) */
+.widget:hover,
+.widget-archive--list:hover {
+    transform: translateY(-4px); /* 比文章卡片(-6px)稍微低一点，体现层级 */
+    box-shadow: 0 10px 25px rgba(180, 170, 160, 0.2);
+    background-color: rgba(252, 249, 244, 0.85); /* 变亮 */
+}
+
+/* =========================================
+   黑暗模式适配 (侧边栏)
+   ========================================= */
+:root[data-scheme="dark"] .widget,
+:root[data-scheme="dark"] .widget-archive--list {
+    background-color: rgba(30, 30, 30, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: none; /* 黑暗模式平时不显示阴影 */
+}
+
+:root[data-scheme="dark"] .widget:hover,
+:root[data-scheme="dark"] .widget-archive--list:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* 悬停时才显示深色阴影 */
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   搜索框样式深度定制
+   ========================================= */
+
+/* 胶囊风格搜索框 */
+.widget input[name="keyword"] {
+    /* 背景：比 Widget 稍微深一点点，制造“凹陷”感 */
+    background-color: rgba(0, 0, 0, 0.03) !important; 
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    border-radius: 20px !important; /* 圆润的胶囊形 */
+    padding: 8px 15px !important;
+    color: #333;
+}
+
+/* 黑暗模式适配 */
+:root[data-scheme="dark"] .widget input[name="keyword"] {
+    background-color: rgba(0, 0, 0, 0.2) !important; /* 深色凹槽 */
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    color: #eee;
+}
+
+/* =========================================
+   双列归档列表 (Article List Compact) 修复
+   ========================================= */
+
+/* 1. 第一步：把大容器背景“隐形” */
+/* 防止出现你说的那种“一大片颜色”的情况 */
+.article-list--compact {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important; /* 去掉大容器的内边距，交给小卡片控制 */
+}
+
+
+/* =========================================
+   主页文章列表 (.article-list) 统一化修复
+   ========================================= */
+
+/* 1. 给整个大卡片 (Article) 穿上“米汤色毛玻璃” */
+.article-list article {
+    /* --- 核心配方 (方案一：米汤白) --- */
+    background-color: rgba(252, 249, 244, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* 边框与阴影 */
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+    
+    /* --- 布局优化 --- */
+    border-radius: 16px !important; /* 保持和你文件头定义的圆角一致 */
+    margin-bottom: 2px; /* 卡片之间的间距 */
+    overflow: hidden;    /* 这一步很关键！防止顶部的图片圆角被直角遮挡 */
+    
+    /* --- 动画准备 --- */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+/* 2. 关键修复：清除内部 .article-details 的背景和滤镜 */
+/* 防止出现“卡片里还有一个颜色不一样的方块” */
+.article-list article .article-details {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 20px 25px; /* 给文字留点呼吸空间 */
+}
+
+/* 3. 鼠标悬停交互 (Hover) */
+.article-list article:hover {
+    transform: translateY(-6px);
+    background-color: rgba(252, 249, 244, 0.85) !important;
+    box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25) !important;
+    border-color: #ffffff !important;
+}
+
+/* =========================================
+   黑暗模式适配 (Main Article List)
+   ========================================= */
+:root[data-scheme="dark"] .article-list article {
+    background-color: rgba(30, 30, 30, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+}
+
+:root[data-scheme="dark"] .article-list article:hover {
+    /* 悬停时加深阴影，增加层次 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 确保黑暗模式下内部也完全透明 */
+:root[data-scheme="dark"] .article-list article .article-details {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border: none !important;
+}
+
+/* 2. 第二步：给每一个小卡片穿上“方案一”的衣服 */
+/* 这里 target 的是 .article-list--compact 里面的每一个 article 标签 */
+.article-list--compact article {
+    /* --- 核心配方 (方案一：米汤白) --- */
+    background-color: rgba(252, 249, 244, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
+    
+    /* --- 布局优化 --- */
+    border-radius: 12px; /* 圆角 */
+    margin-bottom: 20px; /* 卡片之间的上下间距 */
+    padding: 20px;       /* 卡片内部的空间 */
+    overflow: hidden;    /* 防止圆角溢出 */
+    
+    /* --- 动画准备 --- */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+
+    /* --- 在这里调整大小 --- */
+    
+    /* 之前是 20px，可能太“宽敞”了 */
+    /* 建议改成 10px 或 12px，卡片就会变得紧凑 */
+    padding: 10px;       
+    
+    /* 如果你觉得卡片之间的上下距离也太大了 */
+    /* 可以把 margin-bottom 从 20px 减小到 12px 或 10px */
+    margin-bottom: 12px;
+}
+
+/* 3. 第三步：解决你图片里那个“黑色方块”的问题 */
+/* 强制把卡片内部的 article-details 背景去掉，让它透出外面的米汤色 */
+.article-list--compact article .article-details {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important; /* 避免双重 Padding 造成空隙过大 */
+
+    /* 关键修复：清除内部的毛玻璃滤镜，防止双重模糊导致的变色 */
+    backdrop-filter: none !important; 
+    -webkit-backdrop-filter: none !important;
+}
+
+/* 4. 鼠标悬停交互 (Hover) */
+.article-list--compact article:hover {
+    transform: translateY(-6px);
+    background-color: rgba(252, 249, 244, 0.85);
+    box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25);
+    border-color: #ffffff;
+}
+
+/* =========================================
+   黑暗模式适配 (Compact List)
+   ========================================= */
+:root[data-scheme="dark"] .article-list--compact article {
+    background-color: rgba(30, 30, 30, 0.5); /* 深色半透明 */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+}
+
+:root[data-scheme="dark"] .article-list--compact article:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 确保黑暗模式下内部也透明 */
+:root[data-scheme="dark"] .article-list--compact article .article-details {
+    background: transparent !important;
+
+    /* 关键修复：黑暗模式下也要强制去掉边框和滤镜 */
+    border: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* =========================================
+   搜索输入框样式升级 (统一为米汤色毛玻璃卡片)
+   ========================================= */
+
+/* 1. 基础样式：完全复刻 .article-details 的配方 */
+input[name="keyword"] {
+    /* --- 核心配方 (方案一：米汤白) --- */
+    /* 使用 !important 覆盖浏览器默认样式和主题自带样式 */
+    background-color: rgba(252, 249, 244, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* 边框和阴影 */
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+    
+    /* --- 布局与字体 --- */
+    border-radius: 12px !important; /* 圆角保持一致 */
+    width: 100%;             /* 占满容器宽度 */
+    padding: 15px 20px;      /* 增加内边距，让它看起来像个卡片而不是窄条 */
+    font-size: 1rem;         /* 字体大小 */
+    color: #333;             /* 输入文字颜色 */
+    outline: none;           /* 去掉默认的蓝色聚焦框 */
+    
+    /* --- 动画 --- */
+    transition: all 0.3s ease-out;
+
+    /* 1. 调整【厚度/高度】 (最常用) */
+    /* 第一个数字 15px 是上下内边距，控制卡片有多高 */
+    /* 第二个数字 20px 是左右内边距，控制文字离边缘多远 */
+    /* 觉得小，就改成 padding: 20px 25px; 试试 */
+    padding: 20px 25px !important; 
+
+    /* 2. 调整【文字大小】 */
+    /* 如果觉得里面的字太小，看不清，把 1rem 改成 1.2rem */
+    font-size: 1.2rem; 
+
+    /* 3. 调整【宽度】 */
+    /* 100% 表示占满父容器。如果你想让它强制变宽，可以尝试加大父容器宽度 */
+    /* 或者直接在这里写死像素，比如 width: 300px !important; (不推荐，手机端会坏) */
+    width: 100%;
+}
+
+/* 2. 交互状态：鼠标悬停或输入聚焦时 */
+input[name="keyword"]:hover,
+input[name="keyword"]:focus {
+    /* 稍微上浮，增加光泽感 */
+    transform: translateY(-2px);
+    background-color: rgba(252, 249, 244, 0.95) !important; /* 变得更实一点，方便阅读 */
+    box-shadow: 0 8px 25px rgba(180, 170, 160, 0.25) !important;
+    border-color: #ffffff !important;
+}
+
+/* 3. 提示文字 (Placeholder) 样式微调 */
+input[name="keyword"]::placeholder {
+    color: rgba(0, 0, 0, 0.4); /* 提示字淡一点 */
+    font-size: 0.95em;
+}
+
+/* =========================================
+   搜索框 - 黑暗模式适配
+   ========================================= */
+:root[data-scheme="dark"] input[name="keyword"] {
+    /* 深色半透明背景 */
+    background-color: rgba(30, 30, 30, 0.5) !important;
+    
+    /* 微弱的边框 */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    
+    /* 文字变白 */
+    color: #eee;
+    
+    /* 去掉默认阴影 */
+    box-shadow: none !important;
+}
+
+:root[data-scheme="dark"] input[name="keyword"]:hover,
+:root[data-scheme="dark"] input[name="keyword"]:focus {
+    /* 悬停/聚焦时增加深色阴影 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    background-color: rgba(40, 40, 40, 0.8) !important;
+}
+
+:root[data-scheme="dark"] input[name="keyword"]::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.article-list article .article-image img {
+    margin: 0 !important;
+    width: 100% !important;
+    border-radius: 0 !important; /* 让图片直角贴合卡片边缘，由卡片的 overflow 负责裁剪 */
+}

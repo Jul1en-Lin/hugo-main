@@ -332,6 +332,38 @@ html {
 
 //归档小图标放大动画
 /* =========================================
+   右侧边栏 Widget 统一卡片样式
+   ========================================= */
+
+/* 给所有右侧边栏的 widget 添加统一的卡片背景 */
+.right-sidebar .widget {
+  /* 米汤白背景 + 毛玻璃效果 */
+  background-color: rgba(252, 249, 244, 0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* 边框与阴影 */
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+
+  /* 圆角 */
+  border-radius: var(--card-border-radius);
+
+  /* 内边距 */
+  padding: 20px;
+
+  /* 过渡动画 */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+/* 深色模式下的背景 */
+:root[data-scheme="dark"] .right-sidebar .widget {
+  background-color: rgba(30, 30, 30, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+/* =========================================
    Archives Widget 样式调整
    ========================================= */
 
@@ -471,6 +503,8 @@ html {
   position: relative;
   z-index: 3;
 }
+
+
 
 /* 主光晕 - 渐变紫蓝 */
 .sidebar header .site-avatar::before {
@@ -701,30 +735,38 @@ html {
 
 /* 1. 亮色模式（默认） */
 :root {
+  /* 新增：Notion 风格纯色背景 (淡米灰) */
+  --main-bg-color: #F7F7F5;
+
   /* 这里的路径是相对于网站根目录的绝对路径 */
-  --main-bg-image: url('/background/Gemini_light.png');
+  /* --main-bg-image: url('/background/Gemini_light.png'); */
 }
 
 /* 2. 黑暗模式 */
 /* 你确认了 HTML 头是 <html ... data-scheme="dark">，所以这里的写法是完全正确的 */
 :root[data-scheme="dark"] {
-  --main-bg-image: url('/background/Gemini_dark.png');
+  /* 新增：Notion 风格纯色背景 (深灰黑) */
+  --main-bg-color: #191919;
+
+  /* --main-bg-image: url('/background/Gemini_dark.png'); */
 }
 
 /* 3. 应用样式 */
 body {
   /* 使用变量 */
-  background-image: var(--main-bg-image);
+  /* background-image: var(--main-bg-image); */
+  background-color: var(--main-bg-color) !important;
 
   /* 必须设置的标准背景属性 */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  /* background-size: cover; */
+  /* background-position: center; */
+  /* background-attachment: fixed; */
+  /* background-repeat: no-repeat; */
 
   /* 过渡效果 */
   /* 增加对 background-color 和 color 的过渡，防止切换时文字/色块瞬间跳变 */
-  transition: background-image 2.1s ease-in-out, background-color 0.5s ease, color 0.5s ease;
+  /* transition: background-image 2.1s ease-in-out, background-color 0.5s ease, color 0.5s ease; */
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 /* =========================================
@@ -793,10 +835,18 @@ body {
 
 }
 
-/* Welcome 卡片单独设置 transform 过渡 */
+/* Welcome 卡片单独设置 - 移除所有卡片样式，只保留文字 */
 .welcome {
+  /* 完全透明，移除所有卡片效果 */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  /* 保留动画过渡 */
   will-change: transform;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 /* 2. 鼠标悬停状态 (Hover) */
@@ -814,9 +864,13 @@ body {
   /* 边框变实 */
 }
 
-/* 2.1 只让 welcome 卡片保留上浮效果 */
+/* 2.1 welcome 移除悬停效果 */
 .welcome:hover {
-  transform: translateY(-6px);
+  /* 移除上浮和卡片效果 */
+  transform: none;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 /* 3. 黑暗模式专用适配 */
@@ -857,6 +911,13 @@ body {
   /* 2. 黑暗模式下的描边 */
   /* 边框要非常淡，隐约可见即可 */
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 深色模式下 welcome 也保持透明 */
+:root[data-scheme="dark"] .welcome {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* =========================================
@@ -1563,6 +1624,21 @@ input[name="keyword"]::placeholder {
   filter: brightness(0.85);
 }
 
+/* 3. 标签在深色模式下降低亮度，避免过于刺眼 */
+:root[data-scheme="dark"] .article-category a,
+:root[data-scheme="dark"] .article-tags a {
+  /* 降低亮度至 70%，与图片保持一致 */
+  filter: brightness(0.7);
+  /* 平滑过渡 */
+  transition: filter 0.3s ease;
+}
+
+/* 鼠标悬停时稍微提亮 */
+:root[data-scheme="dark"] .article-category a:hover,
+:root[data-scheme="dark"] .article-tags a:hover {
+  filter: brightness(0.85);
+}
+
 
 /* =========================================
    深色模式切换按钮美化 (Dark Mode Toggle)
@@ -1632,9 +1708,9 @@ input[name="keyword"]::placeholder {
    风格：简约、高级、左侧线条指示
    ========================================= */
 
-/* 0. 移除 widget-toc 的默认背景和颜色，避免色差 */
+/* 0. widget--toc 作为内嵌内容，保持透明 */
 .widget--toc {
-  /* 让背景透明，继承外层的样式 */
+  /* 让背景透明，继承外层 widget 的背景 */
   background-color: transparent !important;
   backdrop-filter: none !important;
   box-shadow: none !important;
@@ -2278,4 +2354,9 @@ input[name="keyword"]::placeholder {
   /* 向右下角移动更多，避免遮挡头像 */
   bottom: -10px !important;
   right: -10px !important;
+
+  /* 确保 emoji 在最上层，不被头像遮挡 */
+  /* 注意：必须使用 absolute 定位才能相对于 .site-avatar 容器定位 */
+  position: absolute !important;
+  z-index: 10 !important;
 }

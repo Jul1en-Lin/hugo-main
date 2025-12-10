@@ -72,10 +72,10 @@
             welcomeCard.addEventListener('mouseenter', () => {
                 const rect = welcomeCard.getBoundingClientRect();
 
-                // 延迟 500ms 触发，等待 emoji 摇晃蓄力完毕
+                // 延迟 600ms 触发，等待 emoji 摇晃蓄力完毕 (与开场动画统一)
                 setTimeout(() => {
                     popFireworks(rect);
-                }, 500);
+                }, 600);
             });
         }
     }
@@ -94,7 +94,13 @@
         if (welcome) {
             welcome.classList.add('animate-init');
 
-            // 2.5秒后移除（动画时长0.5s + 最大延迟1.4s = ~2s，留点余量）
+            // 1. 同时触发开场礼花（稍微延迟以匹配 CSS 动画的发射时间点）
+            setTimeout(() => {
+                const rect = welcome.getBoundingClientRect();
+                popFireworks(rect);
+            }, 600); // 0.1s 动画延迟 + 0.5s 蓄力时间 = 0.6s
+
+            // 2. 2.5秒后移除（动画时长0.5s + 最大延迟1.4s = ~2s，留点余量）
             setTimeout(() => {
                 welcome.classList.remove('animate-init');
             }, 2500);

@@ -1721,3 +1721,39 @@ input[name="keyword"]::placeholder {
   display: block !important;
   /* 确保 padding 生效 */
 }
+
+/* =========================================
+   Dark Mode Toggle Button Color Fix
+   ========================================= */
+/* 在深色模式下，强制将月亮图标（或切换按钮）的颜色改为 #e99312 */
+:root[data-scheme="dark"] .dark-mode-toggle {
+  color: #e99312 !important;
+}
+
+/* 如果图标是通过 SVG paths 实现的，可能需要 fill 或 stroke */
+:root[data-scheme="dark"] .dark-mode-toggle svg path {
+  fill: #e99312 !important;
+}
+
+/* =========================================
+   Categories Icon Styling
+   ========================================= */
+/* 加粗 Categories 图标 */
+.menu .icon.icon-categories svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  stroke-width: 50px !important;
+  /* Increased from 30px */
+  stroke-linejoin: round !important;
+  /* Makes thickened corners smoother */
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.menu .icon.icon-categories svg path {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  /* Ensure path also gets stroke */
+  stroke-width: 50px !important;
+  stroke-linejoin: round !important;
+}

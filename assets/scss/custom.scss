@@ -439,6 +439,133 @@ html {
   transform: rotate(360deg); // 旋转角度为360度
 }
 
+/* =========================================
+   头像装饰 - 渐变光晕设计
+   ========================================= */
+
+/* 
+ * 颜色配置：根据你的头像主色调整这三个变量
+ * 提示：用取色器从头像提取主色，或使用互补色
+ */
+:root {
+  --avatar-halo-color1: 139, 92, 246;
+  /* 紫色 - 主光晕 */
+  --avatar-halo-color2: 59, 130, 246;
+  /* 蓝色 - 中间过渡 */
+  --avatar-halo-color3: 147, 51, 234;
+  /* 深紫 - 次光晕 */
+}
+
+/* 深色模式可以使用更鲜艳的颜色 */
+:root[data-scheme="dark"] {
+  --avatar-halo-color1: 139, 92, 246;
+  --avatar-halo-color2: 59, 130, 246;
+  --avatar-halo-color3: 147, 51, 234;
+}
+
+.sidebar header .site-avatar {
+  position: relative;
+}
+
+.sidebar header .site-avatar .site-logo {
+  position: relative;
+  z-index: 3;
+}
+
+/* 主光晕 - 渐变紫蓝 */
+.sidebar header .site-avatar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 140%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%,
+      rgba(var(--avatar-halo-color1), 0.15) 0%,
+      rgba(var(--avatar-halo-color2), 0.1) 40%,
+      rgba(var(--avatar-halo-color3), 0.05) 70%,
+      transparent 100%);
+  filter: blur(20px);
+  z-index: 1;
+  animation: halo 15s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 次光晕 - 蓝紫渐变 */
+.sidebar header .site-avatar::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(120deg);
+  width: 130%;
+  height: 130%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 70% 70%,
+      rgba(var(--avatar-halo-color2), 0.12) 0%,
+      rgba(var(--avatar-halo-color3), 0.08) 50%,
+      transparent 100%);
+  filter: blur(15px);
+  z-index: 2;
+  animation: halo2 20s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 深色模式 - 更亮的渐变 */
+:root[data-scheme="dark"] .sidebar header .site-avatar::before {
+  background: radial-gradient(circle at 30% 30%,
+      rgba(var(--avatar-halo-color1), 0.25) 0%,
+      rgba(var(--avatar-halo-color2), 0.18) 40%,
+      rgba(var(--avatar-halo-color3), 0.1) 70%,
+      transparent 100%);
+}
+
+:root[data-scheme="dark"] .sidebar header .site-avatar::after {
+  background: radial-gradient(circle at 70% 70%,
+      rgba(var(--avatar-halo-color2), 0.2) 0%,
+      rgba(var(--avatar-halo-color3), 0.15) 50%,
+      transparent 100%);
+}
+
+/* 主光晕动画 - 轻微旋转 + 脉动 */
+@keyframes halo {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+
+  33% {
+    transform: translate(-50%, -50%) rotate(120deg) scale(1.05);
+    opacity: 0.8;
+  }
+
+  66% {
+    transform: translate(-50%, -50%) rotate(240deg) scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+/* 次光晕动画 - 反向旋转 */
+@keyframes halo2 {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(120deg) scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(-120deg) scale(1.08);
+    opacity: 1;
+  }
+}
+
+
+
 
 //---------------------------------------------------------
 //首页欢迎板块样式
@@ -530,7 +657,7 @@ html {
 /* SCSS 循环生成基础动画类 */
 /* SCSS 循环生成基础动画类 */
 /* 注意：这里只定义 display，把 animation 移到 .animate-init 下 */
-@for $i from 1 through 24 {
+@for $i from 1 through 28 {
   .jump-text#{$i} {
     display: inline-block;
   }
@@ -601,6 +728,41 @@ body {
 }
 
 /* =========================================
+   修复菜单滚动条问题
+   ========================================= */
+
+#main-menu {
+  /* 隐藏滚动条，避免切换主题时出现 */
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+}
+
+/* 如果菜单内容确实很多，只在需要时显示滚动条 */
+@media (max-height: 600px) {
+  #main-menu {
+    overflow-y: auto !important;
+  }
+
+  /* 美化滚动条 */
+  #main-menu::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  #main-menu::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  #main-menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+
+  :root[data-scheme="dark"] #main-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* =========================================
    卡片交互动画配置 (.article-details)
    ========================================= */
 
@@ -668,8 +830,8 @@ body {
 /* =========================================
    Welcome Card Text Animation (Jump on Hover)
    ========================================= */
-/* 使用 SCSS 循环生成 24 个字符的跳动动画 */
-@for $i from 1 through 24 {
+/* 使用 SCSS 循环生成 28 个字符的跳动动画 */
+@for $i from 1 through 28 {
   .welcome:hover .jump-text#{$i} {
     /* 关键技巧：切换动画名称以强制重播 */
     animation: jump-hover 0.5s 1;

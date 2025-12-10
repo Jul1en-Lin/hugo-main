@@ -49,6 +49,7 @@
   --code-background-color: #f8f8f8;
   // 行内代码前景色
   --code-text-color: #e96900;
+
   // 暗色模式下样式
   &[data-scheme="dark"] {
     // 行内代码背景色
@@ -56,8 +57,10 @@
     // 行内代码前景色
     --code-text-color: #e96900;
 
-    --bg-image: url('/background/Gemini_Image_1ws0.png'); /* 你的亮色背景路径 */
-    --bg-opacity: 0.9; /* 遮罩透明度，可选 */
+    --bg-image: url('/background/Gemini_Image_1ws0.png');
+    /* 你的亮色背景路径 */
+    --bg-opacity: 0.9;
+    /* 遮罩透明度，可选 */
   }
 }
 
@@ -123,24 +126,24 @@ a {
 //文章封面高度更改
 .article-list article .article-image img {
   width: 100% !important;
-  
-  /* 1. 高度调整：想要“题头图”效果，高度要改小 */ 
-  
+
+  /* 1. 高度调整：想要“题头图”效果，高度要改小 */
+
   /* 关键属性：保持图片比例，填满容器 */
   object-fit: cover !important;
-  
+
   /* 2. 显示区域调整 (重点！) */
   /* center center 是默认值 (居中) */
   /* bottom center 表示：强制显示图片的【底部】，剪裁掉顶部 */
   /* 你的原图人都在下面，所以用 bottom 非常合适 */
-  object-position: center center !important; 
+  object-position: center center !important;
   /* 如果觉得 bottom 太靠底了，可以用百分比微调，比如 0% 80% (X轴 Y轴) */
 
   /* 原来是 305px (太高了)，改为 160px - 180px 就很有 Banner 的感觉了 */
   @include respond(xl) {
-    height: 160px !important; 
+    height: 160px !important;
   }
-  
+
   /* 3. 细节优化：防止图片本身有圆角干扰外层卡片的圆角 */
   margin: 0 !important;
   border-radius: 0 !important;
@@ -195,8 +198,8 @@ a {
     }
 
     @include respond(xl) {
-      max-width: 1453px; //1536px;
-      --left-sidebar-max-width: 15%;
+      max-width: 1536px;
+      --left-sidebar-max-width: 18%;
       --right-sidebar-max-width: 25%;
     }
   }
@@ -268,11 +271,13 @@ html {
 
 /*主页布局间距调整*/
 .main-container {
-  gap: 40px; //文章宽度
+  gap: 60px;
+  /* 增大间距，利用右侧腾出的空间 */
 
   @include respond(md) {
-    padding: 0 30px;
-    gap: 20px; //中等屏幕时的文章宽度
+    padding: 0 40px;
+    gap: 40px;
+    /* 中等屏幕也适当增大 */
   }
 }
 
@@ -304,14 +309,61 @@ html {
 
 
 //右侧标签放大动画
+//右侧标签放大动画 & 样式统一 (Tag Cloud)
 .tagCloud .tagCloud-tags a {
+  /* --- 核心配方：统一为米汤色毛玻璃 --- */
+  background-color: rgba(252, 249, 244, 0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* 边框与圆角 */
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
   border-radius: 10px;
+
+  /* 字体与大小 */
   font-size: 1.4rem;
-  transition: transform .3s ease;
+  color: #555 !important;
+  /* 统一文字颜色，避免太黑 */
+
+  /* 阴影 */
+  box-shadow: 0 2px 10px rgba(180, 170, 160, 0.1);
+
+  /* 动画 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+
+  padding: 6px 15px;
+  /* 稍微调整内边距 */
 }
 
 .tagCloud .tagCloud-tags a:hover {
   transform: scale(1.1, 1.1);
+
+
+  color: var(--accent-color) !important;
+  /* 悬停时变色 */
+}
+
+/* 深色模式适配 */
+:root[data-scheme="dark"] .tagCloud .tagCloud-tags a {
+  background-color: rgba(50, 50, 50, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ddd !important;
+  box-shadow: none;
+}
+
+:root[data-scheme="dark"] .tagCloud .tagCloud-tags a:hover {
+  /* 移除原本的“变色”背景，改为普通的“深色卡片悬浮”样式 */
+  background-color: rgba(60, 60, 60, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+
+  /* 文字高亮 */
+  color: var(--accent-color) !important;
+
+  /* 阴影：与其他卡片一致的深色投影，而不是发光 */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5) !important;
+
+  transform: scale(1.05);
+  /* 微微放大 */
 }
 
 // 头像旋转动画
@@ -334,98 +386,93 @@ html {
   display: inline-block;
 }
 
-// 👋emoji实现摆动效果
-.shake {
+/* =========================================
+   Firework Icon Animation (🎉)
+   ========================================= */
+.firework-icon {
   display: inline-block;
-  animation: shake 1s;
-  animation-duration: 1s;
-  animation-timing-function: ease;
-  animation-delay: 0s;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  animation-fill-mode: none;
-  animation-play-state: running;
-  animation-name: shake;
-  animation-timeline: auto;
-  animation-range-start: normal;
-  animation-range-end: normal;
-  animation-delay: 2s;
-  @keyframes shake {
-    0% {
-      transform: rotate(0);
-    }
-    25% {
-      transform: rotate(45deg) scale(1.2);
-    }
-    50% {
-      transform: rotate(0) scale(1.2);
-    }
-    75% {
-      transform: rotate(45deg) scale(1.2);
-    }
-    100% {
-      transform: rotate(0);
-    }
-  }
-}
-// 实现字符跳动动画
-.jump-text1 {
-  display: inline-block;
-  animation: jump 0.5s 1;
+  transform-origin: bottom center;
 }
 
-.jump-text2 {
-  display: inline-block;
-  animation: jump 0.5s 1;
+/* 同样的，只有 init 时才播放 */
+.welcome.animate-init .firework-icon {
+  animation: firework-pop 1s ease 1;
   animation-delay: 0.1s;
 }
 
-.jump-text3 {
-  display: inline-block;
-  animation: jump 0.5s 1;
-  animation-delay: 0.2s;
+@keyframes firework-pop {
+  0% {
+    transform: scale(1) rotate(0);
+  }
+
+  10% {
+    transform: scale(1.2) rotate(-15deg);
+  }
+
+  20% {
+    transform: scale(1.4) rotate(15deg);
+  }
+
+  30% {
+    transform: scale(1.4) rotate(-15deg);
+  }
+
+  40% {
+    transform: scale(1.5) rotate(0);
+  }
+
+  50% {
+    transform: scale(1.2) rotate(0);
+  }
+
+  100% {
+    transform: scale(1) rotate(0);
+  }
 }
 
-.jump-text4 {
-  display: inline-block;
-  animation: jump 0.5s 1;
-  animation-delay: 0.3s;
+@keyframes firework-pop-hover {
+  0% {
+    transform: scale(1) rotate(0);
+  }
+
+  10% {
+    transform: scale(1.2) rotate(-15deg);
+  }
+
+  20% {
+    transform: scale(1.4) rotate(15deg);
+  }
+
+  30% {
+    transform: scale(1.4) rotate(-15deg);
+  }
+
+  40% {
+    transform: scale(1.5) rotate(0);
+  }
+
+  50% {
+    transform: scale(1.2) rotate(0);
+  }
+
+  100% {
+    transform: scale(1) rotate(0);
+  }
 }
 
-.jump-text5 {
-  display: inline-block;
-  animation: jump 0.5s 1;
-  animation-delay: 0.4s;
-}
+/* SCSS 循环生成基础动画类 */
+/* SCSS 循环生成基础动画类 */
+/* 注意：这里只定义 display，把 animation 移到 .animate-init 下 */
+@for $i from 1 through 24 {
+  .jump-text#{$i} {
+    display: inline-block;
+  }
 
-.jump-text6 {
-  display: inline-block;
-  animation: jump 0.5s 1;
-  animation-delay: 0.5s;
-}
-
-.jump-text7 {
-  display: inline-block;
-  animation: jump 0.5s 1;
-  animation-delay: 0.6s;
-}
-
-.jump-text8 {
-  display: inline-block;
-  animation: jump 0.5s 1;
-  animation-delay: 0.7s;
-}
-
-.jump-text9 {
-  display: inline-block;
-  animation: jump 0.5s 1;
-  animation-delay: 0.8s;
-}
-
-.jump-text10 {
-  display: inline-block;
-  animation: jump 0.5s 1;
-  animation-delay: 0.9s;
+  /* 只有当 JS 添加了 .animate-init 时才播放“开场动画” */
+  .welcome.animate-init .jump-text#{$i} {
+    animation: jump 0.5s 1;
+    animation-delay: #{$i * 0.05}s;
+  }
 }
 
 
@@ -434,9 +481,25 @@ html {
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-20px);
   }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes jump-hover {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
   100% {
     transform: translateY(0);
   }
@@ -444,29 +507,30 @@ html {
 
 /* 1. 亮色模式（默认） */
 :root {
-    /* 这里的路径是相对于网站根目录的绝对路径 */
-    --main-bg-image: url('/background/Gemini_light.png'); 
+  /* 这里的路径是相对于网站根目录的绝对路径 */
+  --main-bg-image: url('/background/Gemini_light.png');
 }
 
 /* 2. 黑暗模式 */
 /* 你确认了 HTML 头是 <html ... data-scheme="dark">，所以这里的写法是完全正确的 */
 :root[data-scheme="dark"] {
-    --main-bg-image: url('/background/Gemini_dark.png');
+  --main-bg-image: url('/background/Gemini_dark.png');
 }
 
 /* 3. 应用样式 */
 body {
-    /* 使用变量 */
-    background-image: var(--main-bg-image);
-    
-    /* 必须设置的标准背景属性 */
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+  /* 使用变量 */
+  background-image: var(--main-bg-image);
 
-    /* 过渡效果 */
-    transition: background-image 2.1s ease-in-out;
+  /* 必须设置的标准背景属性 */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+
+  /* 过渡效果 */
+  /* 增加对 background-color 和 color 的过渡，防止切换时文字/色块瞬间跳变 */
+  transition: background-image 2.1s ease-in-out, background-color 0.5s ease, color 0.5s ease;
 }
 
 /* =========================================
@@ -478,46 +542,67 @@ body {
 .welcome,
 .article-details {
 
-    /* 1. 核心颜色：不再是纯白，而是调了一点点暖色的“米汤白” */
-    /* 0.75 的不透明度，既遮得住背景的杂乱，又透出背景的颜色 */
-    background-color: rgba(252, 249, 244, 0.75);
+  /* 1. 核心颜色：不再是纯白，而是调了一点点暖色的“米汤白” */
+  /* 0.75 的不透明度，既遮得住背景的杂乱，又透出背景的颜色 */
+  background-color: rgba(252, 249, 244, 0.75);
 
-    /* 2. 滤镜：磨砂感保持 */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  /* 2. 滤镜：磨砂感保持 */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 
-    /* 3. 边框：现在可以看到白色的边框了！ */
-    /* 因为卡片底色微黄，这个纯白的边框会像一道光一样勾勒在边缘 */
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    
-    /* 4. 阴影：用暖灰色的阴影，而不是纯黑阴影 */
-    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
+  /* 3. 边框：现在可以看到白色的边框了！ */
+  /* 因为卡片底色微黄，这个纯白的边框会像一道光一样勾勒在边缘 */
+  border: 1px solid rgba(255, 255, 255, 0.8);
 
-    /* 开启硬件加速，让动画更丝滑 */
-    will-change: transform;
-    
-    /* 设定过渡时间：0.3秒，ease-out (减速曲线，停下来的感觉更自然) */
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease;
-    
+  /* 4. 阴影：用暖灰色的阴影，而不是纯黑阴影 */
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
+
+  /* 开启硬件加速，让动画更丝滑 */
+  will-change: transform;
+
+  /* 设定过渡时间：0.3秒，ease-out (减速曲线，停下来的感觉更自然) */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease;
+
 }
 
 /* 2. 鼠标悬停状态 (Hover) */
+.welcome:hover,
 .article-details:hover {
-    /* 核心动作：向上轻微浮动 6像素 */
-    transform: translateY(-6px);
-    
-    /* 悬停时，卡片稍微变亮一点点，模拟光照 */
-    background-color: rgba(252, 249, 244, 0.85);
-    box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25);
-    border-color: #ffffff; /* 边框变实 */
+  /* 核心动作：向上轻微浮动 6像素 */
+  transform: translateY(-6px);
+
+  /* 悬停时，卡片稍微变亮一点点，模拟光照 */
+  background-color: rgba(252, 249, 244, 0.85);
+  box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25);
+  border-color: #ffffff;
+  /* 边框变实 */
 }
 
 /* 3. 黑暗模式专用适配 */
 /* 在暗色背景下，普通黑色阴影看不清，我们需要加深阴影 */
-:root[data-scheme="dark"] .welcome,
+:root[data-scheme="dark"] .welcome:hover,
 :root[data-scheme="dark"] .article-details:hover {
-    /* 方案 A: 使用更深、更浓的黑色阴影，制造“深邃感” */
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);  
+  /* 方案 A: 使用更深、更浓的黑色阴影，制造“深邃感” */
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================
+   Welcome Card Text Animation (Jump on Hover)
+   ========================================= */
+/* 使用 SCSS 循环生成 24 个字符的跳动动画 */
+@for $i from 1 through 24 {
+  .welcome:hover .jump-text#{$i} {
+    /* 关键技巧：切换动画名称以强制重播 */
+    animation: jump-hover 0.5s 1;
+    animation-delay: #{$i * 0.05}s;
+  }
+}
+
+/* 同时让 🎉 图标也再放一次烟花 */
+/* 同时让 🎉 图标也再放一次烟花 */
+.welcome:hover .firework-icon {
+  /* 同样的技巧：切换动画名以强制重播 */
+  animation: firework-pop-hover 1s ease 1;
 }
 
 /* =========================================
@@ -525,13 +610,13 @@ body {
    ========================================= */
 :root[data-scheme="dark"] .welcome,
 :root[data-scheme="dark"] .article-details {
-    /* 1. 黑暗模式下的背景色：黑色半透明 */
-    /* 使用深灰/黑色，透明度设为 0.5 左右，让背后的深色水彩透出来 */
-    background-color: rgba(30, 30, 30, 0.5);
+  /* 1. 黑暗模式下的背景色：黑色半透明 */
+  /* 使用深灰/黑色，透明度设为 0.5 左右，让背后的深色水彩透出来 */
+  background-color: rgba(30, 30, 30, 0.5);
 
-    /* 2. 黑暗模式下的描边 */
-    /* 边框要非常淡，隐约可见即可 */
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  /* 2. 黑暗模式下的描边 */
+  /* 边框要非常淡，隐约可见即可 */
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* =========================================
@@ -540,31 +625,38 @@ body {
 
 /* 这里的 .widget 是为了尝试覆盖所有侧边栏卡片 */
 /* .widget-archive--list 是你指定的归档卡片 */
-.widget, 
+.widget,
 .widget-archive--list {
-    /* --- 核心配方 (复制自方案一) --- */
-    background-color: rgba(252, 249, 244, 0.75); /* 米汤白 */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.8); /* 高光边框 */
-    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15); /* 暖灰阴影 */
-    
-    /* --- 布局优化 --- */
-    border-radius: 12px; /* 圆角要和文章卡片保持一致 */
-    width: 95%;
-    margin: 0 auto 24px auto;
-    padding: 10px 12px;       /* 内边距，防止文字贴边 */
-    
-    /* --- 动画基础 --- */
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  /* --- 核心配方 (复制自方案一) --- */
+  background-color: rgba(252, 249, 244, 0.75);
+  /* 米汤白 */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  /* 高光边框 */
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
+  /* 暖灰阴影 */
+
+  /* --- 布局优化 --- */
+  border-radius: 12px;
+  /* 圆角要和文章卡片保持一致 */
+  width: 95%;
+  margin: 0 auto 24px auto;
+  padding: 10px 12px;
+  /* 内边距，防止文字贴边 */
+
+  /* --- 动画基础 --- */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
 /* 侧边栏卡片悬停效果 (稍微克制一点，不要浮起太高) */
 .widget:hover,
 .widget-archive--list:hover {
-    transform: translateY(-4px); /* 比文章卡片(-6px)稍微低一点，体现层级 */
-    box-shadow: 0 10px 25px rgba(180, 170, 160, 0.2);
-    background-color: rgba(252, 249, 244, 0.85); /* 变亮 */
+  transform: translateY(-4px);
+  /* 比文章卡片(-6px)稍微低一点，体现层级 */
+  box-shadow: 0 10px 25px rgba(180, 170, 160, 0.2);
+  background-color: rgba(252, 249, 244, 0.85);
+  /* 变亮 */
 }
 
 /* =========================================
@@ -572,15 +664,17 @@ body {
    ========================================= */
 :root[data-scheme="dark"] .widget,
 :root[data-scheme="dark"] .widget-archive--list {
-    background-color: rgba(30, 30, 30, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: none; /* 黑暗模式平时不显示阴影 */
+  background-color: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  /* 黑暗模式平时不显示阴影 */
 }
 
 :root[data-scheme="dark"] .widget:hover,
 :root[data-scheme="dark"] .widget-archive--list:hover {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* 悬停时才显示深色阴影 */
-    border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* 悬停时才显示深色阴影 */
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* =========================================
@@ -589,19 +683,21 @@ body {
 
 /* 胶囊风格搜索框 */
 .widget input[name="keyword"] {
-    /* 背景：比 Widget 稍微深一点点，制造“凹陷”感 */
-    background-color: rgba(0, 0, 0, 0.03) !important; 
-    border: 1px solid rgba(0, 0, 0, 0.05) !important;
-    border-radius: 20px !important; /* 圆润的胶囊形 */
-    padding: 8px 15px !important;
-    color: #333;
+  /* 背景：比 Widget 稍微深一点点，制造“凹陷”感 */
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  border-radius: 20px !important;
+  /* 圆润的胶囊形 */
+  padding: 8px 15px !important;
+  color: #333;
 }
 
 /* 黑暗模式适配 */
 :root[data-scheme="dark"] .widget input[name="keyword"] {
-    background-color: rgba(0, 0, 0, 0.2) !important; /* 深色凹槽 */
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    color: #eee;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  /* 深色凹槽 */
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  color: #eee;
 }
 
 /* =========================================
@@ -611,10 +707,11 @@ body {
 /* 1. 第一步：把大容器背景“隐形” */
 /* 防止出现你说的那种“一大片颜色”的情况 */
 .article-list--compact {
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-    padding: 0 !important; /* 去掉大容器的内边距，交给小卡片控制 */
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  /* 去掉大容器的内边距，交给小卡片控制 */
 }
 
 
@@ -624,138 +721,148 @@ body {
 
 /* 1. 给整个大卡片 (Article) 穿上“米汤色毛玻璃” */
 .article-list article {
-    /* --- 核心配方 (方案一：米汤白) --- */
-    background-color: rgba(252, 249, 244, 0.75) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    
-    /* 边框与阴影 */
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
-    
-    /* --- 布局优化 --- */
-    border-radius: 16px !important; /* 保持和你文件头定义的圆角一致 */
-    margin-bottom: 2px; /* 卡片之间的间距 */
-    overflow: hidden;    /* 这一步很关键！防止顶部的图片圆角被直角遮挡 */
-    
-    /* --- 动画准备 --- */
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  /* --- 核心配方 (方案一：米汤白) --- */
+  background-color: rgba(252, 249, 244, 0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* 边框与阴影 */
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+
+  /* --- 布局优化 --- */
+  border-radius: 16px !important;
+  /* 保持和你文件头定义的圆角一致 */
+  margin-bottom: 2px;
+  /* 卡片之间的间距 */
+  overflow: hidden;
+  /* 这一步很关键！防止顶部的图片圆角被直角遮挡 */
+
+  /* --- 动画准备 --- */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
 /* 2. 关键修复：清除内部 .article-details 的背景和滤镜 */
 /* 防止出现“卡片里还有一个颜色不一样的方块” */
 .article-list article .article-details {
-    background: transparent !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 20px 25px; /* 给文字留点呼吸空间 */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 20px 25px;
+  /* 给文字留点呼吸空间 */
 }
 
 /* 3. 鼠标悬停交互 (Hover) */
 .article-list article:hover {
-    transform: translateY(-6px);
-    background-color: rgba(252, 249, 244, 0.85) !important;
-    box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25) !important;
-    border-color: #ffffff !important;
+  transform: translateY(-6px);
+  background-color: rgba(252, 249, 244, 0.85) !important;
+  box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25) !important;
+  border-color: #ffffff !important;
 }
 
 /* =========================================
    黑暗模式适配 (Main Article List)
    ========================================= */
 :root[data-scheme="dark"] .article-list article {
-    background-color: rgba(30, 30, 30, 0.5) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    box-shadow: none !important;
+  background-color: rgba(30, 30, 30, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
 }
 
 :root[data-scheme="dark"] .article-list article:hover {
-    /* 悬停时加深阴影，增加层次 */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
+  /* 悬停时加深阴影，增加层次 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* 确保黑暗模式下内部也完全透明 */
 :root[data-scheme="dark"] .article-list article .article-details {
-    background: transparent !important;
-    backdrop-filter: none !important;
-    border: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
 }
 
 /* 2. 第二步：给每一个小卡片穿上“方案一”的衣服 */
 /* 这里 target 的是 .article-list--compact 里面的每一个 article 标签 */
 .article-list--compact article {
-    /* --- 核心配方 (方案一：米汤白) --- */
-    background-color: rgba(252, 249, 244, 0.75);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
-    
-    /* --- 布局优化 --- */
-    border-radius: 12px; /* 圆角 */
-    margin-bottom: 20px; /* 卡片之间的上下间距 */
-    padding: 20px;       /* 卡片内部的空间 */
-    overflow: hidden;    /* 防止圆角溢出 */
-    
-    /* --- 动画准备 --- */
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  /* --- 核心配方 (方案一：米汤白) --- */
+  background-color: rgba(252, 249, 244, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
 
-    /* --- 在这里调整大小 --- */
-    
-    /* 之前是 20px，可能太“宽敞”了 */
-    /* 建议改成 10px 或 12px，卡片就会变得紧凑 */
-    padding: 10px;       
-    
-    /* 如果你觉得卡片之间的上下距离也太大了 */
-    /* 可以把 margin-bottom 从 20px 减小到 12px 或 10px */
-    margin-bottom: 12px;
+  /* --- 布局优化 --- */
+  border-radius: 12px;
+  /* 圆角 */
+  margin-bottom: 20px;
+  /* 卡片之间的上下间距 */
+  padding: 20px;
+  /* 卡片内部的空间 */
+  overflow: hidden;
+  /* 防止圆角溢出 */
+
+  /* --- 动画准备 --- */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+
+  /* --- 在这里调整大小 --- */
+
+  /* 之前是 20px，可能太“宽敞”了 */
+  /* 建议改成 10px 或 12px，卡片就会变得紧凑 */
+  padding: 10px;
+
+  /* 如果你觉得卡片之间的上下距离也太大了 */
+  /* 可以把 margin-bottom 从 20px 减小到 12px 或 10px */
+  margin-bottom: 12px;
 }
 
 /* 3. 第三步：解决你图片里那个“黑色方块”的问题 */
 /* 强制把卡片内部的 article-details 背景去掉，让它透出外面的米汤色 */
 .article-list--compact article .article-details {
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-    padding: 0 !important; /* 避免双重 Padding 造成空隙过大 */
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  /* 避免双重 Padding 造成空隙过大 */
 
-    /* 关键修复：清除内部的毛玻璃滤镜，防止双重模糊导致的变色 */
-    backdrop-filter: none !important; 
-    -webkit-backdrop-filter: none !important;
+  /* 关键修复：清除内部的毛玻璃滤镜，防止双重模糊导致的变色 */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* 4. 鼠标悬停交互 (Hover) */
 .article-list--compact article:hover {
-    transform: translateY(-6px);
-    background-color: rgba(252, 249, 244, 0.85);
-    box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25);
-    border-color: #ffffff;
+  transform: translateY(-6px);
+  background-color: rgba(252, 249, 244, 0.85);
+  box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25);
+  border-color: #ffffff;
 }
 
 /* =========================================
    黑暗模式适配 (Compact List)
    ========================================= */
 :root[data-scheme="dark"] .article-list--compact article {
-    background-color: rgba(30, 30, 30, 0.5); /* 深色半透明 */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: none;
+  background-color: rgba(30, 30, 30, 0.5);
+  /* 深色半透明 */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
 }
 
 :root[data-scheme="dark"] .article-list--compact article:hover {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* 确保黑暗模式下内部也透明 */
 :root[data-scheme="dark"] .article-list--compact article .article-details {
-    background: transparent !important;
+  background: transparent !important;
 
-    /* 关键修复：黑暗模式下也要强制去掉边框和滤镜 */
-    border: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+  /* 关键修复：黑暗模式下也要强制去掉边框和滤镜 */
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* =========================================
@@ -764,92 +871,101 @@ body {
 
 /* 1. 基础样式：完全复刻 .article-details 的配方 */
 input[name="keyword"] {
-    /* --- 核心配方 (方案一：米汤白) --- */
-    /* 使用 !important 覆盖浏览器默认样式和主题自带样式 */
-    background-color: rgba(252, 249, 244, 0.75) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    
-    /* 边框和阴影 */
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
-    
-    /* --- 布局与字体 --- */
-    border-radius: 12px !important; /* 圆角保持一致 */
-    width: 100%;             /* 占满容器宽度 */
-    padding: 15px 20px;      /* 增加内边距，让它看起来像个卡片而不是窄条 */
-    font-size: 1rem;         /* 字体大小 */
-    color: #333;             /* 输入文字颜色 */
-    outline: none;           /* 去掉默认的蓝色聚焦框 */
-    
-    /* --- 动画 --- */
-    transition: all 0.3s ease-out;
+  /* --- 核心配方 (方案一：米汤白) --- */
+  /* 使用 !important 覆盖浏览器默认样式和主题自带样式 */
+  background-color: rgba(252, 249, 244, 0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 
-    /* 1. 调整【厚度/高度】 (最常用) */
-    /* 第一个数字 15px 是上下内边距，控制卡片有多高 */
-    /* 第二个数字 20px 是左右内边距，控制文字离边缘多远 */
-    /* 觉得小，就改成 padding: 20px 25px; 试试 */
-    padding: 20px 25px !important; 
+  /* 边框和阴影 */
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
 
-    /* 2. 调整【文字大小】 */
-    /* 如果觉得里面的字太小，看不清，把 1rem 改成 1.2rem */
-    font-size: 1.2rem; 
+  /* --- 布局与字体 --- */
+  border-radius: 12px !important;
+  /* 圆角保持一致 */
+  width: 100%;
+  /* 占满容器宽度 */
+  padding: 15px 20px;
+  /* 增加内边距，让它看起来像个卡片而不是窄条 */
+  font-size: 1rem;
+  /* 字体大小 */
+  color: #333;
+  /* 输入文字颜色 */
+  outline: none;
+  /* 去掉默认的蓝色聚焦框 */
 
-    /* 3. 调整【宽度】 */
-    /* 100% 表示占满父容器。如果你想让它强制变宽，可以尝试加大父容器宽度 */
-    /* 或者直接在这里写死像素，比如 width: 300px !important; (不推荐，手机端会坏) */
-    width: 100%;
+  /* --- 动画 --- */
+  transition: all 0.3s ease-out;
+
+  /* 1. 调整【厚度/高度】 (最常用) */
+  /* 第一个数字 15px 是上下内边距，控制卡片有多高 */
+  /* 第二个数字 20px 是左右内边距，控制文字离边缘多远 */
+  /* 觉得小，就改成 padding: 20px 25px; 试试 */
+  padding: 20px 25px !important;
+
+  /* 2. 调整【文字大小】 */
+  /* 如果觉得里面的字太小，看不清，把 1rem 改成 1.2rem */
+  font-size: 1.2rem;
+
+  /* 3. 调整【宽度】 */
+  /* 100% 表示占满父容器。如果你想让它强制变宽，可以尝试加大父容器宽度 */
+  /* 或者直接在这里写死像素，比如 width: 300px !important; (不推荐，手机端会坏) */
+  width: 100%;
 }
 
 /* 2. 交互状态：鼠标悬停或输入聚焦时 */
 input[name="keyword"]:hover,
 input[name="keyword"]:focus {
-    /* 稍微上浮，增加光泽感 */
-    transform: translateY(-2px);
-    background-color: rgba(252, 249, 244, 0.95) !important; /* 变得更实一点，方便阅读 */
-    box-shadow: 0 8px 25px rgba(180, 170, 160, 0.25) !important;
-    border-color: #ffffff !important;
+  /* 稍微上浮，增加光泽感 */
+  transform: translateY(-2px);
+  background-color: rgba(252, 249, 244, 0.95) !important;
+  /* 变得更实一点，方便阅读 */
+  box-shadow: 0 8px 25px rgba(180, 170, 160, 0.25) !important;
+  border-color: #ffffff !important;
 }
 
 /* 3. 提示文字 (Placeholder) 样式微调 */
 input[name="keyword"]::placeholder {
-    color: rgba(0, 0, 0, 0.4); /* 提示字淡一点 */
-    font-size: 0.95em;
+  color: rgba(0, 0, 0, 0.4);
+  /* 提示字淡一点 */
+  font-size: 0.95em;
 }
 
 /* =========================================
    搜索框 - 黑暗模式适配
    ========================================= */
 :root[data-scheme="dark"] input[name="keyword"] {
-    /* 深色半透明背景 */
-    background-color: rgba(30, 30, 30, 0.5) !important;
-    
-    /* 微弱的边框 */
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    
-    /* 文字变白 */
-    color: #eee;
-    
-    /* 去掉默认阴影 */
-    box-shadow: none !important;
+  /* 深色半透明背景 */
+  background-color: rgba(30, 30, 30, 0.5) !important;
+
+  /* 微弱的边框 */
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+
+  /* 文字变白 */
+  color: #eee;
+
+  /* 去掉默认阴影 */
+  box-shadow: none !important;
 }
 
 :root[data-scheme="dark"] input[name="keyword"]:hover,
 :root[data-scheme="dark"] input[name="keyword"]:focus {
-    /* 悬停/聚焦时增加深色阴影 */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-    background-color: rgba(40, 40, 40, 0.8) !important;
+  /* 悬停/聚焦时增加深色阴影 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(40, 40, 40, 0.8) !important;
 }
 
 :root[data-scheme="dark"] input[name="keyword"]::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .article-list article .article-image img {
-    margin: 0 !important;
-    width: 100% !important;
-    border-radius: 0 !important; /* 让图片直角贴合卡片边缘，由卡片的 overflow 负责裁剪 */
+  margin: 0 !important;
+  width: 100% !important;
+  border-radius: 0 !important;
+  /* 让图片直角贴合卡片边缘，由卡片的 overflow 负责裁剪 */
 }
 
 
@@ -859,47 +975,60 @@ input[name="keyword"]::placeholder {
 
 /* 1. 粒子容器：覆盖全屏，但不可点击 */
 #particle-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* 关键：放在背景图之上，但内容之下 */
-    pointer-events: none; /* 让鼠标穿透，不影响点击 */
-    overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  /* 关键：放在背景图之上，但内容之下 */
+  pointer-events: none;
+  /* 让鼠标穿透，不影响点击 */
+  overflow: hidden;
 }
 
 /* 2. 粒子本体样式 */
 .particle {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0; /* 初始透明，由动画控制显示 */
-    filter: blur(1px); /* 轻微模糊，增加空气感 */
-    
-    /* 动画配置：名字 时长 匀速 无限循环 */
-    animation: floatUp linear infinite;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  /* 初始透明，由动画控制显示 */
+  filter: blur(1px);
+  /* 轻微模糊，增加空气感 */
+
+  /* 动画配置：名字 时长 匀速 无限循环 */
+  animation: floatUp linear infinite;
 }
 
 /* 3. 动画关键帧：上浮 + 左右摆动 + 呼吸渐变 */
 @keyframes floatUp {
-    0% {
-        transform: translateY(0) translateX(0);
-        opacity: 0;
-    }
-    20% {
-        opacity: 1.0; /* 浮现 */
-    }
-    50% {
-        transform: translateY(-40vh) translateX(20px); /* 向上游动 */
-        opacity: 0.4; /* 呼吸变暗 */
-    }
-    80% {
-        opacity: 0.6; /* 再次变亮 */
-    }
-    100% {
-        transform: translateY(-100vh) translateX(-20px); /* 飞出屏幕 */
-        opacity: 0;
-    }
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1.0;
+    /* 浮现 */
+  }
+
+  50% {
+    transform: translateY(-40vh) translateX(20px);
+    /* 向上游动 */
+    opacity: 0.4;
+    /* 呼吸变暗 */
+  }
+
+  80% {
+    opacity: 0.6;
+    /* 再次变亮 */
+  }
+
+  100% {
+    transform: translateY(-100vh) translateX(-20px);
+    /* 飞出屏幕 */
+    opacity: 0;
+  }
 }
 
 /* =========================================
@@ -908,14 +1037,18 @@ input[name="keyword"]::placeholder {
 
 /* 白天模式：金色的微尘 (模拟阳光) */
 .particle {
-    background: rgba(210, 180, 140, 0.6); /* 浅卡其/金色 */
-    box-shadow: 0 0 10px rgba(210, 180, 140, 0.4); /* 微弱发光 */
+  background: rgba(210, 180, 140, 0.6);
+  /* 浅卡其/金色 */
+  box-shadow: 0 0 10px rgba(210, 180, 140, 0.4);
+  /* 微弱发光 */
 }
 
 /* 黑暗模式：冷白色的流萤 (模拟星光) */
 :root[data-scheme="dark"] .particle {
-    background: rgba(200, 230, 255, 0.5); /* 冷白微蓝 */
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* 萤火虫光晕 */
+  background: rgba(200, 230, 255, 0.5);
+  /* 冷白微蓝 */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  /* 萤火虫光晕 */
 }
 
 /* =========================================
@@ -923,35 +1056,35 @@ input[name="keyword"]::placeholder {
    ========================================= */
 
 .widget .widget-title {
-    /* 1. 调整字体大小 */
-    /* 建议值：1rem (标准) 到 1.3rem (稍微大一点) */
-    /* Stack 默认可能很大，我们把它改小 */
-    font-size: 1.2rem !important; 
-    
-    /* 2. 调整粗细 (可选) */
-    /* 如果觉得太粗了不够秀气，可以改小一点 (400-600) */
-    font-weight: 600 !important;
-    
-    /* 3. 调整标题和下面内容的间距 */
-    /* 字体变小后，间距可能看起来会变大，适当收缩一下 */
-    margin-bottom: 15px !important;
-    
-    /* 4. (可选) 让标题变为全大写，增加秩序感 */
-    text-transform: uppercase;
-    
-    /* 5. (可选) 给标题加一点点字间距，显得更透气 */
-    letter-spacing: 1px;
+  /* 1. 调整字体大小 */
+  /* 建议值：1rem (标准) 到 1.3rem (稍微大一点) */
+  /* Stack 默认可能很大，我们把它改小 */
+  font-size: 1.2rem !important;
 
-    /* --- 关键修改：让标题往右挪 --- */
-    /* 这里的 10px 是移动距离，你可以改成 15px 或 20px 试试 */
-    margin-left: 3px !important;
+  /* 2. 调整粗细 (可选) */
+  /* 如果觉得太粗了不够秀气，可以改小一点 (400-600) */
+  font-weight: 600 !important;
+
+  /* 3. 调整标题和下面内容的间距 */
+  /* 字体变小后，间距可能看起来会变大，适当收缩一下 */
+  margin-bottom: 15px !important;
+
+  /* 4. (可选) 让标题变为全大写，增加秩序感 */
+  text-transform: uppercase;
+
+  /* 5. (可选) 给标题加一点点字间距，显得更透气 */
+  letter-spacing: 1px;
+
+  /* --- 关键修改：让标题往右挪 --- */
+  /* 这里的 10px 是移动距离，你可以改成 15px 或 20px 试试 */
+  margin-left: 3px !important;
 }
 
 /* =========================================
    隐藏底部的 Powered by Hugo ...
    ========================================= */
 .powerby {
-    display: none !important;
+  display: none !important;
 }
 
 
@@ -963,26 +1096,28 @@ input[name="keyword"]::placeholder {
 
 /* 针对文章详情页最上面的那张大图 */
 .article-page .article-header .article-image img {
-    width: 100% !important;
-    
-    /* 1. 限制高度：这里可以比主页稍微高一点点，但不要太高 */
-    /* 建议设置在 200px - 250px 之间，既有气势又不会占满屏幕 */
-    height: 250px !important; 
-    
-    /* 2. 保持比例 & 底部对齐 (和你主页的逻辑保持一致) */
-    object-fit: cover !important;
-    object-position: center center !important; /* 也是重点看底部 */
-    
-    /* 3. 细节：圆角处理 */
-    border-radius: 16px !important;
-    margin-bottom: 30px; /* 图片和文章标题的距离 */
+  width: 100% !important;
+
+  /* 1. 限制高度：这里可以比主页稍微高一点点，但不要太高 */
+  /* 建议设置在 200px - 250px 之间，既有气势又不会占满屏幕 */
+  height: 250px !important;
+
+  /* 2. 保持比例 & 底部对齐 (和你主页的逻辑保持一致) */
+  object-fit: cover !important;
+  object-position: center center !important;
+  /* 也是重点看底部 */
+
+  /* 3. 细节：圆角处理 */
+  border-radius: 16px !important;
+  margin-bottom: 30px;
+  /* 图片和文章标题的距离 */
 }
 
 /* 手机端适配：手机上不需要那么高 */
 @include respond(md) {
-     .article-page .article-header .article-image img {
-         height: 150px !important;
-     }
+  .article-page .article-header .article-image img {
+    height: 150px !important;
+  }
 }
 
 
@@ -994,19 +1129,21 @@ input[name="keyword"]::placeholder {
 
 /* 1. 给整个文章大卡片穿上“米汤色毛玻璃” */
 .main-article {
-    /* --- 核心配方 (方案一：米汤白) --- */
-    background-color: rgba(252, 249, 244, 0.75) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    
-    /* 边框与阴影 */
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
-    
-    /* 圆角与间距 */
-    border-radius: 16px !important;
-    overflow: hidden; /* 防止图片圆角溢出 */
-    padding: 0 !important; /* 清除默认内边距，由内部控制 */
+  /* --- 核心配方 (方案一：米汤白) --- */
+  background-color: rgba(252, 249, 244, 0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* 边框与阴影 */
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+
+  /* 圆角与间距 */
+  border-radius: 16px !important;
+  overflow: hidden;
+  /* 防止图片圆角溢出 */
+  padding: 0 !important;
+  /* 清除默认内边距，由内部控制 */
 }
 
 /* 2. 关键：把内部所有子区块的背景“洗掉” */
@@ -1014,23 +1151,41 @@ input[name="keyword"]::placeholder {
 /* 这样它们就会统一透出最外层的颜色，消除色差 */
 .main-article .article-details,
 .main-article .article-content {
-    background: transparent !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-shadow: none !important;
-    border: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 /* 3. 给正文加一点内边距，防止文字贴边 */
 .main-article .article-content {
-    padding: 20px 35px 40px 35px !important; /* 上 右 下 左 */
+  padding: 20px 25px 30px 25px !important;
+  /* 上 右 下 左 */
+
+  /* --- 文字排版优化 (Premium Typography) --- */
+  /* 用户反馈间距太大，调整为更精致的 1.6 倍行高 (黄金阅读比例) */
+  line-height: 1.6 !important;
+
+  /* 字体微调：参考侧边栏大小 */
+  font-size: 1.4rem !important;
+
+  p {
+    /* 段落间距：不要太松散，1.2em 比较紧凑精致 */
+    margin-bottom: 1.2em !important;
+  }
+
+  /* 列表也要紧凑一点 */
+  li {
+    margin-bottom: 0.5em !important;
+  }
 }
 
 /* 手机端内边距稍微小一点 */
 @include respond(md) {
-    .main-article .article-content {
-        padding: 20px 20px 30px 20px !important;
-    }
+  .main-article .article-content {
+    padding: 20px 20px 30px 20px !important;
+  }
 }
 
 
@@ -1038,16 +1193,531 @@ input[name="keyword"]::placeholder {
    黑暗模式适配 (文章详情页)
    ========================================= */
 :root[data-scheme="dark"] .main-article {
-    background-color: rgba(30, 30, 30, 0.5) !important; /* 你的深色半透明 */
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    box-shadow: none !important;
+  background-color: rgba(30, 30, 30, 0.5) !important;
+  /* 你的深色半透明 */
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
 }
 
 /* 确保黑暗模式下，内部也是完全透明 */
 :root[data-scheme="dark"] .main-article .article-details,
 :root[data-scheme="dark"] .main-article .article-content {
-    background: transparent !important;
-    border: none !important;
-    backdrop-filter: none !important;
+  background: transparent !important;
+  border: none !important;
+  backdrop-filter: none !important;
 }
 
+/* =========================================
+   深色模式：图片亮度自动降低
+   ========================================= */
+
+/* 1. 列表页卡片图 & 详情页大图 */
+:root[data-scheme="dark"] .article-list article .article-image img,
+:root[data-scheme="dark"] .article-page .article-header .article-image img {
+  /* 降低亮度至 70% */
+  filter: brightness(0.7);
+  /* 增加过渡，切换模式时图片不会闪烁，而是慢慢变暗/变亮 */
+  transition: filter 0.5s ease;
+}
+
+/* 2. (可选) 鼠标悬停时稍微点亮一点，增加交互感 */
+:root[data-scheme="dark"] .article-list article:hover .article-image img {
+  filter: brightness(0.85);
+}
+
+
+/* =========================================
+   深色模式切换按钮美化 (Dark Mode Toggle)
+   ========================================= */
+
+#dark-mode-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  /* 如果你想让它居中一点，可以把 padding 改改 */
+}
+
+/* 1. 隐藏原来的文字 "暗色模式" */
+#dark-mode-toggle span {
+  display: none !important;
+}
+
+/* 2. 隐藏原来的默认图标 (svg) */
+#dark-mode-toggle svg {
+  display: none !important;
+}
+
+/* 3. 使用伪元素制作一个新的“月亮”图标 */
+/* 这里我们使用 emoji 🌙 或者 SVG url，为了最快效果且不依赖外部资源，我先用纯 CSS 绘制或者 emoji 占位 */
+/* 如果要更高级的 SVG，可以使用 mask 或 background-image */
+
+#dark-mode-toggle::before {
+  /* 这里我用了一个标准的月亮 SVG 的 Data URI，确保高清无码 */
+  content: "";
+  display: block;
+  width: 24px;
+  height: 24px;
+
+  /* 默认(浅色模式)：是黑色的 */
+  background-color: #333;
+
+  /* 使用遮罩技术来显示月亮形状 */
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>') no-repeat center / contain;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>') no-repeat center / contain;
+
+  /* 动画过渡 */
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.5s ease;
+}
+
+/* 4. 交互动画：鼠标悬停时摇晃一下 */
+#dark-mode-toggle:hover::before {
+  transform: rotate(-15deg) scale(1.1);
+}
+
+/* 5. 深色模式下的状态 (变成金色) */
+:root[data-scheme="dark"] #dark-mode-toggle::before {
+  /* 变成金色 */
+  background-color: #f1c40f;
+
+  /* 旋转一圈，增加仪式感 */
+  transform: rotate(360deg);
+}
+
+/* 深色模式悬停 */
+:root[data-scheme="dark"] #dark-mode-toggle:hover::before {
+  /* 保持原来的旋转基准上微调 */
+  transform: rotate(345deg) scale(1.1);
+}
+
+/* =========================================
+   目录样式重构 (Table of Contents)
+   风格：简约、高级、左侧线条指示
+   ========================================= */
+
+/* 1. 容器样式：限制高度，开启滚动 */
+.widget--toc {
+  /* 限制最大高度，防止目录太长超出屏幕 */
+  /* 计算公式：100vh - 顶部距离(150px) - 底部留白 */
+  max-height: 75vh;
+  overflow-y: auto;
+
+  /* 增加右侧内边距，防止滚动条遮挡文字 */
+  padding-right: 10px;
+
+  /* 这一步很关键：确保它在不同的浏览器平滑滚动 */
+  scroll-behavior: smooth;
+
+  /* 针对 Firefox 的滚动条样式 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* 深色模式下的 Firefox 滚动条 */
+:root[data-scheme="dark"] .widget--toc {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+/* 2. Webkit (Chrome/Edge/Safari) 滚动条美化：极细、极简 */
+.widget--toc::-webkit-scrollbar {
+  width: 4px;
+  /* 极细 */
+}
+
+.widget--toc::-webkit-scrollbar-track {
+  background: transparent;
+  /* 轨道透明 */
+}
+
+.widget--toc::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  /* 浅灰色滑块 */
+  border-radius: 4px;
+  /* 全圆角 */
+}
+
+.widget--toc:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  /* 悬停时稍微明显一点 */
+}
+
+/* 深色模式下的 Webkit 滚动条 */
+:root[data-scheme="dark"] .widget--toc::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-scheme="dark"] .widget--toc:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 3. 列表结构美化 */
+.widget--toc nav>ul {
+  /* 清除默认的列表样式 */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  /* 加上左侧竖线装饰 */
+  position: relative;
+  border-left: 2px solid rgba(0, 0, 0, 0.05);
+  /* 极淡的轴线 */
+}
+
+:root[data-scheme="dark"] .widget--toc nav>ul {
+  border-left: 2px solid rgba(255, 255, 255, 0.05);
+  /* 深色模式下的轴线 */
+}
+
+/* 所有的列表项 */
+.widget--toc ul {
+  list-style: none;
+  padding-left: 15px;
+  /* 层级缩进 */
+}
+
+.widget--toc li {
+  margin-bottom: 8px;
+  line-height: 1.4;
+  position: relative;
+}
+
+/* 4. 链接样式：高级灰，悬停变色 */
+.widget--toc a {
+  display: block;
+  color: var(--card-text-color-secondary);
+  /* 默认次要文字颜色，比较淡 */
+  font-size: 1.4rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  /* 让文字换行不突兀 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 悬停效果 */
+.widget--toc a:hover {
+  color: var(--accent-color);
+  /* 主题色 */
+  transform: translateX(2px);
+  /* 轻微右移，增加动感 */
+}
+
+/* 5. 激活状态 (逻辑补充) */
+/* 
+   注意：如果 Stack 主题没有给 TOC 加上 active 类，
+   可以通过 JS 来实现，或者利用 scroll-spy 插件。
+   下面的样式是为了适配如果有 active 类的情况。
+*/
+.widget--toc a.active {
+  color: var(--accent-color);
+  font-weight: bold !important;
+  transform: translateX(4px);
+  /* 激活时偏移更多 */
+}
+
+/* 模拟左侧高亮条的小技巧 */
+.widget--toc a.active::before {
+  content: "";
+  position: absolute;
+  left: -17px;
+  /* 定位到最左侧的轴线上 */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 100%;
+  background-color: var(--accent-color);
+  border-radius: 2px;
+}
+
+/* 6. 深色模式链接微调 */
+:root[data-scheme="dark"] .widget--toc a {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+:root[data-scheme="dark"] .widget--toc a:hover,
+:root[data-scheme="dark"] .widget--toc a.active {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* =========================================
+   图标替换修正 (Icons Override)
+   ========================================= */
+
+/* =========================================
+   图标替换修正 (Icons Override)
+   ========================================= */
+
+/* 1. 通用尺寸调整 (20px) & 间距调整 */
+.widget.archives .widget-icon,
+.widget.tagCloud .widget-icon {
+  /* 增加图标容器与标题文字的间距 */
+  /* 1. 如果是水平排列 (Row)，这会撑开 12px 间距 */
+  margin-right: 12px !important;
+
+  /* 2. 如果是垂直排列 (Column)，这会撑开 5px 底部间距 */
+  margin-bottom: 5px !important;
+
+  /* 确保容器本身不干扰对齐 */
+  display: inline-block;
+}
+
+.widget.archives .widget-icon svg,
+.widget.tagCloud .widget-icon svg {
+  width: 20px !important;
+  height: 20px !important;
+  vertical-align: -3px;
+  /* 微调对齐，让图标和文字中心线一致 */
+}
+
+/* 2. 分类图标 (Categories) - 面性图标 */
+.widget.tagCloud .widget-icon svg {
+  stroke-width: 0 !important;
+  stroke: none !important;
+  fill: currentColor !important;
+}
+
+/* 3. 归档图标 (Archives) - 线性图标 (保持默认) */
+/* 不需要额外样式，Stack 默认会给 svg 加 stroke */
+.widget.archives .widget-icon svg {
+  /* 确保它不被填充覆盖 */
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2 !important;
+}
+
+/* =========================================
+   全局页面进入动画 (Staggered Slide Down Fade In)
+   ========================================= */
+
+/* 定义关键帧：轻微上浮淡入 */
+@keyframes slideDownFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 移除之前的全局容器动画，改为针对具体元素 */
+.main-container {
+  animation: none !important;
+}
+
+/* 定义需要动画的元素集合 */
+.article-list article,
+/* 主页文章卡片 */
+.article-list--compact article,
+/* 归档页小卡片 */
+.widget,
+/* 侧边栏小组件 */
+.welcome,
+/* 欢迎卡片 */
+.main-article {
+  /* 文章详情页主体 */
+  /* 初始状态不可见，防止闪烁 */
+  opacity: 0;
+
+  /* 应用动画：时长 0.6s (稍微快一点)，ease-out */
+  animation: slideDownFadeIn 0.6s ease-out forwards;
+}
+
+/* --- SCSS 循环生成延迟 (Staggering) --- */
+
+/* 1. 针对主页文章列表 & 归档列表 */
+@for $i from 1 through 20 {
+
+  .article-list article:nth-child(#{$i}),
+  .article-list--compact article:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.1}s;
+  }
+}
+
+/* 2. 针对侧边栏小组件 (Widget) */
+@for $i from 1 through 10 {
+
+  .left-sidebar .widget:nth-child(#{$i}),
+  .right-sidebar .widget:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.1}s;
+  }
+}
+
+/* 3. 针对归档页面的年份分组 (archives-year) */
+/* 让每年的区块也依次浮现 */
+@for $i from 1 through 15 {
+  .archives-group:nth-child(#{$i}) {
+    opacity: 0;
+    animation: slideDownFadeIn 0.6s ease-out forwards;
+    animation-delay: #{$i * 0.1}s;
+  }
+}
+
+/* =========================================
+   Section Card (分类/专栏卡片) 样式统一
+   ========================================= */
+.section-card {
+  /* --- 核心配方 (方案一：米汤白) --- */
+  background-color: rgba(252, 249, 244, 0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* 边框与阴影 */
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+
+  /* 圆角 */
+  border-radius: 16px !important;
+
+  /* 动画准备 */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+
+  /* 间距微调 */
+  padding: 20px !important;
+}
+
+.section-card:hover {
+  transform: translateY(-6px);
+  background-color: rgba(252, 249, 244, 0.85) !important;
+  box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25) !important;
+  border-color: #ffffff !important;
+}
+
+/* 深色模式适配 */
+:root[data-scheme="dark"] .section-card {
+  background-color: rgba(30, 30, 30, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+:root[data-scheme="dark"] .section-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 并且把这个新元素也加入到动画队列中 */
+.section-card {
+  opacity: 0;
+  animation: slideDownFadeIn 0.6s ease-out forwards;
+}
+
+/* =========================================
+   Hidden Elements
+   ========================================= */
+/* 隐藏分类页面的 "Section" / "章节" 小标题 */
+.main>header>.section-title {
+  display: none !important;
+}
+
+/* =========================================
+   Pagination (分页栏) 样式统一
+   ========================================= */
+.pagination {
+  /* --- 核心配方 (方案一：米汤白) --- */
+  background-color: rgba(252, 249, 244, 0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* 边框与阴影 */
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+
+  /* 圆角 */
+  border-radius: 16px !important;
+
+  /* 间距 */
+  margin-top: 20px;
+
+  /* 动画准备 */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.pagination:hover {
+  transform: translateY(-4px);
+  background-color: rgba(252, 249, 244, 0.85) !important;
+  box-shadow: 0 10px 25px rgba(180, 170, 160, 0.2) !important;
+  border-color: #ffffff !important;
+}
+
+/* 分页链接样式微调 */
+.pagination .page-link {
+  color: #555;
+  transition: all 0.2s ease;
+}
+
+.pagination .page-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--accent-color);
+}
+
+.pagination .page-link.current {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  color: var(--accent-color) !important;
+  font-weight: bold;
+  box-shadow: inset 0 0 10px rgba(180, 170, 160, 0.1);
+}
+
+/* 深色模式适配 */
+:root[data-scheme="dark"] .pagination {
+  background-color: rgba(30, 30, 30, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+:root[data-scheme="dark"] .pagination:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+:root[data-scheme="dark"] .pagination .page-link {
+  color: #ccc;
+}
+
+:root[data-scheme="dark"] .pagination .page-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+:root[data-scheme="dark"] .pagination .page-link.current {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+/* 加入动画队列 */
+.pagination {
+  opacity: 0;
+  animation: slideDownFadeIn 0.6s ease-out forwards;
+  animation-delay: 0.5s;
+  /* 稍微晚一点出现，作为页面的结尾 */
+}
+
+/* =========================================
+   Layout Adjustments (布局微调)
+   ========================================= */
+/* 限制主要内容区域宽度，在右侧留白 */
+.main {
+  max-width: 900px !important;
+  /* 限制最大宽度，防止卡片太长 */
+  width: 100%;
+  margin-right: auto;
+  /* 靠左对齐，右侧自然留白 */
+}
+
+/* =========================================
+   Subtitle Adjustments (摘要/副标题微调)
+   ========================================= */
+.article-subtitle {
+  /* Stack 主题默认可能是 1.6rem 或者更大，我们改小一点 */
+  font-size: 1.2rem !important;
+
+  /* 也可以顺便减淡一点颜色，增加层次感 */
+  opacity: 0.8;
+
+  /* 增加顶部间距，让其与标题分离 */
+  padding-top: 5px !important;
+  display: block !important;
+  /* 确保 padding 生效 */
+}

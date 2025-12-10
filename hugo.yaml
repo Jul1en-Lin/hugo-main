@@ -159,13 +159,7 @@ params:
             host:
             id:
     widgets:
-        homepage:
-            - type: archives
-              params:
-                  limit: 5
-            - type: categories
-              params:
-                  limit: 10
+        homepage: []
         page:
             - type: toc
 

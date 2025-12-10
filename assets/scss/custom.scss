@@ -694,6 +694,8 @@ html {
 @for $i from 1 through 28 {
   .jump-text#{$i} {
     display: inline-block;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
   }
 
   /* 只有当 JS 添加了 .animate-init 时才播放“开场动画” */
@@ -707,29 +709,29 @@ html {
 
 @keyframes jump {
   0% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 
   50% {
-    transform: translateY(-20px);
+    transform: translate3d(0, -20px, 0);
   }
 
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes jump-hover {
   0% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 
   50% {
-    transform: translateY(-20px);
+    transform: translate3d(0, -20px, 0);
   }
 
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 

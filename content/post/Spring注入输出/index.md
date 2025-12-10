@@ -2,7 +2,6 @@
 date = '2025-12-08T17:12:08+08:00'
 draft = true
 title = 'SpringIoC & DI'
-image = "Gemini_Generated_Image_f4uh2qf4uh2qf4uh.png"
 +++
 
 # SpringIoC & DI

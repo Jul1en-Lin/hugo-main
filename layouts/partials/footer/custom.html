@@ -83,3 +83,247 @@
 
 <!-- 引入礼花动画脚本 -->
 <script src="/js/fireworks.js"></script>
+
+<!-- =========================================
+     回到顶部按钮 (Back to Top Button)
+     ========================================= -->
+
+<!-- 1. HTML 按钮元素 -->
+<button id="back-to-top" class="back-to-top-btn" aria-label="回到顶部" title="回到顶部">
+  <!-- 使用 SVG 图标 -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<!-- 2. CSS 样式 -->
+<style>
+  /* 回到顶部按钮基础样式 */
+  .back-to-top-btn {
+    /* 固定定位 */
+    position: fixed;
+    z-index: 999;
+
+    /* 新的位置策略：在内容区域右侧，更接近视觉焦点 */
+    right: 18%;
+    bottom: 100px;
+
+    /* 按钮尺寸 */
+    width: 50px;
+    height: 50px;
+
+    /* 圆形按钮 */
+    border-radius: 50%;
+
+    /* 背景和边框 - Notion 风格浅色模式 */
+    background: rgba(252, 249, 244, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    /* 阴影效果 - 精致柔和 */
+    box-shadow: 0 4px 16px rgba(180, 170, 160, 0.2);
+
+    /* 光标样式 */
+    cursor: pointer;
+
+    /* 图标居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* 图标颜色 - 深色图标 */
+    color: #555555;
+
+    /* 初始状态：不可见且不可点击 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+
+    /* 过渡动画 */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* 移除默认按钮样式 */
+    outline: none;
+  }
+
+  /* 按钮显示状态 */
+  .back-to-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* 悬停效果 - 更柔和的交互 */
+  .back-to-top-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    background: rgba(252, 249, 244, 0.95);
+    box-shadow: 0 8px 24px rgba(180, 170, 160, 0.3);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #333333;
+  }
+
+  /* 点击效果 */
+  .back-to-top-btn:active {
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  /* SVG 图标样式 */
+  .back-to-top-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.5;
+  }
+
+  /* 深色模式适配 - Notion 风格 */
+  :root[data-scheme="dark"] .back-to-top-btn {
+    /* 深色半透明背景 */
+    background: rgba(40, 40, 40, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+
+    /* 浅色图标 */
+    color: #e0e0e0;
+  }
+
+  :root[data-scheme="dark"] .back-to-top-btn:hover {
+    background: rgba(50, 50, 50, 0.9);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+
+  /* 响应式布局调整 */
+  /* 注意：水平位置由 JavaScript 动态计算，以对齐 archives widget */
+  /* 以下 right 值仅作为后备方案 */
+
+  /* 大屏幕：调整垂直位置 */
+  @media (min-width: 1280px) {
+    .back-to-top-btn {
+      bottom: 120px;
+    }
+  }
+
+  /* 超大屏幕：调整垂直位置 */
+  @media (min-width: 1536px) {
+    .back-to-top-btn {
+      bottom: 150px;
+    }
+  }
+
+  /* 平板端：调整垂直位置 */
+  @media (max-width: 1279px) and (min-width: 769px) {
+    .back-to-top-btn {
+      bottom: 80px;
+    }
+  }
+
+  /* 手机端：使用固定位置 */
+  @media (max-width: 768px) {
+    .back-to-top-btn {
+      /* 手机端位置调整：右下角但位置更高便于触摸 */
+      bottom: 80px;
+      right: 20px;
+
+      /* 手机端尺寸稍小 */
+      width: 45px;
+      height: 45px;
+    }
+
+    .back-to-top-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+</style>
+
+<!-- 3. JavaScript 逻辑 -->
+<script>
+  (function () {
+    'use strict';
+
+    // 获取按钮元素
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    if (!backToTopBtn) return;
+
+    // 滚动阈值（滚动超过此距离时显示按钮）
+    const SCROLL_THRESHOLD = 300;
+
+    // 节流函数（优化性能）
+    function throttle(func, delay) {
+      let lastCall = 0;
+      return function (...args) {
+        const now = Date.now();
+        if (now - lastCall >= delay) {
+          lastCall = now;
+          func.apply(this, args);
+        }
+      };
+    }
+
+    // 检查滚动位置并显示/隐藏按钮
+    function checkScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (scrollTop > SCROLL_THRESHOLD) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    }
+
+    // 平滑滚动到顶部
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // 监听滚动事件（使用节流优化性能）
+    window.addEventListener('scroll', throttle(checkScroll, 100));
+
+    // 监听按钮点击事件
+    backToTopBtn.addEventListener('click', scrollToTop);
+
+    // 动态定位按钮到 archives widget 的中心
+    function positionButton() {
+      // 查找 archives widget
+      const archivesWidget = document.querySelector('.widget.archives');
+
+      if (!archivesWidget) {
+        // 如果找不到 archives widget，使用默认定位
+        return;
+      }
+
+      // 获取 widget 的位置信息
+      const widgetRect = archivesWidget.getBoundingClientRect();
+      const widgetCenter = widgetRect.left + (widgetRect.width / 2);
+
+      // 计算按钮应该的位置（widget 中心 - 按钮宽度的一半）
+      const buttonWidth = 50; // 按钮宽度
+      const buttonLeft = widgetCenter - (buttonWidth / 2);
+
+      // 设置按钮的位置
+      backToTopBtn.style.left = buttonLeft + 'px';
+      backToTopBtn.style.right = 'auto'; // 取消 right 定位
+    }
+
+    // 初始定位
+    positionButton();
+
+    // 初始检查（页面加载时）
+    checkScroll();
+
+    // 监听窗口大小变化，重新定位按钮
+    window.addEventListener('resize', throttle(positionButton, 200));
+
+    // 页面加载完成后再次定位（确保所有元素都已渲染）
+    window.addEventListener('load', positionButton);
+  })();
+
+</script>

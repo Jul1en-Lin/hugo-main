@@ -9,11 +9,21 @@
 
     article {
       background: var(--card-background);
-      border: none;
-      box-shadow: var(--shadow-l2);
+      /* Notion Flat Card Style */
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      /* Minimalist border */
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      /* Extremely subtle shadow */
       margin-bottom: 8px;
       margin-right: 8px;
-      border-radius: 16px;
+      border-radius: 12px;
+      /* Slightly tighter than 16px */
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border-color: rgba(0, 0, 0, 0.12);
+      }
     }
   }
 }
@@ -36,7 +46,18 @@
 }
 
 // 页面基本配色
+/* 引入 Inter 字体 (Notion 风格核心) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
+  // --- Notion Style Typography System ---
+  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  --font-family-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+  // --- Notion Style Colors ---
+  --base-text-color: #37352f;
+  /* Notion 经典深灰黑 */
+
   // 全局顶部边距
   --main-top-padding: 50px;
   // 全局卡片圆角
@@ -52,6 +73,9 @@
 
   // 暗色模式下样式
   &[data-scheme="dark"] {
+    // Notion Dark Mode Text Color (Optional tweak)
+    --base-text-color: #d4d4d4;
+
     // 行内代码背景色
     --code-background-color: #ff6d1b17;
     // 行内代码前景色
@@ -62,6 +86,14 @@
     --bg-opacity: 0.9;
     /* 遮罩透明度，可选 */
   }
+}
+
+/* Apply Font & Color Globally */
+body {
+  font-family: var(--font-family-base) !important;
+  color: var(--base-text-color);
+  letter-spacing: -0.01em;
+  /* 稍微紧凑一点点的字间距，更有现代感 */
 }
 
 //------------------------------------------------------
@@ -299,12 +331,44 @@ html {
 
 
 //归档小图标放大动画
+/* =========================================
+   Archives Widget 样式调整
+   ========================================= */
+
+/* 移除内嵌卡片的背景色，避免色差 */
 .widget.archives .widget-archive--list {
-  transition: transform .3s ease;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
+/* 调整年份文字颜色 */
+.widget.archives .archives-year a span.year {
+  color: #555555 !important;
+}
+
+/* 调整数量文字颜色 */
+.widget.archives .archives-year a span.count {
+  color: #888888 !important;
+}
+
+/* 悬停效果 */
 .widget.archives .widget-archive--list:hover {
-  transform: scale(1.05, 1.05);
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+/* 深色模式 */
+:root[data-scheme="dark"] .widget.archives .archives-year a span.year {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-scheme="dark"] .widget.archives .archives-year a span.count {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+:root[data-scheme="dark"] .widget.archives .widget-archive--list:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 
@@ -380,9 +444,12 @@ html {
 //首页欢迎板块样式
 .welcome {
   color: var(--card-text-color-main);
-  background: var(--card-background);
-  box-shadow: var(--shadow-l2);
-  border-radius: 30px;
+  /* 移除旧背景设置，由下方通用样式统一控制 */
+  /* background: transparent; */
+  box-shadow: none;
+
+  /* 修正圆角，与全局保持一致 (12px) */
+  border-radius: 12px;
   display: inline-block;
 }
 
@@ -542,40 +609,52 @@ body {
 .welcome,
 .article-details {
 
-  /* 1. 核心颜色：不再是纯白，而是调了一点点暖色的“米汤白” */
-  /* 0.75 的不透明度，既遮得住背景的杂乱，又透出背景的颜色 */
-  background-color: rgba(252, 249, 244, 0.75);
+  /* 1. 核心颜色：使用标准卡片背景变量，确保与 article-details 完全一致 */
+  background: var(--card-background) !important;
 
-  /* 2. 滤镜：磨砂感保持 */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* 2. 滤镜：磨砂感保持，但可以减弱 */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 
-  /* 3. 边框：现在可以看到白色的边框了！ */
-  /* 因为卡片底色微黄，这个纯白的边框会像一道光一样勾勒在边缘 */
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  /* 3. 边框：Notion 风格微灰边框 */
+  border: 1px solid rgba(0, 0, 0, 0.08);
 
-  /* 4. 阴影：用暖灰色的阴影，而不是纯黑阴影 */
-  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
+  /* 4. 阴影：极简阴影 */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 
   /* 开启硬件加速，让动画更丝滑 */
+  /* will-change: transform; // article-details 不再需要 transform 动画 */
+
+  /* 设定过渡时间：0.3秒，ease-out */
+  /* 移除了 transform 的过渡，因为 article-details 不再有上浮效果 */
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+}
+
+/* Welcome 卡片单独设置 transform 过渡 */
+.welcome {
   will-change: transform;
-
-  /* 设定过渡时间：0.3秒，ease-out (减速曲线，停下来的感觉更自然) */
-  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease;
-
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 /* 2. 鼠标悬停状态 (Hover) */
 .welcome:hover,
 .article-details:hover {
+  /* 注意：移除了 article-details 的上浮效果 */
   /* 核心动作：向上轻微浮动 6像素 */
-  transform: translateY(-6px);
+  /* transform: translateY(-6px); // 已禁用 */
 
   /* 悬停时，卡片稍微变亮一点点，模拟光照 */
-  background-color: rgba(252, 249, 244, 0.85);
+  /* 悬停时，卡片稍微变亮，使用变量 */
+  background-color: var(--card-background) !important;
   box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25);
   border-color: #ffffff;
   /* 边框变实 */
+}
+
+/* 2.1 只让 welcome 卡片保留上浮效果 */
+.welcome:hover {
+  transform: translateY(-6px);
 }
 
 /* 3. 黑暗模式专用适配 */
@@ -610,9 +689,8 @@ body {
    ========================================= */
 :root[data-scheme="dark"] .welcome,
 :root[data-scheme="dark"] .article-details {
-  /* 1. 黑暗模式下的背景色：黑色半透明 */
-  /* 使用深灰/黑色，透明度设为 0.5 左右，让背后的深色水彩透出来 */
-  background-color: rgba(30, 30, 30, 0.5);
+  /* 1. 黑暗模式下的背景色：统一使用标准变量 */
+  background: var(--card-background) !important;
 
   /* 2. 黑暗模式下的描边 */
   /* 边框要非常淡，隐约可见即可 */
@@ -627,15 +705,14 @@ body {
 /* .widget-archive--list 是你指定的归档卡片 */
 .widget,
 .widget-archive--list {
-  /* --- 核心配方 (复制自方案一) --- */
-  background-color: rgba(252, 249, 244, 0.75);
-  /* 米汤白 */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  /* 高光边框 */
-  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15);
-  /* 暖灰阴影 */
+  /* --- Notion Sidebar Style --- */
+  background-color: rgba(255, 255, 255, 0.9);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 
   /* --- 布局优化 --- */
   border-radius: 12px;
@@ -646,7 +723,7 @@ body {
   /* 内边距，防止文字贴边 */
 
   /* --- 动画基础 --- */
-  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* 侧边栏卡片悬停效果 (稍微克制一点，不要浮起太高) */
@@ -755,11 +832,12 @@ body {
 }
 
 /* 3. 鼠标悬停交互 (Hover) */
+/* 注意：移除了 translateY 上浮效果，改为保持原位但增强视觉效果 */
 .article-list article:hover {
-  transform: translateY(-6px);
-  background-color: rgba(252, 249, 244, 0.85) !important;
-  box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25) !important;
-  border-color: #ffffff !important;
+  /* transform: translateY(-6px); // 移除上浮效果 */
+  background-color: rgba(252, 249, 244, 0.90) !important;
+  box-shadow: 0 8px 24px rgba(180, 170, 160, 0.20) !important;
+  border-color: rgba(255, 255, 255, 0.95) !important;
 }
 
 /* =========================================
@@ -783,6 +861,104 @@ body {
   backdrop-filter: none !important;
   border: none !important;
 }
+
+/* =========================================
+   文章列表标题悬停动画 (Title Underline Animation)
+   ========================================= */
+
+/* 1. 标题链接基础样式 */
+.article-list article .article-title a {
+  /* 确保链接是相对定位，方便伪元素绝对定位 */
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+
+  /* 平滑过渡颜色变化 */
+  transition: color 0.3s ease;
+}
+
+/* 2. 使用 ::after 伪元素创建下划线 */
+.article-list article .article-title a::after {
+  content: "";
+  position: absolute;
+
+  /* 定位：紧贴文字底部 */
+  left: 0;
+  bottom: -2px;
+  /* 距离文字底部 2px */
+
+  /* 初始状态：宽度为 0（不可见） */
+  width: 0;
+  height: 2px;
+  /* 下划线粗细 */
+
+  /* 使用主题色或渐变色 */
+  background: var(--accent-color);
+  /* 使用主题的强调色 */
+
+  /* 也可以用渐变效果，更加炫酷：
+  background: linear-gradient(90deg, var(--accent-color), #ff6b6b); 
+  */
+
+  /* 关键动画属性：平滑的宽度过渡 */
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* cubic-bezier 让动画更有"弹性"感，可以根据喜好调整 */
+}
+
+/* 3. 鼠标悬停在【整个卡片】上时，标题下划线展开 */
+.article-list article:hover .article-title a::after {
+  width: 100%;
+  /* 下划线从 0% 延伸到 100% */
+}
+
+/* 4. (可选) 鼠标悬停时，标题文字颜色也变化 */
+.article-list article:hover .article-title a {
+  color: var(--accent-color);
+  /* 变成主题色 */
+}
+
+/* =========================================
+   深色模式适配
+   ========================================= */
+:root[data-scheme="dark"] .article-list article .article-title a::after {
+  /* 深色模式下可以使用稍微亮一点的颜色 */
+  background: var(--accent-color);
+  /* 或者使用纯白色：background: #fff; */
+}
+
+/* =========================================
+   最后修改时间样式 (Lastmod Time Styling)
+   ========================================= */
+
+/* 1. 最后修改时间容器 */
+.article-time--lastmod {
+  /* 让它和其他时间信息保持一致的间距 */
+  display: flex;
+  align-items: center;
+
+  /* 轻微的颜色区分，表示这是"更新"信息 */
+  color: var(--card-text-color-tertiary);
+  opacity: 0.85;
+}
+
+/* 2. 刷新图标的颜色微调 */
+.article-time--lastmod svg {
+  /* 使用主题色高亮，让用户注意到这是更新时间 */
+  color: var(--accent-color);
+  opacity: 0.7;
+}
+
+/* 3. 深色模式下的适配 */
+:root[data-scheme="dark"] .article-time--lastmod {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+:root[data-scheme="dark"] .article-time--lastmod svg {
+  color: var(--accent-color);
+  opacity: 0.8;
+}
+
+
 
 /* 2. 第二步：给每一个小卡片穿上“方案一”的衣服 */
 /* 这里 target 的是 .article-list--compact 里面的每一个 article 标签 */
@@ -1294,6 +1470,21 @@ input[name="keyword"]::placeholder {
    风格：简约、高级、左侧线条指示
    ========================================= */
 
+/* 0. 移除 widget-toc 的默认背景和颜色，避免色差 */
+.widget--toc {
+  /* 让背景透明，继承外层的样式 */
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+
+  /* 但保留其他布局属性 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--card-border-radius);
+}
+
 /* 1. 容器样式：限制高度，开启滚动 */
 .widget--toc {
   /* 限制最大高度，防止目录太长超出屏幕 */
@@ -1380,11 +1571,10 @@ input[name="keyword"]::placeholder {
   position: relative;
 }
 
-/* 4. 链接样式：高级灰，悬停变色 */
+/* 4. 链接样式：柔和灰色，Notion 风格 + 下划线动画 */
 .widget--toc a {
-  display: block;
-  color: var(--card-text-color-secondary);
-  /* 默认次要文字颜色，比较淡 */
+  /* 更柔和的深灰色 - 使用 !important 覆盖主题默认样式 */
+  color: #666666 !important;
   font-size: 1.4rem;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -1392,15 +1582,57 @@ input[name="keyword"]::placeholder {
   /* 让文字换行不突兀 */
   overflow: hidden;
   text-overflow: ellipsis;
+
+  /* 为下划线动画准备 */
+  position: relative;
+  display: inline-block;
+  /* inline-block 让宽度自适应文字 */
+  /* 不设置 width: 100%，让链接宽度跟随文字内容 */
 }
 
-/* 悬停效果 */
+/* 添加下划线伪元素 */
+.widget--toc a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1.5px;
+  background: #555555;
+  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 悬停效果 - 下划线从左到右延伸 */
 .widget--toc a:hover {
-  color: var(--accent-color);
-  /* 主题色 */
+  /* 变深而不是变主题色，更低调 */
+  color: #333333 !important;
   transform: translateX(2px);
   /* 轻微右移，增加动感 */
 }
+
+.widget--toc a:hover::after {
+  width: 100%;
+  /* 这里的 100% 是基于链接（文字）的宽度 */
+}
+
+/* 深色模式下的下划线 */
+:root[data-scheme="dark"] .widget--toc a::after {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+:root[data-scheme="dark"] .widget--toc a:hover::after {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* 深色模式下文字颜色 - 与博客内容一致 */
+:root[data-scheme="dark"] .widget--toc a {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:root[data-scheme="dark"] .widget--toc a:hover {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
 
 /* 5. 激活状态 (逻辑补充) */
 /* 
@@ -1487,6 +1719,45 @@ input[name="keyword"]::placeholder {
 }
 
 /* =========================================
+   目录 Widget 图标样式
+   ========================================= */
+
+/* 目录图标 - 与左侧导航栏一致，但更粗更圆润 */
+.widget--toc .widget-icon svg {
+  /* 浅色模式：使用深色图标 */
+  color: var(--body-text-color) !important;
+  fill: currentColor !important;
+  opacity: 0.85;
+
+  /* 让图标更粗 */
+  stroke: currentColor !important;
+  stroke-width: 35 !important;
+  /* 增加线条粗细 */
+
+  /* 让图标更圆润 */
+  stroke-linecap: round !important;
+  /* 线条端点圆润 */
+  stroke-linejoin: round !important;
+  /* 连接处圆润 */
+}
+
+/* Archives 图标保持原样 */
+.widget.archives .widget-icon svg {
+  color: var(--body-text-color) !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  opacity: 0.85;
+  stroke-width: 2 !important;
+}
+
+/* 深色模式：使用浅色图标 */
+:root[data-scheme="dark"] .widget.archives .widget-icon svg,
+:root[data-scheme="dark"] .widget--toc .widget-icon svg {
+  color: var(--body-text-color) !important;
+  opacity: 0.9;
+}
+
+/* =========================================
    全局页面进入动画 (Staggered Slide Down Fade In)
    ========================================= */
 
@@ -1566,8 +1837,9 @@ input[name="keyword"]::placeholder {
   -webkit-backdrop-filter: blur(12px);
 
   /* 边框与阴影 */
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
-  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
+  /* 边框与阴影 */
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
 
   /* 圆角 */
   border-radius: 16px !important;
@@ -1756,4 +2028,92 @@ input[name="keyword"]::placeholder {
   /* Ensure path also gets stroke */
   stroke-width: 50px !important;
   stroke-linejoin: round !important;
+}
+
+/* =========================================
+   左侧导航栏菜单交互效果
+   ========================================= */
+/* 菜单项基础样式 */
+.menu .menu-item {
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  margin: 4px 0;
+  padding: 8px 12px;
+}
+
+/* 菜单项悬停效果 - Notion 风格 */
+.menu .menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  transform: translateX(4px);
+}
+
+/* 深色模式下的悬停效果 */
+:root[data-scheme="dark"] .menu .menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* 激活状态的菜单项 */
+.menu .menu-item.current {
+  background-color: rgba(0, 0, 0, 0.06);
+  font-weight: 500;
+}
+
+:root[data-scheme="dark"] .menu .menu-item.current {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* =========================================
+   侧边栏头像 Emoji 优化
+   ========================================= */
+
+/* 1. 调整 emoji 的尺寸变量（全局） */
+.left-sidebar {
+  /* 增大 emoji 容器尺寸：从 40px 改为 50px */
+  --emoji-size: 50px !important;
+
+  /* 增大 emoji 字体大小：从 20px 改为 32px，让 emoji 更大更清晰 */
+  --emoji-font-size: 32px !important;
+}
+
+/* 响应式：超大屏幕上更大 */
+@media (min-width: 1536px) {
+  .left-sidebar {
+    --emoji-size: 60px !important;
+    --emoji-font-size: 38px !important;
+  }
+}
+
+/* Compact 模式下也要调整 */
+.left-sidebar.compact {
+  --emoji-size: 40px !important;
+  --emoji-font-size: 26px !important;
+}
+
+/* 2. 移除 emoji 的背景色和阴影，让它透明贴合 */
+.site-avatar .emoji {
+  /* 关键修改：移除白色背景 */
+  background-color: transparent !important;
+
+  /* 移除阴影，让 emoji 更干净 */
+  box-shadow: none !important;
+
+  /* 可选：如果 emoji 看起来不够清晰，可以加一个轻微的文字阴影 */
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 深色模式下的文字阴影调整 */
+:root[data-scheme="dark"] .site-avatar .emoji {
+  /* 深色模式下，阴影可以稍微重一点，让 emoji 更突出 */
+  text-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* 3. 微调 emoji 的位置，让它位于右下角外侧 */
+.site-avatar .emoji {
+  /* 向右下角移动更多，避免遮挡头像 */
+  bottom: -10px !important;
+  right: -10px !important;
 }

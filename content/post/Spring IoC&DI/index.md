@@ -1,12 +1,11 @@
 +++
 date = '2025-12-08T17:12:08+08:00'
 draft = true
-title = 'SpringIoC & DI'
+title = '🍀Spring IoC & DI'
 +++
 
-# SpringIoC & DI
 
-Spring两个核心思想：IoC和AOP
+Spring 两个核心思想：IoC & DI 和 AOP
 
 # IoC & DI
 

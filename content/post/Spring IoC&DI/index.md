@@ -2,6 +2,7 @@
 date = '2025-12-08T17:12:08+08:00'
 draft = true
 title = '🍀Spring IoC & DI'
+categories = "Spring"
 +++
 
 

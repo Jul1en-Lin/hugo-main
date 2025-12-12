@@ -9,6 +9,13 @@ categories = "Spring"
 # 引入Hutool工具包
 
 Hutool工具是一个开源的Java工具依赖库，封装了许多功能，访问`https://hutool.cn`，按图中引入依赖即可使用，具体功能可查看官方文档~
+```java
+<dependency>
+    <groupId>cn.hutool</groupId>
+    <artifactId>hutool-all</artifactId>
+    <version>5.8.42</version>
+</dependency>
+```
 
 ![image](assets/image-20251206144812-e28xm5t.png)
 

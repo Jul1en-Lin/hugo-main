@@ -181,25 +181,114 @@ a {
   border-radius: 0 !important;
 }
 
+//-------------------------------------------------
+// ===== 博客卡片图片布局：右侧正方形缩略图 =====
+//-------------------------------------------------
+
+// 1. 将有图片的卡片改为左右布局
+.article-list article.has-image .article-header {
+  display: flex !important;
+  flex-direction: row !important; // 横向排列
+  align-items: center !important; // 垂直居中对齐
+  gap: 15px !important; // 图片和文字间距
+}
+
+// 2. 图片容器：固定尺寸，移到右侧
+.article-list article.has-image .article-image {
+  order: 2 !important; // 排列在右侧
+  flex-shrink: 0 !important; // 不被压缩
+  width: 100px !important; // 固定宽度
+  height: 100px !important; // 固定高度
+  margin: 0 !important;
+  margin-right: 20px !important; // 与卡片右边缘保持距离
+  overflow: hidden !important; // 裁剪溢出
+  border-radius: 12px !important; // 圆角
+}
+
+// 3. 文字内容：占据剩余空间，在左侧
+.article-list article.has-image .article-details {
+  order: 1 !important; // 排列在左侧
+  flex: 1 !important; // 占据剩余空间
+  min-width: 0 !important; // 防止flex溢出
+}
+
+// 4. 图片本身：正方形，圆角
+.article-list article.has-image .article-image img {
+  width: 100px !important;
+  height: 100px !important;
+  object-fit: cover !important; // 裁剪填充
+  object-position: center center !important;
+  border-radius: 12px !important; // 圆角
+  margin: 0 !important;
+}
+
+// 5. 响应式：手机端改回上下布局（题头图样式）
+@media (max-width: 768px) {
+  .article-list article.has-image .article-header {
+    flex-direction: column !important; // 改回竖向
+  }
+
+  .article-list article.has-image .article-image {
+    order: 1 !important; // 图片在上方
+    width: 100% !important; // 全宽
+    height: 160px !important; // 题头图高度
+    border-radius: 12px 12px 0 0 !important; // 上方圆角
+  }
+
+  .article-list article.has-image .article-details {
+    order: 2 !important; // 文字在下方
+  }
+
+  .article-list article.has-image .article-image img {
+    width: 100% !important;
+    height: 160px !important;
+    border-radius: 0 !important; // 图片本身无圆角，由容器控制
+  }
+}
+
+
 //---------------------------------------------------
 // 全局页面布局间距调整
 .main-container {
   min-height: 100vh;
   align-items: flex-start;
-  padding: 0 15px;
   gap: var(--section-separation);
   padding-top: var(--main-top-padding);
 
+  // 通过不对称的左右padding让整体布局向右移动
+  padding-left: 120px !important; // 左侧增加内边距，推动内容向右
+  padding-right: 20px !important; // 右侧减少内边距
+
   @include respond(md) {
-    padding: 0 30px;
+    padding-left: 150px !important; // 中等屏幕更明显
+    padding-right: 30px !important;
   }
 }
+
+//-------------------------------------------------
+// 隐藏合集页面（archives/compact）的文章图片
+//-------------------------------------------------
+.article-list--compact .article-image {
+  display: none !important;
+}
+
+//-------------------------------------------------
+// 隐藏文章详情页顶部的题头图（不影响主页列表）
+//-------------------------------------------------
+.article-page article .article-header .article-image {
+  display: none !important;
+}
+
 
 //--------------------------------------------------
 //页面三栏宽度调整
 .container {
+  // 通过调整左右边距比例来让内容整体右移
+  // 左边距是右边距的 6 倍，让内容明显偏右显示
   margin-left: auto;
   margin-right: auto;
+  padding-left: 120px !important; // 使用 !important 覆盖主题默认样式
+  padding-right: 20px !important; // 使用 !important 覆盖主题默认样式
 
   .left-sidebar {
     order: -3;
@@ -1186,8 +1275,8 @@ body {
 
 
 /* 2. 第二步：给每一个小卡片穿上“方案一”的衣服 */
-/* 这里 target 的是 .article-list--compact 里面的每一个 article 标签 */
-.article-list--compact article {
+/* 但排除archives页面，因为它使用时间线样式 */
+:not(.template-archives) .article-list--compact article {
   /* --- 核心配方 (方案一：米汤白) --- */
   background-color: rgba(252, 249, 244, 0.75);
   backdrop-filter: blur(12px);
@@ -1221,7 +1310,7 @@ body {
 
 /* 3. 第三步：解决你图片里那个“黑色方块”的问题 */
 /* 强制把卡片内部的 article-details 背景去掉，让它透出外面的米汤色 */
-.article-list--compact article .article-details {
+:not(.template-archives) .article-list--compact article .article-details {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
@@ -1234,7 +1323,7 @@ body {
 }
 
 /* 4. 鼠标悬停交互 (Hover) */
-.article-list--compact article:hover {
+:not(.template-archives) .article-list--compact article:hover {
   transform: translateY(-6px);
   background-color: rgba(252, 249, 244, 0.85);
   box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25);
@@ -1244,20 +1333,20 @@ body {
 /* =========================================
    黑暗模式适配 (Compact List)
    ========================================= */
-:root[data-scheme="dark"] .article-list--compact article {
+:root[data-scheme="dark"] :not(.template-archives) .article-list--compact article {
   background-color: rgba(30, 30, 30, 0.5);
   /* 深色半透明 */
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: none;
 }
 
-:root[data-scheme="dark"] .article-list--compact article:hover {
+:root[data-scheme="dark"] :not(.template-archives) .article-list--compact article:hover {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* 确保黑暗模式下内部也透明 */
-:root[data-scheme="dark"] .article-list--compact article .article-details {
+:root[data-scheme="dark"] :not(.template-archives) .article-list--compact article .article-details {
   background: transparent !important;
 
   /* 关键修复：黑暗模式下也要强制去掉边框和滤镜 */
@@ -2361,4 +2450,194 @@ input[name="keyword"]::placeholder {
   /* 注意：必须使用 absolute 定位才能相对于 .site-avatar 容器定位 */
   position: absolute !important;
   z-index: 10 !important;
+}
+
+/* =========================================
+   合集页面时间线样式 (Timeline Style Archives)
+   ========================================= */
+
+// 1. 文章统计样式
+.collection-title {
+  text-align: center;
+  margin: 40px 0 60px;
+
+  .collection-header {
+    font-size: 1rem;
+    color: var(--card-text-color-tertiary);
+    opacity: 0.8;
+  }
+}
+
+// 2. archives容器整体样式
+.template-archives {
+
+  // 隐藏分类卡片区域（如果有的话）
+  .subsection-list {
+    display: none;
+  }
+}
+
+// 3. 年份分组容器 - 时间线主体
+.archives-group {
+  position: relative;
+  margin-bottom: 60px;
+
+  // 左侧垂直时间线
+  &::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 40px;
+    bottom: 0;
+    width: 2px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+// 深色模式时间线颜色
+:root[data-scheme="dark"] .archives-group::before {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+// 4. 年份标题样式
+.archives-date {
+  position: relative;
+  margin: 0 0 30px 30px !important;
+  font-size: 1.8rem !important;
+  font-weight: 600 !important;
+
+  // 年份标记圆点
+  &::before {
+    content: "";
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    border: 3px solid var(--card-background);
+    box-shadow: 0 0 0 2px var(--accent-color);
+    z-index: 1;
+  }
+
+  a {
+    color: var(--card-text-color-main) !important;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--accent-color) !important;
+    }
+  }
+}
+
+// 5. 文章列表时间线样式
+.template-archives .article-list--compact {
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+
+  article {
+    position: relative;
+    padding: 8px 0 8px 80px !important;
+    margin-bottom: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important; // 确保无毛玻璃效果
+    -webkit-backdrop-filter: none !important; // 确保无毛玻璃效果
+    transition: background 0.2s ease;
+
+    // 左侧圆点标记
+    &::before {
+      content: "";
+      position: absolute;
+      left: 1px;
+      top: 14px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--card-background);
+      border: 2px solid rgba(0, 0, 0, 0.25);
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+
+    // hover效果
+    &:hover {
+      background: rgba(0, 0, 0, 0.02) !important;
+      transform: none !important;
+      box-shadow: none !important;
+
+      &::before {
+        background: var(--accent-color);
+        border-color: var(--accent-color);
+        width: 10px;
+        height: 10px;
+        left: 0;
+        top: 13px;
+      }
+
+      .article-title a {
+        color: var(--accent-color);
+      }
+    }
+
+    // 文章详情容器
+    .article-details {
+      display: flex !important;
+      align-items: baseline !important;
+      gap: 20px !important;
+      background: transparent !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    // 日期样式
+    .article-time {
+      flex-shrink: 0;
+      font-size: 1rem; // 增大字体
+      color: var(--card-text-color-tertiary);
+      min-width: 50px;
+    }
+
+    // 标题样式
+    .article-title {
+      flex: 1;
+      font-size: 1.5rem; // 增大字体
+      margin: 0 !important;
+      line-height: 1.6;
+
+      a {
+        color: var(--card-text-color-main);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    // 隐藏其他元素（分类、标签等）
+    .article-category,
+    .article-tags {
+      display: none;
+    }
+  }
+}
+
+// 深色模式适配
+:root[data-scheme="dark"] .template-archives .article-list--compact {
+  article {
+    &::before {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+  }
 }

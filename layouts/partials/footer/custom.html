@@ -108,16 +108,20 @@
     position: fixed;
     z-index: 999;
 
-    /* 新的位置策略：在内容区域右侧，更接近视觉焦点 */
-    right: 18%;
-    bottom: 100px;
+    /* 新的位置策略：在左侧导航栏主菜单和底部切换按钮之间 */
+    left: 50px;
+    /* 默认值，会被 JavaScript 动态调整 */
+    top: auto;
+    /* 由 JavaScript 动态计算 */
+    bottom: auto;
+    /* 不使用 bottom 定位 */
 
     /* 按钮尺寸 */
-    width: 50px;
-    height: 50px;
+    width: 24px;
+    height: 24px;
 
     /* 圆形按钮 */
-    border-radius: 50%;
+    border-radius: 20%;
 
     /* 背景和边框 - Notion 风格浅色模式 */
     background: rgba(252, 249, 244, 0.85);
@@ -200,45 +204,19 @@
   }
 
   /* 响应式布局调整 */
-  /* 注意：水平位置由 JavaScript 动态计算，以对齐 archives widget */
-  /* 以下 right 值仅作为后备方案 */
+  /* 注意：按钮位置完全由 JavaScript 动态计算，以定位在主菜单和底部切换按钮之间 */
 
-  /* 大屏幕：调整垂直位置 */
-  @media (min-width: 1280px) {
-    .back-to-top-btn {
-      bottom: 120px;
-    }
-  }
-
-  /* 超大屏幕：调整垂直位置 */
-  @media (min-width: 1536px) {
-    .back-to-top-btn {
-      bottom: 150px;
-    }
-  }
-
-  /* 平板端：调整垂直位置 */
-  @media (max-width: 1279px) and (min-width: 769px) {
-    .back-to-top-btn {
-      bottom: 80px;
-    }
-  }
-
-  /* 手机端：使用固定位置 */
+  /* 手机端：调整尺寸 */
   @media (max-width: 768px) {
     .back-to-top-btn {
-      /* 手机端位置调整：右下角但位置更高便于触摸 */
-      bottom: 80px;
-      right: 20px;
-
       /* 手机端尺寸稍小 */
-      width: 45px;
-      height: 45px;
+      width: 18px;
+      height: 18px;
     }
 
     .back-to-top-btn svg {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
     }
   }
 </style>
@@ -293,26 +271,38 @@
     // 监听按钮点击事件
     backToTopBtn.addEventListener('click', scrollToTop);
 
-    // 动态定位按钮到 archives widget 的中心
+    // 动态定位按钮到左侧导航栏主菜单和底部切换按钮之间
     function positionButton() {
-      // 查找 archives widget
-      const archivesWidget = document.querySelector('.widget.archives');
+      // 查找左侧导航栏和底部区域
+      const mainMenu = document.getElementById('main-menu');
+      const bottomSection = document.querySelector('.menu-bottom-section');
 
-      if (!archivesWidget) {
-        // 如果找不到 archives widget，使用默认定位
+      if (!mainMenu || !bottomSection) {
+        // 如果找不到必要元素，使用默认定位
         return;
       }
 
-      // 获取 widget 的位置信息
-      const widgetRect = archivesWidget.getBoundingClientRect();
-      const widgetCenter = widgetRect.left + (widgetRect.width / 2);
+      // 获取导航栏的水平位置信息（居中对齐）
+      const menuRect = mainMenu.getBoundingClientRect();
+      const menuCenter = menuRect.left + (menuRect.width / 2);
 
-      // 计算按钮应该的位置（widget 中心 - 按钮宽度的一半）
-      const buttonWidth = 50; // 按钮宽度
-      const buttonLeft = widgetCenter - (buttonWidth / 2);
+      // 获取底部区域的垂直位置信息
+      const bottomRect = bottomSection.getBoundingClientRect();
+      const bottomTop = bottomRect.top;
 
-      // 设置按钮的位置
+      // 计算按钮的水平位置（导航栏水平中心 - 按钮宽度的一半）
+      const buttonWidth = 24; // 按钮宽度
+      const buttonHeight = 24; // 按钮高度
+      const buttonLeft = menuCenter - (buttonWidth / 2);
+
+      // 计算按钮的垂直位置（在 bottom-section 上方，留出间距）
+      const spacing = 15; // 按钮与底部区域的间距
+      const buttonTop = bottomTop - buttonHeight - spacing;
+
+      // 设置按钮的位置（使用 fixed 定位）
       backToTopBtn.style.left = buttonLeft + 'px';
+      backToTopBtn.style.top = buttonTop + 'px';
+      backToTopBtn.style.bottom = 'auto'; // 取消 bottom 定位
       backToTopBtn.style.right = 'auto'; // 取消 right 定位
     }
 

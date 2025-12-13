@@ -3,6 +3,7 @@ date = '2025-12-08T17:12:08+08:00'
 draft = true
 title = '🍀Spring IoC & DI'
 categories = "Spring"
+image = "assets/image-20251202182824-baismlb.png"
 +++
 
 
@@ -602,7 +603,7 @@ public class StudentComponent {
 
 ## @Autowired的装配顺序
 
-![image](assets/image-20251202182824-baismlb.png)
+![](assets/image-20251202182824-baismlb.png)
 
 ## <span id="20251202194306-k6nc3dz" style="display: none;"></span>Spring、SpringMVC、SpringBoot之间的关系与区别
 

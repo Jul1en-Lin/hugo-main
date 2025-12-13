@@ -2641,3 +2641,48 @@ input[name="keyword"]::placeholder {
     }
   }
 }
+
+/* =========================================
+   左侧边栏站点名称 - 特殊字体样式
+   ========================================= */
+
+// 引入优雅的草书字体
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+// 站点名称样式
+.left-sidebar header .site-meta .site-name {
+  // 使用多种优雅字体，优先级从高到低
+  font-family: 'Dancing Script', 'Brush Script MT', cursive, serif !important;
+  font-style: italic !important; // 意大利斜体
+  font-weight: 600 !important; // 稍微加粗
+  font-size: 2.2rem !important; // 略大一些
+  letter-spacing: 0.05em !important; // 增加字母间距
+
+  // 优雅的渐变色（可选）
+  background: linear-gradient(135deg, var(--accent-color) 0%, #667eea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  // 微妙的文字阴影，增加立体感
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+  // hover效果
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    letter-spacing: 0.08em;
+  }
+}
+
+// 深色模式适配
+:root[data-scheme="dark"] .left-sidebar header .site-meta .site-name {
+  // 深色模式下的渐变
+  background: linear-gradient(135deg, var(--accent-color) 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}

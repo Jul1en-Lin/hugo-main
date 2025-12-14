@@ -30,6 +30,13 @@
     border-top-right-radius: 8px;
     padding-top: 6px;
     cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .code-more-btn:hover {
+    background: #e0e0e8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .code-more-img {
@@ -38,6 +45,76 @@
     margin: auto;
     width: 22px;
     height: 16px;
+  }
+
+  /* 折叠按钮容器 */
+  .code-less-box {
+    width: 100%;
+    padding-top: 78px;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    margin-top: 10px;
+  }
+
+  /* 折叠按钮（与展开按钮样式一致） */
+  .code-less-btn {
+    display: block;
+    margin: auto;
+    width: 44px;
+    height: 22px;
+    background: #f0f0f5;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding-top: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .code-less-btn:hover {
+    background: #e0e0e8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .code-less-img {
+    cursor: pointer !important;
+    display: block;
+    margin: auto;
+    width: 22px;
+    height: 16px;
+  }
+
+  /* 深色模式适配 */
+  :root[data-scheme="dark"] .code-more-box {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(30, 30, 35, 0)), to(rgba(30, 30, 35, 1)));
+  }
+
+  :root[data-scheme="dark"] .code-more-btn {
+    background: rgba(50, 50, 55, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  :root[data-scheme="dark"] .code-more-btn:hover {
+    background: rgba(60, 60, 65, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  :root[data-scheme="dark"] .code-less-box {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(30, 30, 35, 0)), to(rgba(30, 30, 35, 1)));
+  }
+
+  :root[data-scheme="dark"] .code-less-btn {
+    background: rgba(50, 50, 55, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  :root[data-scheme="dark"] .code-less-btn:hover {
+    background: rgba(60, 60, 65, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 </style>
 <script src="/js/particles.js"></script>
@@ -53,27 +130,64 @@
         return;
       }
       // 元素初始化
-      // codeMoreBox
+      // codeMoreBox (展开按钮容器)
       let codeMoreBox = document.createElement('div');
       codeMoreBox.classList.add('code-more-box');
-      // codeMoreBtn
+      // codeMoreBtn (展开按钮)
       let codeMoreBtn = document.createElement('span');
       codeMoreBtn.classList.add('code-more-btn');
-      codeMoreBtn.addEventListener('click', () => {
-        codeBlock.classList.add('code-show');
-        codeMoreBox.style.display = 'none';
-        // 触发resize事件，重新计算目录位置
-        window.dispatchEvent(new Event('resize'))
-      })
-      // img
-      let img = document.createElement('img');
-      img.classList.add('code-more-img');
-      img.src = {{ (resources.Get "icons/codeMore.png").Permalink
+      codeMoreBtn.title = '展开代码';
+
+      // 创建折叠按钮容器和按钮
+      let codeLessBox = document.createElement('div');
+      codeLessBox.classList.add('code-less-box');
+      codeLessBox.style.display = 'none'; // 初始隐藏
+
+      let codeLessBtn = document.createElement('span');
+      codeLessBtn.classList.add('code-less-btn');
+      codeLessBtn.title = '收起代码';
+
+      // 创建向上箭头图标（旋转展开图标）
+      let upArrow = document.createElement('img');
+      upArrow.classList.add('code-less-img');
+      upArrow.src = {{ (resources.Get "icons/codeMore.png").Permalink
   }}
+  upArrow.style.transform = 'rotate(180deg)'; // 旋转180度变成向上箭头
+
+  // 展开按钮点击事件
+  codeMoreBtn.addEventListener('click', () => {
+    codeBlock.classList.add('code-show');
+    codeMoreBox.style.display = 'none';
+    codeLessBox.style.display = 'block'; // 显示折叠按钮
+    // 触发resize事件，重新计算目录位置
+    window.dispatchEvent(new Event('resize'));
+  });
+
+  // 折叠按钮点击事件
+  codeLessBtn.addEventListener('click', () => {
+    codeBlock.classList.remove('code-show');
+    codeMoreBox.style.display = 'block';
+    codeLessBox.style.display = 'none';
+    // 滚动到代码块顶部
+    codeBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // 触发resize事件
+    window.dispatchEvent(new Event('resize'));
+  });
+
+  // img
+  let img = document.createElement('img');
+  img.classList.add('code-more-img');
+  img.src = {{
+    (resources.Get "icons/codeMore.png").Permalink
+  }}
+
   // 元素添加
   codeMoreBtn.appendChild(img);
   codeMoreBox.appendChild(codeMoreBtn);
-  codeBlock.appendChild(codeMoreBox)
+  codeLessBtn.appendChild(upArrow);
+  codeLessBox.appendChild(codeLessBtn);
+  codeBlock.appendChild(codeMoreBox);
+  codeBlock.appendChild(codeLessBox);
     })
   }
 

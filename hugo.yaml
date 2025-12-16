@@ -211,7 +211,7 @@ menu:
 
         - identifier: csdn
           name: CSDN
-          url: https://blog.csdn.net/TwoCat_C?spm=1000.2115.3001.10640
+          url: https://blog.csdn.net/TwoCat_C?type=blog
           params:
               icon: csdn-logo
 

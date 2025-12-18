@@ -18,12 +18,22 @@ const navigationQuery = "#TableOfContents li";
 const activeClass = "active-class";
 
 function scrollToTocElement(tocElement: HTMLElement, scrollableNavigation: HTMLElement) {
-    let textHeight = tocElement.querySelector("a").offsetHeight;
-    let scrollTop = tocElement.offsetTop - scrollableNavigation.offsetHeight / 2 + textHeight / 2 - scrollableNavigation.offsetTop;
-    if (scrollTop < 0) {
-        scrollTop = 0;
-    }
-    scrollableNavigation.scrollTo({ top: scrollTop, behavior: "smooth" });
+    const tocElementRect = tocElement.getBoundingClientRect();
+    const scrollableRect = scrollableNavigation.getBoundingClientRect();
+
+    const currentScrollTop = scrollableNavigation.scrollTop;
+    // Calculate the position of the element relative to the container's viewport
+    const relativeTop = tocElementRect.top - scrollableRect.top;
+
+    // Calculate the target scroll position to center the element
+    // absoluteTopInScrollable = currentScrollTop + relativeTop
+    // targetScrollTop = absoluteTopInScrollable - (containerHeight / 2) + (elementHeight / 2)
+    const targetScrollTop = currentScrollTop + relativeTop - (scrollableRect.height / 2) + (tocElementRect.height / 2);
+
+    scrollableNavigation.scrollTo({
+        top: targetScrollTop,
+        behavior: "smooth"
+    });
 }
 
 type IdToElementMap = { [key: string]: HTMLElement };
@@ -45,7 +55,12 @@ function buildIdToNavigationElementMap(navigation: NodeListOf<Element>): IdToEle
 
 function computeOffsets(headers: NodeListOf<Element>) {
     let sectionsOffsets = [];
-    headers.forEach((header: HTMLElement) => { sectionsOffsets.push({ id: header.id, offset: header.offsetTop }) });
+    headers.forEach((header: HTMLElement) => {
+        sectionsOffsets.push({
+            id: header.id,
+            offset: header.getBoundingClientRect().top + window.scrollY
+        })
+    });
     sectionsOffsets.sort((a, b) => a.offset - b.offset);
     return sectionsOffsets;
 }
@@ -120,7 +135,7 @@ function setupScrollspy() {
     }
 
     window.addEventListener("scroll", debounced(scrollHandler));
-    
+
     // Resizing may cause the offset values to change: recompute them.
     function resizeHandler() {
         sectionsOffsets = computeOffsets(headers);

@@ -3,10 +3,53 @@
     /* 你可以根据需要调整这个高度 */
     max-height: 400px;
     overflow: hidden;
+    /* 统一使用较快的动画时间 */
+    transition: max-height 0.3s ease-out;
   }
 
   .code-show {
     max-height: none !important;
+    /* 不再单独设置 transition */
+  }
+
+  /* 展开动画 - 弹出效果 */
+  @keyframes codeExpandPop {
+    0% {
+      transform: scale(0.98);
+      opacity: 0.8;
+    }
+
+    50% {
+      transform: scale(1.01);
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* 折叠动画 */
+  @keyframes codeCollapsePop {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(0.99);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .code-expanding {
+    animation: codeExpandPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .code-collapsing {
+    animation: codeCollapsePop 0.3s ease-out;
   }
 
   .code-more-box {
@@ -47,12 +90,12 @@
     height: 16px;
   }
 
-  /* 折叠按钮容器 - 展开后显示在代码块底部 */
+  /* 折叠按钮容器 - 展开后显示在代码块底部，无渐变效果 */
   .code-less-box {
     width: 100%;
-    padding-top: 20px;
+    padding-top: 10px;
     padding-bottom: 10px;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+    background: transparent;
     position: relative;
     z-index: 1;
     margin-top: 0;
@@ -102,7 +145,7 @@
   }
 
   :root[data-scheme="dark"] .code-less-box {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(30, 30, 35, 0)), to(rgba(30, 30, 35, 1)));
+    background: transparent;
   }
 
   :root[data-scheme="dark"] .code-less-btn {
@@ -154,22 +197,70 @@
 
   // 展开按钮点击事件
   codeMoreBtn.addEventListener('click', () => {
+    // 获取展开后的实际高度
     codeBlock.classList.add('code-show');
+    const targetHeight = codeBlock.scrollHeight;
+    codeBlock.classList.remove('code-show');
+
+    // 设置起始高度并强制重排
+    codeBlock.style.maxHeight = '400px';
+    codeBlock.offsetHeight;
+
+    // 添加展开动画类
+    codeBlock.classList.add('code-expanding');
+    codeBlock.classList.add('code-show');
+
+    // 设置目标高度触发动画
+    codeBlock.style.maxHeight = targetHeight + 'px';
+
     codeMoreBox.style.display = 'none';
-    codeLessBox.style.display = 'block'; // 显示折叠按钮
-    // 触发resize事件，重新计算目录位置
+    codeLessBox.style.display = 'block';
+
+    // 触发resize事件
     window.dispatchEvent(new Event('resize'));
+
+    // 动画结束后清理
+    setTimeout(() => {
+      codeBlock.classList.remove('code-expanding');
+      codeBlock.style.maxHeight = ''; // 清除内联样式，让 CSS 接管
+    }, 300);
   });
 
   // 折叠按钮点击事件
   codeLessBtn.addEventListener('click', () => {
-    codeBlock.classList.remove('code-show');
-    codeMoreBox.style.display = 'block';
+    // 获取当前高度和顶部位置
+    const codeBlockTop = codeBlock.getBoundingClientRect().top + window.pageYOffset;
+    const currentHeight = codeBlock.scrollHeight;
+
+    // 立即切换按钮（即时反馈）
     codeLessBox.style.display = 'none';
+    codeMoreBox.style.display = 'block';
+
+    // 设置当前高度并强制重排
+    codeBlock.style.maxHeight = currentHeight + 'px';
+    codeBlock.offsetHeight;
+
+    // 添加折叠动画类并移除展开状态
+    codeBlock.classList.add('code-collapsing');
+    codeBlock.classList.remove('code-show');
+
+    // 立即设置目标高度
+    codeBlock.style.maxHeight = '400px';
+
     // 滚动到代码块顶部
-    codeBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.scrollTo({
+      top: Math.max(0, codeBlockTop - 20),
+      behavior: 'smooth'
+    });
+
     // 触发resize事件
     window.dispatchEvent(new Event('resize'));
+
+    // 动画结束后清理
+    setTimeout(() => {
+      codeBlock.classList.remove('code-collapsing');
+      codeBlock.style.maxHeight = '';
+    }, 300);
   });
 
   // img

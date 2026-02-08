@@ -2716,3 +2716,32 @@ input[name="keyword"]::placeholder {
     }
   }
 }
+
+/* =========================================
+   View Transitions API - 主题切换圆形扩散动画
+   ========================================= */
+
+/* 禁用默认过渡动画，使用自定义 clip-path 动画 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* 浅色模式：新视图在上层（圆形扩张效果） */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* 深色模式：旧视图在上层（圆形收缩效果） */
+:root[data-scheme="dark"]::view-transition-old(root) {
+  z-index: 9999;
+}
+
+:root[data-scheme="dark"]::view-transition-new(root) {
+  z-index: 1;
+}

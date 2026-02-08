@@ -28,22 +28,66 @@ class StackColorScheme {
 
     private bindClick(toggleEl: HTMLElement) {
         toggleEl.addEventListener('click', (e) => {
-            if (this.isDark()) {
-                /// Disable dark mode
-                this.currentScheme = 'light';
-            }
-            else {
-                this.currentScheme = 'dark';
+            // 获取点击坐标
+            const x = (e as MouseEvent).clientX;
+            const y = (e as MouseEvent).clientY;
+
+            // 计算最大扩散半径（从点击点到最远角落的距离）
+            const endRadius = Math.hypot(
+                Math.max(x, window.innerWidth - x),
+                Math.max(y, window.innerHeight - y)
+            );
+
+            // 确定新主题
+            const willBeDark = !this.isDark();
+
+            // 主题切换函数
+            const applyThemeChange = () => {
+                if (this.isDark()) {
+                    this.currentScheme = 'light';
+                } else {
+                    this.currentScheme = 'dark';
+                }
+                this.setBodyClass();
+
+                if (this.currentScheme == this.systemPreferScheme) {
+                    this.currentScheme = 'auto';
+                }
+                this.saveScheme();
+            };
+
+            // 检测 View Transitions API 支持
+            if (!('startViewTransition' in document)) {
+                // 不支持时直接切换，无动画
+                applyThemeChange();
+                return;
             }
 
-            this.setBodyClass();
+            // 启动视图过渡
+            const transition = (document as any).startViewTransition(() => {
+                applyThemeChange();
+            });
 
-            if (this.currentScheme == this.systemPreferScheme) {
-                /// Set to auto
-                this.currentScheme = 'auto';
-            }
+            // 在过渡准备好后执行圆形裁剪动画
+            transition.ready.then(() => {
+                // 根据切换方向决定动画是扩张还是收缩
+                const clipPath = willBeDark
+                    ? [`circle(${endRadius}px at ${x}px ${y}px)`, `circle(0px at ${x}px ${y}px)`]
+                    : [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`];
 
-            this.saveScheme();
+                // 在伪元素上执行动画
+                document.documentElement.animate(
+                    { clipPath },
+                    {
+                        duration: 500,
+                        easing: 'ease-in-out',
+                        fill: 'forwards',
+                        pseudoElement: willBeDark
+                            ? '::view-transition-old(root)'   // 深色模式：收缩旧视图
+                            : '::view-transition-new(root)'   // 浅色模式：扩张新视图
+                    }
+                );
+            });
         })
     }
 

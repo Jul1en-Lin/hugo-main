@@ -35,6 +35,18 @@
   box-shadow: var(--shadow-l1) !important;
 }
 
+.chroma {
+  background-color: #e0dbce !important;
+}
+
+.highlight {
+  background-color: #e0dbce !important;
+}
+
+.article-content pre {
+  background-color: #e0dbce !important;
+}
+
 .highlight:before {
   content: "";
   display: block;
@@ -70,6 +82,8 @@
   --code-background-color: #f8f8f8;
   // 行内代码前景色
   --code-text-color: #e96900;
+  // 代码块背景色
+  --pre-background-color: #e0dbce;
 
   // 暗色模式下样式
   &[data-scheme="dark"] {
@@ -827,7 +841,7 @@ html {
 /* 1. 亮色模式（默认） */
 :root {
   /* 新增：Notion 风格纯色背景 (淡米灰) */
-  --main-bg-color: #F7F7F5;
+  --main-bg-color: #f5f1e4;
 
   /* 这里的路径是相对于网站根目录的绝对路径 */
   /* --main-bg-image: url('/background/Gemini_light.png'); */
@@ -2792,7 +2806,7 @@ input[name="keyword"]::placeholder {
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* --- Two-Column Grid: Left-anchored title, constrained content --- */
@@ -2816,6 +2830,7 @@ input[name="keyword"]::placeholder {
 .editorial-title-column {
   position: sticky;
   top: 100px;
+  align-self: start;
   display: flex;
   flex-direction: column;
   gap: 16px;

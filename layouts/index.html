@@ -1,33 +1,24 @@
+{{ define "body-class" }}template-archives{{ end }}
+
 {{ define "main" }}
 {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
 {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
 {{ $filtered := ($pages | intersect $notHidden) }}
-{{ $pag := .Paginate ($filtered) }}
 
-
-<!-- 上面是主题自带的,只展示一部分,其余省略 -->
-<!-- ---这是我们添加进去的--------- -->
-<!-- 首页欢迎字幅板块 (仅在第一页显示) -->
-{{ if eq $pag.PageNumber 1 }}
+<!-- 首页欢迎字幅板块 -->
 <div class="welcome">
     <p style="font-size: 2rem; text-align: center; font-weight: bold">
         <span class="firework-icon">🎉</span>
-        <!-- Welcome -->
         <span class="jump-text1">W</span><span class="jump-text2">e</span><span class="jump-text3">l</span><span
             class="jump-text4">c</span><span class="jump-text5">o</span><span class="jump-text6">m</span><span
             class="jump-text7">e</span>
-        <!-- Space -->
         <span class="jump-text8">&nbsp;</span>
-        <!-- To -->
         <span class="jump-text9">T</span><span class="jump-text10">o</span>
-        <!-- Space -->
         <span class="jump-text11">&nbsp;</span>
-        <!-- Jul1en -->
         <span class="jump-text12" style="color:#e99312">J</span><span class="jump-text13"
             style="color:#e99312">u</span><span class="jump-text14" style="color:#e99312">l</span><span
             class="jump-text15" style="color:#e99312">1</span><span class="jump-text16"
             style="color:#e99312">e</span><span class="jump-text17" style="color:#e99312">n</span>
-        <!-- 's Channel~ -->
         <span class="jump-text18" style="color:#e99312">'</span><span class="jump-text19"
             style="color:#e99312">s</span><span class="jump-text20" style="color:#e99312">&nbsp;</span><span
             class="jump-text21" style="color:#e99312">C</span><span class="jump-text22"
@@ -35,24 +26,26 @@
             class="jump-text24" style="color:#e99312">n</span><span class="jump-text25"
             style="color:#e99312">n</span><span class="jump-text26" style="color:#e99312">e</span><span
             class="jump-text27" style="color:#e99312">l</span><span class="jump-text28" style="color:#e99312">~</span>
-
     </p>
 </div>
+
+<!-- 文章统计 -->
+<div class="collection-title">
+    <span class="collection-header">太棒了! 目前共计 {{ len $filtered }} 篇日志。继续努力。</span>
+</div>
+
+<!-- 时间线归档列表 (合集样式) -->
+{{ range $filtered.GroupByDate "2006" }}
+{{ $id := lower (replace .Key " " "-") }}
+<div class="archives-group" id="{{ $id }}">
+    <h2 class="archives-date section-title"><a href="#{{ $id }}">{{ .Key }}</a></h2>
+    <div class="article-list--compact">
+        {{ range .Pages }}
+        {{ partial "article-list/compact" . }}
+        {{ end }}
+    </div>
+</div>
 {{ end }}
-<!-- ------首页欢迎字幅板块------ -->
-<!-- 下面也是主题自带的,只展示一部分,其余省略 -->
 
-
-<section class="article-list">
-    {{ range $index, $element := $pag.Pages }}
-    {{ partial "article-list/default" . }}
-    {{ end }}
-</section>
-
-{{- partial "pagination.html" . -}}
-{{- partial "footer/footer" . -}}
-{{ end }}
-
-{{ define "right-sidebar" }}
-{{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+{{ partialCached "footer/footer" . }}
 {{ end }}

@@ -1,47 +1,82 @@
-{{ define "body-class" }}
-article-page
-{{/*
-Enable the right sidebar if
-- Widget different from 'TOC' is enabled
-- TOC is enabled and not empty
-*/}}
-{{- $HasWidgetNotTOC := false -}}
-{{- $TOCWidgetEnabled := false -}}
-{{- range .Site.Params.widgets.page -}}
-{{- if ne .type "toc" -}}
-{{ $HasWidgetNotTOC = true -}}
-{{- else -}}
-{{ $TOCWidgetEnabled = true -}}
-{{- end -}}
+{{- define "body-class" -}}
+article-page editorial-layout
 {{- end -}}
 
-{{- $TOCManuallyDisabled := eq .Params.toc false -}}
-{{- $TOCEnabled := and (not $TOCManuallyDisabled) $TOCWidgetEnabled -}}
-{{- $hasTOC := ge (len .TableOfContents) 100 -}}
-{{- .Scratch.Set "TOCEnabled" (and $TOCEnabled $hasTOC) -}}
-
-{{- .Scratch.Set "hasWidget" (or $HasWidgetNotTOC (and $TOCEnabled $hasTOC)) -}}
-{{ end }}
+{{ define "left-sidebar" }}{{ end }}
 
 {{ define "main" }}
-{{ partial "article/article.html" . }}
+{{/* ===== Full-Width Editorial Layout ===== */}}
+<article class="editorial-article">
+    <div class="editorial-grid">
+        {{/* --- Left Column: Title & Metadata (anchored to left edge) --- */}}
+        <aside class="editorial-title-column">
+            {{/* Category badges */}}
+            {{ if .Params.categories }}
+            <div class="editorial-category">
+                {{ range (.GetTerms "categories") }}
+                <a href="{{ .RelPermalink }}" {{ with .Params.style
+                    }}style="background-color: {{ .background }}; color: {{ .color }};" {{ end }}>
+                    {{ .LinkTitle }}
+                </a>
+                {{ end }}
+            </div>
+            {{ end }}
 
-{{ if .Params.links }}
-{{ partial "article/components/links" . }}
+            {{/* Article title */}}
+            <h1 class="editorial-title">{{ .Title }}</h1>
+
+            {{/* Subtitle / description */}}
+            {{ with .Params.description }}
+            <p class="editorial-subtitle">{{ . }}</p>
+            {{ end }}
+
+            {{/* Date & reading time */}}
+            <div class="editorial-meta">
+                {{ if not .Date.IsZero }}
+                <time datetime='{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}'>
+                    {{ .Date | time.Format (or .Site.Params.dateFormat.published "Jan 02, 2006") }}
+                </time>
+                {{ end }}
+
+                {{- if ne .Lastmod .Date -}}
+                <span class="editorial-meta-sep">·</span>
+                <span class="editorial-lastmod">
+                    更新于 {{ .Lastmod | time.Format (or .Site.Params.dateFormat.lastUpdated "2006-01-02") }}
+                </span>
+                {{- end -}}
+            </div>
+
+            {{/* Tags */}}
+            {{ if .Params.Tags }}
+            <div class="editorial-tags">
+                {{ range (.GetTerms "tags") }}
+                <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+                {{ end }}
+            </div>
+            {{ end }}
+        </aside>
+
+        {{/* --- Right Column: Article Content (constrained width) --- */}}
+        <div class="editorial-content-column">
+            <section class="article-content">
+                {{ $wrappedTable := printf `<div class="table-wrapper">${1}</div>` }}
+                {{ .Content | replaceRE `(<table>(?:.|\n)+?</table>)` $wrappedTable | safeHTML }}
+            </section>
+        </div>
+    </div>
+</article>
+
+{{/* ===== Footer (below the grid) ===== */}}
+{{ if or .Params.math .Site.Params.article.math }}
+{{ partialCached "article/components/math.html" . }}
 {{ end }}
-
-{{/* 相关文章模块已禁用 */}}
-{{/* {{ partial "article/components/related-content" . }} */}}
 
 {{ if not (eq .Params.comments false) }}
 {{ partial "comments/include" . }}
 {{ end }}
 
 {{ partialCached "footer/footer" . }}
-
 {{ partialCached "article/components/photoswipe" . }}
 {{ end }}
 
-{{ define "right-sidebar" }}
-{{ if .Scratch.Get "hasWidget" }}{{ partial "sidebar/right.html" (dict "Context" . "Scope" "page") }}{{ end}}
-{{ end }}
+{{ define "right-sidebar" }}{{ end }}

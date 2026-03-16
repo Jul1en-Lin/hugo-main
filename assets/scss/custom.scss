@@ -2745,3 +2745,439 @@ input[name="keyword"]::placeholder {
 :root[data-scheme="dark"]::view-transition-new(root) {
   z-index: 1;
 }
+
+/* =========================================
+   Editorial Article Page Layout (v2)
+   Full-width grid — title anchored left, content constrained right
+   ========================================= */
+
+/* --- Page-level overrides for editorial article pages --- */
+.editorial-layout {
+
+  /* Override the main-container to be full-width */
+  .main-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    flex-direction: column !important;
+  }
+
+  /* Hide left sidebar on article pages */
+  .left-sidebar {
+    display: none !important;
+  }
+
+  /* The main element becomes full-width */
+  main.main {
+    max-width: 100% !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* --- Light mode background for article page --- */
+.editorial-layout {
+  background-color: #f5f1e4 !important;
+}
+
+:root[data-scheme="dark"] .editorial-layout {
+  background-color: var(--main-bg-color) !important;
+}
+
+/* --- Editorial Article: Full-Width Wrapper --- */
+.editorial-article {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 80px 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* --- Two-Column Grid: Left-anchored title, constrained content --- */
+.editorial-grid {
+  display: grid;
+  /*
+   * Left column: starts from left edge with padding,
+   * fixed width for title area.
+   * Right column: takes remaining space, padded on right.
+   */
+  grid-template-columns: minmax(260px, 28%) 1fr;
+  gap: 80px;
+  align-items: start;
+  max-width: 1500px;
+  /* Title column gets generous left padding to inset from screen edge */
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+/* --- Left Column: Title & Metadata --- */
+.editorial-title-column {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 20px;
+}
+
+.editorial-category {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  a {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+.editorial-title {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.18;
+  color: #2c2e2a;
+  margin: 8px 0 0 0;
+  letter-spacing: -0.02em;
+  font-family: var(--font-family-base);
+}
+
+:root[data-scheme="dark"] .editorial-title {
+  color: #e8e6e3;
+}
+
+.editorial-subtitle {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #555;
+  margin: 4px 0 0 0;
+  font-weight: 400;
+}
+
+:root[data-scheme="dark"] .editorial-subtitle {
+  color: #999;
+}
+
+.editorial-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+
+  time {
+    color: inherit;
+  }
+
+  .editorial-meta-sep {
+    color: #ccc;
+  }
+
+  .editorial-lastmod {
+    color: inherit;
+  }
+}
+
+:root[data-scheme="dark"] .editorial-meta {
+  color: #777;
+
+  .editorial-meta-sep {
+    color: #555;
+  }
+}
+
+.editorial-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+
+  a {
+    font-size: 13px;
+    color: #666;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+  }
+}
+
+:root[data-scheme="dark"] .editorial-tags a {
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.08);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ddd;
+  }
+}
+
+/* --- Right Column: Article Content --- */
+.editorial-content-column {
+  min-width: 0;
+  /* Prevent grid blowout */
+  max-width: 820px;
+  /* Comfortable reading width */
+
+  .article-content {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #2c2e2a;
+    padding: 0;
+    margin: 0;
+
+    &>p:first-child {
+      margin-top: 0;
+    }
+
+    /* Headings */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #2c2e2a;
+      margin-inline-start: 0;
+      padding-inline-start: 0;
+      border-inline-start: none;
+      border: none;
+      position: relative;
+
+      /* Remove the accent border from theme */
+      &::before {
+        display: none;
+      }
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 2.2em 0 0.8em;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 2em 0 0.7em;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 1.8em 0 0.6em;
+    }
+
+    h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 1.5em 0 0.5em;
+    }
+
+    /* Paragraphs */
+    p {
+      margin: 1.4em 0;
+    }
+
+    /* Lists */
+    ul,
+    ol {
+      padding-left: 24px;
+      margin: 1.2em 0;
+
+      li {
+        margin: 0.4em 0;
+        line-height: 1.8;
+      }
+    }
+
+    /* Blockquotes */
+    blockquote {
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.03);
+      border-left: 4px solid rgba(0, 0, 0, 0.12);
+    }
+
+    /* Override theme negative margins — keep everything in-flow */
+    .highlight,
+    pre,
+    blockquote,
+    figure,
+    .gallery,
+    .video-wrapper,
+    .table-wrapper,
+    .s_video_simple {
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+    }
+
+    .highlight {
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
+      margin: 1.5em 0;
+    }
+
+    pre {
+      border-radius: 10px;
+      padding: 18px 20px;
+      font-family: var(--font-family-code);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: auto;
+      /* Horizontal scroll for long code */
+    }
+
+    /* Inline code */
+    code {
+      font-size: 0.9em;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      padding: 0;
+      margin: 1.5em 0;
+      overflow-x: auto;
+    }
+
+    table {
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* Images — fix distortion */
+    img {
+      max-width: 100% !important;
+      height: auto !important;
+      /* Prevent stretching */
+      display: block;
+      /* Remove inline spacing */
+      object-fit: contain;
+      /* Maintain aspect ratio */
+      border-radius: 10px;
+    }
+
+    /* Horizontal rules */
+    hr {
+      width: 60px;
+      margin: 3em auto;
+      background: rgba(0, 0, 0, 0.15);
+      height: 2px;
+    }
+
+    /* Header anchor links */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      a.header-anchor {
+        width: auto;
+        margin-left: -24px;
+        padding-right: 8px;
+        position: absolute;
+        left: 0;
+
+        &:before {
+          content: "#";
+        }
+      }
+    }
+  }
+}
+
+/* Dark mode content */
+:root[data-scheme="dark"] .editorial-content-column .article-content {
+  color: #d4d4d4;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #e8e6e3;
+  }
+
+  h1,
+  h2 {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  blockquote {
+    background: rgba(255, 255, 255, 0.04);
+    border-left-color: rgba(255, 255, 255, 0.15);
+  }
+
+  hr {
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* --- Responsive: Single Column below 900px --- */
+@media (max-width: 900px) {
+  .editorial-article {
+    padding: 40px 0 60px;
+  }
+
+  .editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .editorial-title-column {
+    position: static;
+    padding-right: 0;
+  }
+
+  .editorial-title {
+    font-size: 30px;
+  }
+}
+
+/* --- Responsive: Moderate screens --- */
+@media (max-width: 1200px) and (min-width: 901px) {
+  .editorial-grid {
+    gap: 50px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .editorial-title {
+    font-size: 36px;
+  }
+}

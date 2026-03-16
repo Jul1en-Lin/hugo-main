@@ -7,9 +7,7 @@
 {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
 {{ $filtered := ($pages | intersect $notHidden) }}
 
-<div class="collection-title">
-    <span class="collection-header">太棒了! 目前共计 {{ len $filtered }} 篇日志。继续努力。</span>
-</div>
+{{/* Article Count Statistics - Hidden */}}
 
 
 {{ range $filtered.GroupByDate "2006" }}

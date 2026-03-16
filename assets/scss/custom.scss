@@ -47,6 +47,18 @@
   background-color: #e0dbce !important;
 }
 
+:root[data-scheme="dark"] .chroma {
+  background-color: #2e271b !important;
+}
+
+:root[data-scheme="dark"] .highlight {
+  background-color: #2e271b !important;
+}
+
+:root[data-scheme="dark"] .article-content pre {
+  background-color: #2e271b !important;
+}
+
 .highlight:before {
   content: "";
   display: block;
@@ -94,6 +106,8 @@
     --code-background-color: #ff6d1b17;
     // 行内代码前景色
     --code-text-color: #e96900;
+    // 代码块背景色
+    --pre-background-color: #2e271b;
 
     --bg-image: url('/background/Gemini_Image_1ws0.png');
     /* 你的亮色背景路径 */
@@ -394,14 +408,25 @@ html {
 }
 
 
-/*-----------归档页面----------*/
-//归档页面卡片缩放
+/* --- 分类页面卡片样式移除 (与合集页面统一) --- */
 .article-list--tile article {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
   transition: .6s ease;
+}
+
+.article-list--tile article .article-details {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 .article-list--tile article:hover {
   transform: scale(1.03, 1.03);
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 /*主页布局间距调整*/
@@ -423,13 +448,35 @@ html {
 
 
 /*------------------右侧导航栏--------------*/
-// 搜索菜单动画
+// 搜索菜单 - 移除卡片样式
 .search-form.widget {
   transition: transform 0.6s ease;
 }
 
 .search-form.widget:hover {
   transform: scale(1.1, 1.1);
+}
+
+/* 搜索输入框移除卡片样式 */
+.search-form input {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: 0 !important;
+
+  &:focus {
+    box-shadow: none !important;
+    border-bottom: 2px solid var(--accent-color) !important;
+  }
+}
+
+:root[data-scheme="dark"] .search-form input {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+
+  &:focus {
+    border-bottom: 2px solid var(--accent-color) !important;
+  }
 }
 
 
@@ -2173,44 +2220,35 @@ input[name="keyword"]::placeholder {
 /* =========================================
    Section Card (分类/专栏卡片) 样式统一
    ========================================= */
+/* --- 分类卡片样式移除 (与合集页面统一) --- */
 .section-card {
-  /* --- 核心配方 (方案一：米汤白) --- */
-  background-color: rgba(252, 249, 244, 0.75) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  /* 边框与阴影 */
-  /* 边框与阴影 */
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-
-  /* 圆角 */
-  border-radius: 16px !important;
-
-  /* 动画准备 */
-  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-
-  /* 间距微调 */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  transition: none;
   padding: 20px !important;
 }
 
 .section-card:hover {
-  transform: translateY(-6px);
-  background-color: rgba(252, 249, 244, 0.85) !important;
-  box-shadow: 0 12px 28px rgba(180, 170, 160, 0.25) !important;
-  border-color: #ffffff !important;
+  transform: none;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 /* 深色模式适配 */
 :root[data-scheme="dark"] .section-card {
-  background-color: rgba(30, 30, 30, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: transparent !important;
+  border: none !important;
   box-shadow: none !important;
 }
 
 :root[data-scheme="dark"] .section-card:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 /* 并且把这个新元素也加入到动画队列中 */
@@ -2230,31 +2268,23 @@ input[name="keyword"]::placeholder {
 /* =========================================
    Pagination (分页栏) 样式统一
    ========================================= */
+/* --- 分页栏样式移除卡片 (与合集页面统一) --- */
 .pagination {
-  /* --- 核心配方 (方案一：米汤白) --- */
-  background-color: rgba(252, 249, 244, 0.75) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  /* 边框与阴影 */
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
-  box-shadow: 0 4px 20px rgba(180, 170, 160, 0.15) !important;
-
-  /* 圆角 */
-  border-radius: 16px !important;
-
-  /* 间距 */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
   margin-top: 20px;
-
-  /* 动画准备 */
-  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  transition: none;
 }
 
 .pagination:hover {
-  transform: translateY(-4px);
-  background-color: rgba(252, 249, 244, 0.85) !important;
-  box-shadow: 0 10px 25px rgba(180, 170, 160, 0.2) !important;
-  border-color: #ffffff !important;
+  transform: none;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 /* 分页链接样式微调 */
@@ -2277,14 +2307,14 @@ input[name="keyword"]::placeholder {
 
 /* 深色模式适配 */
 :root[data-scheme="dark"] .pagination {
-  background-color: rgba(30, 30, 30, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: transparent !important;
+  border: none !important;
   box-shadow: none !important;
 }
 
 :root[data-scheme="dark"] .pagination:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 :root[data-scheme="dark"] .pagination .page-link {

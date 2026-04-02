@@ -45,4 +45,11 @@
 {{ end }}
 
 {{ partialCached "footer/footer" . }}
+{{ if (default false .Site.Params.colorScheme.toggle) }}
+<button id="dark-mode-toggle" class="editorial-dark-mode-toggle" type="button" aria-label="{{ T `darkMode` }}" title="{{ T `darkMode` }}">
+    {{ partial "helper/icon" "toggle-left" }}
+    {{ partial "helper/icon" "toggle-right" }}
+    <span>{{ T "darkMode" }}</span>
+</button>
+{{ end }}
 {{ end }}

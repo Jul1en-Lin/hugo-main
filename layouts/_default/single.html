@@ -66,6 +66,14 @@ article-page editorial-layout
     </div>
 </article>
 
+{{ if (default false .Site.Params.colorScheme.toggle) }}
+<button id="dark-mode-toggle" class="editorial-dark-mode-toggle" type="button" aria-label="{{ T `darkMode` }}" title="{{ T `darkMode` }}">
+    {{ partial "helper/icon" "toggle-left" }}
+    {{ partial "helper/icon" "toggle-right" }}
+    <span>{{ T "darkMode" }}</span>
+</button>
+{{ end }}
+
 {{/* ===== Footer (below the grid) ===== */}}
 {{ if or .Params.math .Site.Params.article.math }}
 {{ partialCached "article/components/math.html" . }}

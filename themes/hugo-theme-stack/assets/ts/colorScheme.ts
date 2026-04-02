@@ -5,7 +5,7 @@ class StackColorScheme {
     private currentScheme: colorScheme;
     private systemPreferScheme: colorScheme;
 
-    constructor(toggleEl: HTMLElement) {
+    constructor(toggleEl?: HTMLElement | NodeListOf<HTMLElement> | Array<HTMLElement>) {
         this.bindMatchMedia();
         this.currentScheme = this.getSavedScheme();
         if (window.matchMedia('(prefers-color-scheme: dark)').matches === true)
@@ -15,8 +15,14 @@ class StackColorScheme {
 
         this.dispatchEvent(document.documentElement.dataset.scheme as colorScheme);
 
-        if (toggleEl)
-            this.bindClick(toggleEl);
+        if (toggleEl) {
+            // 支持单个元素、NodeList 或数组，给所有匹配元素绑定点击事件
+            if ((toggleEl as any).forEach) {
+                (toggleEl as any).forEach((el: HTMLElement) => this.bindClick(el as HTMLElement));
+            } else {
+                this.bindClick(toggleEl as HTMLElement);
+            }
+        }
 
         if (document.body.style.transition == '')
             document.body.style.setProperty('transition', 'background-color .3s ease');

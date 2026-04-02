@@ -3102,6 +3102,19 @@ input[name="keyword"]::placeholder {
       /* Horizontal scroll for long code */
     }
 
+    /* 修复：代码块圆角在暗色模式下的白色残影（裁剪子元素/伪元素，确保背景裁切） */
+    .article-content .highlight,
+    .article-content pre {
+      overflow: hidden;
+      -webkit-background-clip: padding-box;
+      background-clip: padding-box;
+    }
+
+    :root[data-scheme="dark"] .highlight:before {
+      /* 伪元素保持透明背景以避免亮色碎屑 */
+      background-color: transparent;
+    }
+
     /* Inline code */
     code {
       font-size: 0.9em;
@@ -3224,5 +3237,255 @@ input[name="keyword"]::placeholder {
 
   .editorial-title {
     font-size: 36px;
+  }
+}
+
+/* =========================================
+   Bugfix Pack (2026-04)
+   1) 代码行号与内容对齐
+   2) 文章页显示浅/暗切换按钮
+   3) 统一代码块颜色
+   4) 浅色模式整体背景
+   5) 文章页字体缩小
+   ========================================= */
+
+/* 避免 block code 继承 inline code 的断词策略导致行号错位 */
+pre code {
+  word-break: normal !important;
+  white-space: pre !important;
+}
+
+/* 代码块行号与代码内容统一行高，修复上下错位 */
+.article-content .highlight .lntd pre,
+.article-content .highlight .lntd code,
+.article-content .highlight .lnt,
+.article-content .highlight .line,
+.article-content .highlight .cl {
+  line-height: 1.6 !important;
+}
+
+/* 代码块统一视觉：背景与文字 */
+.article-content .highlight,
+.article-content .highlight .chroma,
+.article-content .highlight pre {
+  background-color: #f8f9fc !important;
+}
+
+.article-content .highlight .chroma,
+.article-content .highlight .chroma *,
+.article-content .highlight .lnt,
+.article-content .highlight .ln {
+  color: #45474d !important;
+}
+
+/* 只给 inline code 保留小胶囊样式，block code 不参与 */
+.editorial-content-column .article-content :not(pre) > code {
+  font-size: 0.9em;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.editorial-content-column .article-content pre code,
+.editorial-content-column .article-content .highlight code {
+  font-size: inherit !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+/* 浅色模式统一为 Claude 风格奶白浅黄色，并同步正文可读性 */
+:root[data-scheme="light"] {
+  --body-background: #f6f1e7;
+  --card-background: #f7f2e9;
+  --card-background-selected: #efe8db;
+  --base-text-color: #3f3a34;
+  --body-text-color: #5a544d;
+  --card-text-color-main: #3f3a34;
+  --card-text-color-secondary: #676056;
+  --card-text-color-tertiary: #7a7268;
+  --accent-color: #4a433a;
+  --accent-color-darker: #2f2a23;
+}
+
+:root[data-scheme="light"] body,
+:root[data-scheme="light"] .container,
+:root[data-scheme="light"] .main-container,
+:root[data-scheme="light"] .editorial-layout,
+:root[data-scheme="light"] .editorial-article,
+:root[data-scheme="light"] main.main {
+  background-color: #f6f1e7 !important;
+}
+
+:root[data-scheme="light"] .left-sidebar,
+:root[data-scheme="light"] .right-sidebar,
+:root[data-scheme="light"] .main-article,
+:root[data-scheme="light"] .widget,
+:root[data-scheme="light"] .editorial-title-column,
+:root[data-scheme="light"] .editorial-content-column .article-content {
+  background-color: #f7f2e9 !important;
+}
+
+/* 文章页整体字号向官方文档风格收敛（更克制） */
+.editorial-title {
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.editorial-subtitle {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.editorial-meta {
+  font-size: 13px;
+}
+
+.editorial-content-column .article-content {
+  font-size: 16px;
+  line-height: 1.72;
+}
+
+.editorial-content-column .article-content h1 {
+  font-size: 28px;
+}
+
+.editorial-content-column .article-content h2 {
+  font-size: 24px;
+}
+
+.editorial-content-column .article-content h3 {
+  font-size: 20px;
+}
+
+.editorial-content-column .article-content h4 {
+  font-size: 17px;
+}
+
+/* 文章页左下角固定显示主题切换按钮 */
+.article-page.editorial-layout #dark-mode-toggle.editorial-dark-mode-toggle {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 1200;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+@media (max-width: 900px) {
+  .editorial-title {
+    font-size: 26px;
+  }
+
+  .editorial-content-column .article-content {
+    font-size: 15px;
+  }
+}
+
+/* 文章详情页最终配色覆盖：仅在浅色模式生效（避免强制覆盖暗色样式） */
+:root[data-scheme="light"] body.article-page.editorial-layout,
+:root[data-scheme="light"] body.article-page.editorial-layout .main-container,
+:root[data-scheme="light"] body.article-page.editorial-layout main.main,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-article,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-grid {
+  background-color: #f6f1e7 !important;
+}
+
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-title-column,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-content-column .article-content {
+  background-color: #f7f2e9 !important;
+}
+
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-title,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-content-column .article-content,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-content-column .article-content h1,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-content-column .article-content h2,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-content-column .article-content h3,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-content-column .article-content h4,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-content-column .article-content h5,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-content-column .article-content h6 {
+  color: #3f3a34 !important;
+}
+
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-subtitle,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-meta,
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-tags a {
+  color: #5a544d !important;
+}
+
+:root[data-scheme="light"] body.article-page.editorial-layout .editorial-tags a {
+  background: #efe8db !important;
+}
+
+/* ==================================================
+   强制：暗色模式下的代码块视觉覆盖（末尾覆盖，确保优先级）
+   目的：修复暗色模式下代码块出现白色圆角/滚动条/伪元素残影的问题
+   ================================================== */
+:root[data-scheme="dark"] {
+  /* 代码块容器统一为深色背景，覆盖所有前置规则 */
+  .editorial-content-column .article-content .highlight,
+  .editorial-content-column .article-content pre,
+  .article-content .highlight,
+  .article-content pre,
+  .article-content .highlight .chroma,
+  .article-content .highlight .lntd,
+  .article-content .highlight .lntable,
+  .article-content .highlight .lnt,
+  .article-content .highlight .ln {
+    background-color: #2e271b !important;
+    color: #cbc2b8 !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+    -webkit-background-clip: padding-box !important;
+    background-clip: padding-box !important;
+  }
+
+  /* 防止伪元素或 header 图像引起亮色碎屑 */
+  .article-content .highlight::before,
+  .article-content .highlight::after,
+  .editorial-content-column .article-content .highlight::before,
+  .editorial-content-column .article-content .highlight::after {
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+
+  /* 行高亮不要使用浅色 */
+  .article-content .highlight .hl {
+    background-color: rgba(255,255,255,0.02) !important;
+  }
+
+  /* 防止表格/单元格出现白背景 */
+  .article-content .highlight td,
+  .article-content .highlight th {
+    background: transparent !important;
+  }
+
+  /* 代码块滚动条暗色化（WebKit） */
+  .editorial-content-column .article-content pre::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  .editorial-content-column .article-content pre::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  .editorial-content-column .article-content pre::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.06) !important;
+    border-radius: 6px !important;
+    border: 2px solid transparent !important;
+  }
+
+  /* 复制按钮配色避免白色 */
+  .copyCodeButton {
+    background: rgba(0,0,0,0.45) !important;
+    color: #fff !important;
   }
 }

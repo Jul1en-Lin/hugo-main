@@ -48,15 +48,101 @@
 }
 
 :root[data-scheme="dark"] .chroma {
-  background-color: #2e271b !important;
+  background-color: #0b0c0e !important;
+  color: #d4d4d4 !important;
 }
 
 :root[data-scheme="dark"] .highlight {
-  background-color: #2e271b !important;
+  background-color: #0b0c0e !important;
 }
 
 :root[data-scheme="dark"] .article-content pre {
-  background-color: #2e271b !important;
+  background-color: #0b0c0e !important;
+}
+
+/* 暗色模式代码高亮：按指定色板覆盖 Chroma token */
+:root[data-scheme="dark"] .chroma .k,
+:root[data-scheme="dark"] .chroma .kc,
+:root[data-scheme="dark"] .chroma .kd,
+:root[data-scheme="dark"] .chroma .kn,
+:root[data-scheme="dark"] .chroma .kp,
+:root[data-scheme="dark"] .chroma .kr,
+:root[data-scheme="dark"] .chroma .kt,
+:root[data-scheme="dark"] .chroma .ow,
+:root[data-scheme="dark"] .chroma .cp,
+:root[data-scheme="dark"] .chroma .cpf {
+  color: #c586c0 !important;
+}
+
+:root[data-scheme="dark"] .chroma .n,
+:root[data-scheme="dark"] .chroma .x,
+:root[data-scheme="dark"] .chroma .w,
+:root[data-scheme="dark"] .chroma .p,
+:root[data-scheme="dark"] .chroma .o,
+:root[data-scheme="dark"] .chroma .nb,
+:root[data-scheme="dark"] .chroma .bp,
+:root[data-scheme="dark"] .chroma .ni,
+:root[data-scheme="dark"] .chroma .nn,
+:root[data-scheme="dark"] .chroma .py {
+  color: #d4d4d4 !important;
+}
+
+:root[data-scheme="dark"] .chroma .nf,
+:root[data-scheme="dark"] .chroma .fm,
+:root[data-scheme="dark"] .chroma .na,
+:root[data-scheme="dark"] .chroma .nc,
+:root[data-scheme="dark"] .chroma .ne,
+:root[data-scheme="dark"] .chroma .nx,
+:root[data-scheme="dark"] .chroma .nt,
+:root[data-scheme="dark"] .chroma .nd {
+  color: #dcdcaa !important;
+}
+
+:root[data-scheme="dark"] .chroma .nv,
+:root[data-scheme="dark"] .chroma .vc,
+:root[data-scheme="dark"] .chroma .vg,
+:root[data-scheme="dark"] .chroma .vi,
+:root[data-scheme="dark"] .chroma .vm,
+:root[data-scheme="dark"] .chroma .nl,
+:root[data-scheme="dark"] .chroma .no {
+  color: #9cdcfe !important;
+}
+
+:root[data-scheme="dark"] .chroma .s,
+:root[data-scheme="dark"] .chroma .sa,
+:root[data-scheme="dark"] .chroma .sb,
+:root[data-scheme="dark"] .chroma .sc,
+:root[data-scheme="dark"] .chroma .dl,
+:root[data-scheme="dark"] .chroma .sd,
+:root[data-scheme="dark"] .chroma .s1,
+:root[data-scheme="dark"] .chroma .s2,
+:root[data-scheme="dark"] .chroma .sh,
+:root[data-scheme="dark"] .chroma .si,
+:root[data-scheme="dark"] .chroma .sx,
+:root[data-scheme="dark"] .chroma .sr,
+:root[data-scheme="dark"] .chroma .ss {
+  color: #ce9178 !important;
+}
+
+:root[data-scheme="dark"] .chroma .l,
+:root[data-scheme="dark"] .chroma .ld,
+:root[data-scheme="dark"] .chroma .m,
+:root[data-scheme="dark"] .chroma .mb,
+:root[data-scheme="dark"] .chroma .mf,
+:root[data-scheme="dark"] .chroma .mh,
+:root[data-scheme="dark"] .chroma .mi,
+:root[data-scheme="dark"] .chroma .il,
+:root[data-scheme="dark"] .chroma .mo {
+  color: #b5cea8 !important;
+}
+
+:root[data-scheme="dark"] .chroma .c,
+:root[data-scheme="dark"] .chroma .ch,
+:root[data-scheme="dark"] .chroma .cm,
+:root[data-scheme="dark"] .chroma .c1,
+:root[data-scheme="dark"] .chroma .cs,
+:root[data-scheme="dark"] .chroma .gu {
+  color: #689754 !important;
 }
 
 .highlight:before {
@@ -107,7 +193,7 @@
     // 行内代码前景色
     --code-text-color: #e96900;
     // 代码块背景色
-    --pre-background-color: #2e271b;
+    --pre-background-color: #0b0c0e;
 
     --bg-image: url('/background/Gemini_Image_1ws0.png');
     /* 你的亮色背景路径 */
@@ -2732,36 +2818,6 @@ input[name="keyword"]::placeholder {
 }
 
 /* =========================================
-   代码折叠区域 - 深色模式颜色调整
-   ========================================= */
-
-// 深色模式下的代码折叠渐变，避免过于泛白
-:root[data-scheme="dark"] .code-more-box {
-  // 使用更深的渐变，从深灰到透明
-  background: linear-gradient(to bottom,
-      rgba(30, 30, 35, 0) 0%, // 顶部完全透明
-      rgba(30, 30, 35, 0.6) 30%, // 中间深灰半透明
-      rgba(30, 30, 35, 0.9) 70%, // 底部深灰
-      rgba(30, 30, 35, 1) 100% // 底部完全不透明
-    ) !important;
-
-  // 确保按钮文字可见
-  color: rgba(255, 255, 255, 0.8) !important;
-
-  // 调整按钮样式
-  button {
-    background: rgba(50, 50, 55, 0.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: rgba(255, 255, 255, 0.9) !important;
-
-    &:hover {
-      background: rgba(60, 60, 65, 0.9) !important;
-      border-color: rgba(255, 255, 255, 0.2) !important;
-    }
-  }
-}
-
-/* =========================================
    View Transitions API - 主题切换圆形扩散动画
    ========================================= */
 
@@ -3439,12 +3495,29 @@ pre code {
   .article-content .highlight .lntable,
   .article-content .highlight .lnt,
   .article-content .highlight .ln {
-    background-color: #2e271b !important;
+    background-color: #0b0c0e !important;
     color: #cbc2b8 !important;
-    overflow: hidden !important;
     border-radius: 12px !important;
     -webkit-background-clip: padding-box !important;
     background-clip: padding-box !important;
+  }
+
+  /* 代码块高度不固定，随内容自然增长 */
+  .editorial-content-column .article-content .highlight,
+  .editorial-content-column .article-content pre,
+  .article-content .highlight,
+  .article-content pre {
+    max-height: none !important;
+    overflow-y: visible !important;
+    overflow-x: auto !important;
+  }
+
+  .article-content .highlight .chroma,
+  .article-content .highlight .lntd,
+  .article-content .highlight .lntable,
+  .article-content .highlight .lnt,
+  .article-content .highlight .ln {
+    overflow: visible !important;
   }
 
   /* 防止伪元素或 header 图像引起亮色碎屑 */
@@ -3478,9 +3551,12 @@ pre code {
     background: transparent !important;
   }
   .editorial-content-column .article-content pre::-webkit-scrollbar-thumb {
-    background-color: rgba(255,255,255,0.06) !important;
-    border-radius: 6px !important;
-    border: 2px solid transparent !important;
+    background-color: #3c3d3e !important;
+    border-radius: 999px !important;
+    border: 0 !important;
+  }
+  .editorial-content-column .article-content pre::-webkit-scrollbar-thumb:hover {
+    background-color: #48494a !important;
   }
 
   /* 复制按钮配色避免白色 */

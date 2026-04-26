@@ -1,289 +1,73 @@
 <style>
-  .highlight {
-    /* 你可以根据需要调整这个高度 */
-    max-height: 400px;
-    overflow: hidden;
-    /* 统一使用较快的动画时间 */
-    transition: max-height 0.3s ease-out;
-  }
-
-  .code-show {
+  /* 代码块高度随内容增长，不使用纵向滚动 */
+  .article-content .highlight,
+  .editorial-content-column .article-content .highlight,
+  .article-content pre,
+  .editorial-content-column .article-content pre {
     max-height: none !important;
-    /* 不再单独设置 transition */
+    overflow-y: visible !important;
+    overflow-x: auto !important;
+    scrollbar-width: auto;
+    scrollbar-color: #3c3d3e transparent;
   }
 
-  /* 展开动画 - 弹出效果 */
-  @keyframes codeExpandPop {
-    0% {
-      transform: scale(0.98);
-      opacity: 0.8;
-    }
-
-    50% {
-      transform: scale(1.01);
-    }
-
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
+  .article-content .highlight pre,
+  .editorial-content-column .article-content .highlight pre {
+    overflow: visible !important;
   }
 
-  /* 折叠动画 */
-  @keyframes codeCollapsePop {
-    0% {
-      transform: scale(1);
-    }
-
-    50% {
-      transform: scale(0.99);
-    }
-
-    100% {
-      transform: scale(1);
-    }
+  .article-content .highlight::-webkit-scrollbar,
+  .editorial-content-column .article-content .highlight::-webkit-scrollbar,
+  .article-content pre::-webkit-scrollbar,
+  .editorial-content-column .article-content pre::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
   }
 
-  .code-expanding {
-    animation: codeExpandPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  .code-collapsing {
-    animation: codeCollapsePop 0.3s ease-out;
-  }
-
-  .code-more-box {
-    width: 100%;
-    padding-top: 78px;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(248, 249, 252, 0)), to(#f8f9fc));
-    background: linear-gradient(to bottom, rgba(248, 249, 252, 0) 0%, #f8f9fc 100%);
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-  }
-
-  .code-more-btn {
-    display: block;
-    margin: auto;
-    width: 44px;
-    height: 22px;
-    background: #f0f0f5;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    padding-top: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .code-more-btn:hover {
-    background: #e0e0e8;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .code-more-img {
-    cursor: pointer !important;
-    display: block;
-    margin: auto;
-    width: 22px;
-    height: 16px;
-  }
-
-  /* 折叠按钮容器 - 展开后显示在代码块底部，无渐变效果 */
-  .code-less-box {
-    width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background: transparent;
-    position: relative;
-    z-index: 1;
-    margin-top: 0;
-  }
-
-  /* 折叠按钮（与展开按钮样式一致） */
-  .code-less-btn {
-    display: block;
-    margin: auto;
-    width: 44px;
-    height: 22px;
-    background: #f0f0f5;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    padding-top: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .code-less-btn:hover {
-    background: #e0e0e8;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .code-less-img {
-    cursor: pointer !important;
-    display: block;
-    margin: auto;
-    width: 22px;
-    height: 16px;
-  }
-
-  /* 深色模式适配 */
-  :root[data-scheme="dark"] .code-more-box {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(248, 249, 252, 0)), to(#f8f9fc));
-    background: linear-gradient(to bottom, rgba(248, 249, 252, 0) 0%, #f8f9fc 100%);
-  }
-
-  :root[data-scheme="dark"] .code-more-btn {
-    background: rgba(50, 50, 55, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  :root[data-scheme="dark"] .code-more-btn:hover {
-    background: rgba(60, 60, 65, 0.9);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-
-  :root[data-scheme="dark"] .code-less-box {
+  .article-content .highlight::-webkit-scrollbar-track,
+  .editorial-content-column .article-content .highlight::-webkit-scrollbar-track,
+  .article-content pre::-webkit-scrollbar-track,
+  .editorial-content-column .article-content pre::-webkit-scrollbar-track {
     background: transparent;
   }
 
-  :root[data-scheme="dark"] .code-less-btn {
-    background: rgba(50, 50, 55, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .article-content .highlight::-webkit-scrollbar-thumb,
+  .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb,
+  .article-content pre::-webkit-scrollbar-thumb,
+  .editorial-content-column .article-content pre::-webkit-scrollbar-thumb {
+    background: #3c3d3e;
+    border-radius: 999px;
   }
 
-  :root[data-scheme="dark"] .code-less-btn:hover {
-    background: rgba(60, 60, 65, 0.9);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  .article-content .highlight::-webkit-scrollbar-thumb:hover,
+  .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb:hover,
+  .article-content pre::-webkit-scrollbar-thumb:hover,
+  .editorial-content-column .article-content pre::-webkit-scrollbar-thumb:hover {
+    background: #48494a;
+  }
+
+  :root[data-scheme="dark"] .article-content .highlight,
+  :root[data-scheme="dark"] .editorial-content-column .article-content .highlight,
+  :root[data-scheme="dark"] .article-content pre,
+  :root[data-scheme="dark"] .editorial-content-column .article-content pre {
+    scrollbar-color: #3c3d3e transparent;
+  }
+
+  :root[data-scheme="dark"] .article-content .highlight::-webkit-scrollbar-thumb,
+  :root[data-scheme="dark"] .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb,
+  :root[data-scheme="dark"] .article-content pre::-webkit-scrollbar-thumb,
+  :root[data-scheme="dark"] .editorial-content-column .article-content pre::-webkit-scrollbar-thumb {
+    background: #3c3d3e;
+  }
+
+  :root[data-scheme="dark"] .article-content .highlight::-webkit-scrollbar-thumb:hover,
+  :root[data-scheme="dark"] .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb:hover,
+  :root[data-scheme="dark"] .article-content pre::-webkit-scrollbar-thumb:hover,
+  :root[data-scheme="dark"] .editorial-content-column .article-content pre::-webkit-scrollbar-thumb:hover {
+    background: #48494a;
   }
 </style>
 <script src="/js/particles.js"></script>
-<script>
-  function initCodeMoreBox() {
-    let codeBlocks = document.querySelectorAll(".highlight");
-    if (!codeBlocks) {
-      return;
-    }
-    codeBlocks.forEach(codeBlock => {
-      // 校验是否overflow
-      if (codeBlock.scrollHeight <= codeBlock.clientHeight) {
-        return;
-      }
-      // 元素初始化
-      // codeMoreBox (展开按钮容器)
-      let codeMoreBox = document.createElement('div');
-      codeMoreBox.classList.add('code-more-box');
-      // codeMoreBtn (展开按钮)
-      let codeMoreBtn = document.createElement('span');
-      codeMoreBtn.classList.add('code-more-btn');
-      codeMoreBtn.title = '展开代码';
-
-      // 创建折叠按钮容器和按钮
-      let codeLessBox = document.createElement('div');
-      codeLessBox.classList.add('code-less-box');
-      codeLessBox.style.display = 'none'; // 初始隐藏
-
-      let codeLessBtn = document.createElement('span');
-      codeLessBtn.classList.add('code-less-btn');
-      codeLessBtn.title = '收起代码';
-
-      // 创建向上箭头图标（旋转展开图标）
-      let upArrow = document.createElement('img');
-      upArrow.classList.add('code-less-img');
-      upArrow.src = {{ (resources.Get "icons/codeMore.png").Permalink
-  }}
-  upArrow.style.transform = 'rotate(180deg)'; // 旋转180度变成向上箭头
-
-  // 展开按钮点击事件
-  codeMoreBtn.addEventListener('click', () => {
-    // 获取展开后的实际高度
-    codeBlock.classList.add('code-show');
-    const targetHeight = codeBlock.scrollHeight;
-    codeBlock.classList.remove('code-show');
-
-    // 设置起始高度并强制重排
-    codeBlock.style.maxHeight = '400px';
-    codeBlock.offsetHeight;
-
-    // 添加展开动画类
-    codeBlock.classList.add('code-expanding');
-    codeBlock.classList.add('code-show');
-
-    // 设置目标高度触发动画
-    codeBlock.style.maxHeight = targetHeight + 'px';
-
-    codeMoreBox.style.display = 'none';
-    codeLessBox.style.display = 'block';
-
-    // 触发resize事件
-    window.dispatchEvent(new Event('resize'));
-
-    // 动画结束后清理
-    setTimeout(() => {
-      codeBlock.classList.remove('code-expanding');
-      codeBlock.style.maxHeight = ''; // 清除内联样式，让 CSS 接管
-    }, 300);
-  });
-
-  // 折叠按钮点击事件
-  codeLessBtn.addEventListener('click', () => {
-    // 获取当前高度和顶部位置
-    const codeBlockTop = codeBlock.getBoundingClientRect().top + window.pageYOffset;
-    const currentHeight = codeBlock.scrollHeight;
-
-    // 立即切换按钮（即时反馈）
-    codeLessBox.style.display = 'none';
-    codeMoreBox.style.display = 'block';
-
-    // 设置当前高度并强制重排
-    codeBlock.style.maxHeight = currentHeight + 'px';
-    codeBlock.offsetHeight;
-
-    // 添加折叠动画类并移除展开状态
-    codeBlock.classList.add('code-collapsing');
-    codeBlock.classList.remove('code-show');
-
-    // 立即设置目标高度
-    codeBlock.style.maxHeight = '400px';
-
-    // 滚动到代码块顶部
-    window.scrollTo({
-      top: Math.max(0, codeBlockTop - 20),
-      behavior: 'smooth'
-    });
-
-    // 触发resize事件
-    window.dispatchEvent(new Event('resize'));
-
-    // 动画结束后清理
-    setTimeout(() => {
-      codeBlock.classList.remove('code-collapsing');
-      codeBlock.style.maxHeight = '';
-    }, 300);
-  });
-
-  // img
-  let img = document.createElement('img');
-  img.classList.add('code-more-img');
-  img.src = {{
-    (resources.Get "icons/codeMore.png").Permalink
-  }}
-
-  // 元素添加
-  codeMoreBtn.appendChild(img);
-  codeMoreBox.appendChild(codeMoreBtn);
-  codeLessBtn.appendChild(upArrow);
-  codeLessBox.appendChild(codeLessBtn);
-  codeBlock.appendChild(codeMoreBox);
-  codeBlock.appendChild(codeLessBox);
-    })
-  }
-
-  initCodeMoreBox();
-</script>
 
 
 <!-- 引入礼花动画脚本 -->

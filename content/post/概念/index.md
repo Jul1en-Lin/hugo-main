@@ -4,11 +4,9 @@ slug = "概念"
 date = "2026-04-12T06:07:14.000Z"
 lastmod = "2026-04-26T16:59:58.000Z"
 draft = false
+categories = ["MySQL"]
 siyuan_id = "20260412140714-cdfw0bg"
 siyuan_path = "/概念"
-categories = [
-    "Agent",
-]
 +++
 # 概念
 

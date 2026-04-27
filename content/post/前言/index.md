@@ -4,6 +4,7 @@ slug = "前言"
 date = "2025-05-27T08:30:48.000Z"
 lastmod = "2025-08-12T13:13:40.000Z"
 draft = false
+categories = ["数据结构"]
 siyuan_id = "20250527163048-41kp7ir"
 siyuan_path = "/前言"
 +++

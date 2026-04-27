@@ -4,7 +4,7 @@ slug = "打印日志"
 date = "2026-02-04T07:47:28.000Z"
 lastmod = "2026-02-04T07:53:33.000Z"
 draft = false
-categories = ["JavaEE进阶"]
+categories = ["JavaEE进阶", "test"]
 siyuan_id = "20260204154728-1xuxxqb"
 siyuan_path = "/打印日志"
 +++

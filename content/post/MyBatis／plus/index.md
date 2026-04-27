@@ -1,14 +1,14 @@
 +++
-title = "MyBatis／plus"
-slug = "MyBatis／plus"
+title = "💫 MyBatis／plus"
+slug = "💫-MyBatis／plus"
 date = "2025-12-12T16:47:26.000Z"
-lastmod = "2026-02-05T15:11:17.000Z"
+lastmod = "2026-04-27T16:35:29.000Z"
 draft = false
-categories = ["JavaEE进阶", "MyBatis"]
+categories = ["MyBatis"]
 siyuan_id = "20251213004726-pza7g98"
-siyuan_path = "/MyBatis／plus"
+siyuan_path = "/💫 MyBatis／plus"
 +++
-# MyBatis／plus
+# 💫 MyBatis／plus
 
 MyBatis 是一款半自动对象关系映射持久层框架，其核心通过 XML 或注解实现原生 SQL 与 Java 对象的解耦映射，在消除冗余 JDBC 代码的同时，保留了对 SQL 执行逻辑的控制
 

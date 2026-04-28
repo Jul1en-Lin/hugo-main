@@ -3565,3 +3565,121 @@ pre code {
     color: #fff !important;
   }
 }
+
+/* ==================================================
+   1) 隐藏文章详情页代码块的行号（深/浅色全适用）
+   2) 浅色模式底部水平滚动条对齐深色样式
+   ================================================== */
+
+/* —— 1. 行号隐藏 —— */
+/* lineNumbersInTable 模式：第一列即是行号列 */
+.article-content .highlight .chroma .lntable > tbody > tr > td:first-child,
+.editorial-content-column .article-content .highlight .chroma .lntable > tbody > tr > td:first-child {
+  display: none !important;
+}
+
+/* 兼容内联行号（lineNumbersInTable: false 时） */
+.article-content .highlight .chroma .lnt,
+.article-content .highlight .chroma .ln,
+.article-content .highlight .chroma .linenos,
+.editorial-content-column .article-content .highlight .chroma .lnt,
+.editorial-content-column .article-content .highlight .chroma .ln,
+.editorial-content-column .article-content .highlight .chroma .linenos {
+  display: none !important;
+}
+
+/* —— 2. 滚动条统一为深色样式（深/浅模式一致） —— */
+
+/* 关闭 lntable 内层 td 的横向滚动，让滚动条交给外层 pre 处理（带 padding，视觉在代码块"外"） */
+.article-content .highlight .chroma .lntable,
+.article-content .highlight .chroma .lntable > tbody,
+.article-content .highlight .chroma .lntable > tbody > tr,
+.article-content .highlight .chroma .lntable > tbody > tr > td,
+.article-content .highlight .chroma .lntable > tbody > tr > td:last-child,
+.editorial-content-column .article-content .highlight .chroma .lntable,
+.editorial-content-column .article-content .highlight .chroma .lntable > tbody,
+.editorial-content-column .article-content .highlight .chroma .lntable > tbody > tr,
+.editorial-content-column .article-content .highlight .chroma .lntable > tbody > tr > td,
+.editorial-content-column .article-content .highlight .chroma .lntable > tbody > tr > td:last-child {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+/* 关闭 .chroma 自身滚动，让 .highlight 统一接管横向滚动（带 padding，视觉一致） */
+.article-content .highlight .chroma,
+.editorial-content-column .article-content .highlight .chroma {
+  overflow: visible !important;
+}
+
+/* WebKit / Chromium —— 与深色一致：12px、圆角 999px、深灰 thumb */
+.article-content .highlight pre::-webkit-scrollbar,
+.article-content .highlight pre.chroma::-webkit-scrollbar,
+.article-content .highlight .chroma::-webkit-scrollbar,
+.article-content .highlight .chroma .lntable td::-webkit-scrollbar,
+.editorial-content-column .article-content .highlight pre::-webkit-scrollbar,
+.editorial-content-column .article-content .highlight pre.chroma::-webkit-scrollbar,
+.editorial-content-column .article-content .highlight .chroma::-webkit-scrollbar,
+.editorial-content-column .article-content .highlight .chroma .lntable td::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.article-content .highlight pre::-webkit-scrollbar-track,
+.article-content .highlight pre.chroma::-webkit-scrollbar-track,
+.article-content .highlight .chroma::-webkit-scrollbar-track,
+.article-content .highlight .chroma .lntable td::-webkit-scrollbar-track,
+.editorial-content-column .article-content .highlight pre::-webkit-scrollbar-track,
+.editorial-content-column .article-content .highlight pre.chroma::-webkit-scrollbar-track,
+.editorial-content-column .article-content .highlight .chroma::-webkit-scrollbar-track,
+.editorial-content-column .article-content .highlight .chroma .lntable td::-webkit-scrollbar-track {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.article-content .highlight pre::-webkit-scrollbar-thumb,
+.article-content .highlight pre.chroma::-webkit-scrollbar-thumb,
+.article-content .highlight .chroma::-webkit-scrollbar-thumb,
+.article-content .highlight .chroma .lntable td::-webkit-scrollbar-thumb,
+.editorial-content-column .article-content .highlight pre::-webkit-scrollbar-thumb,
+.editorial-content-column .article-content .highlight pre.chroma::-webkit-scrollbar-thumb,
+.editorial-content-column .article-content .highlight .chroma::-webkit-scrollbar-thumb,
+.editorial-content-column .article-content .highlight .chroma .lntable td::-webkit-scrollbar-thumb {
+  background-color: #3c3d3e !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.article-content .highlight pre::-webkit-scrollbar-thumb:hover,
+.article-content .highlight pre.chroma::-webkit-scrollbar-thumb:hover,
+.article-content .highlight .chroma::-webkit-scrollbar-thumb:hover,
+.article-content .highlight .chroma .lntable td::-webkit-scrollbar-thumb:hover,
+.editorial-content-column .article-content .highlight pre::-webkit-scrollbar-thumb:hover,
+.editorial-content-column .article-content .highlight pre.chroma::-webkit-scrollbar-thumb:hover,
+.editorial-content-column .article-content .highlight .chroma::-webkit-scrollbar-thumb:hover,
+.editorial-content-column .article-content .highlight .chroma .lntable td::-webkit-scrollbar-thumb:hover {
+  background-color: #48494a !important;
+}
+
+.article-content .highlight pre::-webkit-scrollbar-corner,
+.article-content .highlight pre.chroma::-webkit-scrollbar-corner,
+.article-content .highlight .chroma::-webkit-scrollbar-corner,
+.editorial-content-column .article-content .highlight pre::-webkit-scrollbar-corner,
+.editorial-content-column .article-content .highlight pre.chroma::-webkit-scrollbar-corner,
+.editorial-content-column .article-content .highlight .chroma::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Firefox —— 同样深灰细滚动条 */
+.article-content .highlight pre,
+.article-content .highlight pre.chroma,
+.article-content .highlight .chroma,
+.article-content .highlight .chroma .lntable td,
+.editorial-content-column .article-content .highlight pre,
+.editorial-content-column .article-content .highlight pre.chroma,
+.editorial-content-column .article-content .highlight .chroma,
+.editorial-content-column .article-content .highlight .chroma .lntable td {
+  scrollbar-width: thin !important;
+  scrollbar-color: #3c3d3e transparent !important;
+}

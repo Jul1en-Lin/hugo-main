@@ -1889,6 +1889,20 @@ input[name="keyword"]::placeholder {
   /* 如果你想让它居中一点，可以把 padding 改改 */
 }
 
+/* 当前首页/文章页使用的是 button 版本 toggle，避免按钮默认白底与整行拉伸 */
+button#dark-mode-toggle,
+#dark-mode-toggle.editorial-dark-mode-toggle {
+  display: inline-flex;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* 1. 隐藏原来的文字 "暗色模式" */
 #dark-mode-toggle span {
   display: none !important;
@@ -1939,6 +1953,18 @@ input[name="keyword"]::placeholder {
 :root[data-scheme="dark"] #dark-mode-toggle:hover::before {
   /* 保持原来的旋转基准上微调 */
   transform: rotate(345deg) scale(1.1);
+}
+
+/* 文章页仅使用固定定位，避免按钮掉到正文末尾 */
+body.article-page.editorial-layout #dark-mode-toggle.editorial-dark-mode-toggle {
+  position: fixed;
+  left: 128px;
+  top: 646px;
+  bottom: auto;
+  right: auto;
+  transform: none !important;
+  z-index: 30;
+  margin: 0;
 }
 
 /* =========================================
@@ -3320,18 +3346,87 @@ pre code {
   line-height: 1.6 !important;
 }
 
-/* 代码块统一视觉：背景与文字 */
-.article-content .highlight,
-.article-content .highlight .chroma,
-.article-content .highlight pre {
-  background-color: #f8f9fc !important;
+/* 浅色模式代码块采用 Claude 文档风格配色 */
+:root[data-scheme="light"] .article-content .highlight,
+:root[data-scheme="light"] .article-content .highlight .chroma,
+:root[data-scheme="light"] .article-content .highlight pre {
+  background-color: #ffffff !important;
 }
 
-.article-content .highlight .chroma,
-.article-content .highlight .chroma *,
-.article-content .highlight .lnt,
-.article-content .highlight .ln {
-  color: #45474d !important;
+:root[data-scheme="light"] .article-content .highlight .chroma,
+:root[data-scheme="light"] .article-content .highlight .chroma *,
+:root[data-scheme="light"] .article-content .highlight .lnt,
+:root[data-scheme="light"] .article-content .highlight .ln {
+  color: #6e7781 !important;
+}
+
+:root[data-scheme="light"] .article-content .highlight .k,
+:root[data-scheme="light"] .article-content .highlight .kc,
+:root[data-scheme="light"] .article-content .highlight .kd,
+:root[data-scheme="light"] .article-content .highlight .kn,
+:root[data-scheme="light"] .article-content .highlight .kp,
+:root[data-scheme="light"] .article-content .highlight .kr,
+:root[data-scheme="light"] .article-content .highlight .kt,
+:root[data-scheme="light"] .article-content .highlight .ow,
+:root[data-scheme="light"] .article-content .highlight .cp,
+:root[data-scheme="light"] .article-content .highlight .cpf {
+  color: #cf222e !important;
+}
+
+:root[data-scheme="light"] .article-content .highlight .s,
+:root[data-scheme="light"] .article-content .highlight .sa,
+:root[data-scheme="light"] .article-content .highlight .sb,
+:root[data-scheme="light"] .article-content .highlight .sc,
+:root[data-scheme="light"] .article-content .highlight .dl,
+:root[data-scheme="light"] .article-content .highlight .sd,
+:root[data-scheme="light"] .article-content .highlight .s1,
+:root[data-scheme="light"] .article-content .highlight .s2,
+:root[data-scheme="light"] .article-content .highlight .sh,
+:root[data-scheme="light"] .article-content .highlight .si,
+:root[data-scheme="light"] .article-content .highlight .sx,
+:root[data-scheme="light"] .article-content .highlight .sr,
+:root[data-scheme="light"] .article-content .highlight .ss {
+  color: #116329 !important;
+}
+
+:root[data-scheme="light"] .article-content .highlight .nb,
+:root[data-scheme="light"] .article-content .highlight .bp,
+:root[data-scheme="light"] .article-content .highlight .nv,
+:root[data-scheme="light"] .article-content .highlight .vc,
+:root[data-scheme="light"] .article-content .highlight .vg,
+:root[data-scheme="light"] .article-content .highlight .vi,
+:root[data-scheme="light"] .article-content .highlight .vm,
+:root[data-scheme="light"] .article-content .highlight .nl,
+:root[data-scheme="light"] .article-content .highlight .no,
+:root[data-scheme="light"] .article-content .highlight .n,
+:root[data-scheme="light"] .article-content .highlight .x,
+:root[data-scheme="light"] .article-content .highlight .ni,
+:root[data-scheme="light"] .article-content .highlight .nn,
+:root[data-scheme="light"] .article-content .highlight .py {
+  color: #0a3069 !important;
+}
+
+:root[data-scheme="light"] .article-content .highlight .nf,
+:root[data-scheme="light"] .article-content .highlight .fm,
+:root[data-scheme="light"] .article-content .highlight .na,
+:root[data-scheme="light"] .article-content .highlight .nc,
+:root[data-scheme="light"] .article-content .highlight .ne,
+:root[data-scheme="light"] .article-content .highlight .nx,
+:root[data-scheme="light"] .article-content .highlight .nt,
+:root[data-scheme="light"] .article-content .highlight .nd {
+  color: #953800 !important;
+}
+
+:root[data-scheme="light"] .article-content .highlight .l,
+:root[data-scheme="light"] .article-content .highlight .ld,
+:root[data-scheme="light"] .article-content .highlight .m,
+:root[data-scheme="light"] .article-content .highlight .mb,
+:root[data-scheme="light"] .article-content .highlight .mf,
+:root[data-scheme="light"] .article-content .highlight .mh,
+:root[data-scheme="light"] .article-content .highlight .mi,
+:root[data-scheme="light"] .article-content .highlight .il,
+:root[data-scheme="light"] .article-content .highlight .mo {
+  color: #953800 !important;
 }
 
 /* 只给 inline code 保留小胶囊样式，block code 不参与 */
@@ -3415,24 +3510,6 @@ pre code {
 
 .editorial-content-column .article-content h4 {
   font-size: 17px;
-}
-
-/* 文章页左下角固定显示主题切换按钮 */
-.article-page.editorial-layout #dark-mode-toggle.editorial-dark-mode-toggle {
-  position: fixed;
-  left: 18px;
-  bottom: 18px;
-  z-index: 1200;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  -webkit-appearance: none;
-  appearance: none;
 }
 
 @media (max-width: 900px) {

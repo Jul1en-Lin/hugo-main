@@ -4,7 +4,7 @@ slug = "💫-MyBatis／plus"
 date = "2025-12-12T16:47:26.000Z"
 lastmod = "2026-04-27T16:35:29.000Z"
 draft = false
-categories = ["JavaEE进阶"]
+categories = ["MyBatis"]
 siyuan_id = "20251213004726-pza7g98"
 siyuan_path = "/💫 MyBatis／plus"
 +++

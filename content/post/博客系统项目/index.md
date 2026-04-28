@@ -41,7 +41,7 @@ siyuan_path = "/博客系统项目"
 
 2. 实现登录的两种模式
 
-   1. 使用Session：Session持久化——[Spring Session 持久化.pdf](assets/Spring Session 持久化-20260213215737-de188oj.pdf)
+   1. 使用Session：Session持久化——[Spring Session 持久化.pdf](assets/Spring%20Session%20持久化-20260213215737-de188oj.pdf)
 
       - 存储到MySQL
       - 存储到Redis

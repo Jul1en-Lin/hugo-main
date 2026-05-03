@@ -4,7 +4,6 @@ slug = "工作流更新"
 date = "2026-05-03T14:25:17.000Z"
 lastmod = "2026-05-03T18:14:53.000Z"
 draft = false
-categories = ["AI"]
 siyuan_id = "20260503222517-16jmoik"
 siyuan_path = "/工作流更新"
 +++

@@ -1,0 +1,26 @@
+{{- $context := .context -}}
+{{- $pages := .pages | default slice -}}
+{{- $count := len $pages -}}
+
+<div class="post-tools" data-post-tools>
+    <div class="category-tabs" role="tablist" aria-label="Filter posts by category">
+        <button class="category-tabs__button is-active" type="button" data-blog-filter="all" role="tab" aria-selected="true">
+            All
+            <span>{{ $count }}</span>
+        </button>
+        {{- with $context.Site.Taxonomies.categories -}}
+            {{- range .ByCount -}}
+            <button class="category-tabs__button" type="button" data-blog-filter="{{ .Page.LinkTitle | urlize }}" role="tab" aria-selected="false">
+                {{ .Page.LinkTitle }}
+                <span>{{ .Count }}</span>
+            </button>
+            {{- end -}}
+        {{- end -}}
+    </div>
+
+    <label class="post-search" for="post-search-input">
+        <span class="post-search__icon" aria-hidden="true">{{ partial "helper/icon" "search-line" }}</span>
+        <span class="sr-only">Search posts</span>
+        <input id="post-search-input" type="search" placeholder="Search posts..." data-blog-search autocomplete="off">
+    </label>
+</div>

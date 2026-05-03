@@ -1,0 +1,45 @@
+::selection {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+:root[data-scheme="dark"] .site-header {
+  background: color-mix(in srgb, var(--color-bg) 86%, transparent);
+}
+
+:root[data-scheme="dark"] .music-staff-bg {
+  opacity: 0.32;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 999;
+}
+
+:root[data-scheme="dark"]::view-transition-old(root) {
+  z-index: 999;
+}
+
+:root[data-scheme="dark"]::view-transition-new(root) {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

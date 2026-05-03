@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}" dir="{{ default `ltr` .Language.LanguageDirection }}">
+
+<head>
+    {{- partial "head/head.html" . -}}
+    {{- partial "head/colorScheme" . -}}
+    {{- block "head" . -}}{{ end }}
+</head>
+
+<body class="melody-shell {{ block `body-class` . }}{{ end }}">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    {{- partial "site-header.html" . -}}
+    {{- partial "music-staff-bg.html" . -}}
+    {{- partial "music-note-decor.html" . -}}
+
+    <main id="main-content" class="main main-content full-width" tabindex="-1">
+        {{- block "main" . }}{{- end }}
+    </main>
+
+    {{ partial "footer/include.html" . }}
+</body>
+
+</html>

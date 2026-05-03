@@ -1,0 +1,21 @@
+{{- $context := .context | default . -}}
+{{- $avatarSrc := .avatarSrc | default "img/avatar.png" -}}
+{{- $title := .title | default "About Me" -}}
+{{- $description := .description | default "I write about life, thoughts, and the little melodies that inspire me every day." -}}
+{{- $linkLabel := .linkLabel | default "Learn more" -}}
+{{- $linkURL := .linkURL | default "/about/" -}}
+
+<aside class="author-card" aria-labelledby="author-card-title">
+    <h2 id="author-card-title" class="author-card__title">{{ $title }}</h2>
+    {{- with resources.Get $avatarSrc -}}
+        {{- $avatar := .Fill "220x220 Center" -}}
+        <figure class="author-card__avatar">
+            <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $context.Site.Params.brandName | default $context.Site.Title }}" loading="lazy">
+        </figure>
+    {{- end -}}
+    <p class="author-card__description">{{ $description }}</p>
+    <a class="author-card__link" href="{{ $linkURL | relLangURL }}">
+        <span>{{ $linkLabel }}</span>
+        {{ partial "helper/icon" "arrow-right" }}
+    </a>
+</aside>

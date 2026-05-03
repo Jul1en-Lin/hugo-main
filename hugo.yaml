@@ -44,8 +44,29 @@ permalinks:
     page: /:slug/
 
 params:
+    brandName: Melody
     mainSections:
         - post
+    primaryNav:
+        - identifier: home
+          name: Home
+          url: /
+        - identifier: about
+          name: About
+          url: /about/
+        - identifier: blog
+          name: Blog
+          url: /post/
+          section: post
+        - identifier: journal
+          name: Journal
+          url: /journal/
+        - identifier: music
+          name: Music
+          url: /music/
+        - identifier: contact
+          name: Contact
+          url: /contact/
     featuredImageField: image
     rssFullContent: true
     favicon: # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
@@ -182,7 +203,7 @@ params:
         toggle: true
 
         # Available values: auto, light, dark
-        default: auto
+        default: light
 
     imageProcessing:
         cover:

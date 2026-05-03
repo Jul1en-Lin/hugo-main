@@ -1,0 +1,45 @@
+{{- $nav := .Site.Params.primaryNav -}}
+<header class="site-header" role="banner">
+    <div class="site-header__inner">
+        <a class="site-brand" href="{{ .Site.Home.RelPermalink }}" aria-label="{{ .Site.Title }} home">
+            <span class="site-brand__text">{{ default .Site.Title .Site.Params.brandName }}</span>
+            <span class="site-brand__mark" aria-hidden="true">{{ partial "helper/icon" "music-note" }}</span>
+        </a>
+
+        <button class="site-menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">
+            <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+            <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+            <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+            <span class="sr-only">Menu</span>
+        </button>
+
+        <nav id="primary-navigation" class="site-nav" aria-label="Primary navigation">
+            <ul class="site-nav__list">
+                {{- range $nav -}}
+                    {{- $identifier := .identifier -}}
+                    {{- $section := default "" .section -}}
+                    {{- $url := .url | relLangURL -}}
+                    {{- $active := false -}}
+                    {{- if and $.IsHome (eq $identifier "home") -}}
+                        {{- $active = true -}}
+                    {{- else if and $section (eq $.Section $section) -}}
+                        {{- $active = true -}}
+                    {{- else if and (ne $url "/") (hasPrefix $.RelPermalink $url) -}}
+                        {{- $active = true -}}
+                    {{- end -}}
+                    <li class="site-nav__item">
+                        <a class="site-nav__link{{ if $active }} is-active{{ end }}" href="{{ $url }}"{{ if $active }} aria-current="page"{{ end }}>
+                            {{ .name }}
+                        </a>
+                    </li>
+                {{- end -}}
+            </ul>
+        </nav>
+
+        {{- if (default false .Site.Params.colorScheme.toggle) -}}
+        <button id="dark-mode-toggle" class="theme-toggle" type="button" aria-label="{{ T `darkMode` }}" title="{{ T `darkMode` }}">
+            <span class="theme-toggle__icon" aria-hidden="true">{{ partial "helper/icon" "music-note" }}</span>
+        </button>
+        {{- end -}}
+    </div>
+</header>

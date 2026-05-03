@@ -1,4 +1,69 @@
-{{/*
-相关文章模块已禁用
-如需恢复，删除此文件即可使用主题默认模板
-*/}}
+{{- $context := .context | default . -}}
+{{- $limit := .limit | default 3 -}}
+{{- $terms := $context.GetTerms "categories" -}}
+{{- $primaryTerm := "" -}}
+{{- with $terms -}}
+    {{- $primaryTerm = index . 0 -}}
+{{- end -}}
+{{- $related := slice -}}
+{{- $sectionPages := where $context.Site.RegularPages "Section" $context.Section -}}
+{{- $sectionPages = where $sectionPages "Params.hidden" "!=" true -}}
+{{- $sectionPages = sort $sectionPages "Date" "desc" -}}
+
+{{- with $primaryTerm -}}
+    {{- range $candidate := $sectionPages -}}
+        {{- if and (ne $candidate.RelPermalink $context.RelPermalink) (lt (len $related) $limit) -}}
+            {{- range $candidate.GetTerms "categories" -}}
+                {{- if eq .LinkTitle $primaryTerm.LinkTitle -}}
+                    {{- $related = $related | append $candidate -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if lt (len $related) $limit -}}
+    {{- range $candidate := $sectionPages -}}
+        {{- if and (ne $candidate.RelPermalink $context.RelPermalink) (not (in $related $candidate)) (lt (len $related) $limit) -}}
+            {{- $related = $related | append $candidate -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with $related -}}
+<aside class="article-related" aria-labelledby="article-related-title">
+    <h2 id="article-related-title" class="article-related__title">More from this category</h2>
+    <div class="article-related__list">
+        {{- range first $limit . -}}
+            {{- $image := partialCached "helper/image" (dict "Context" . "Type" "articleList") .RelPermalink "articleRelated" -}}
+            {{- $resourceImage := "" -}}
+            {{- with .Resources.ByType "image" -}}
+                {{- $resourceImage = index . 0 -}}
+            {{- end -}}
+            <a class="article-related__item" href="{{ .RelPermalink }}">
+                <span class="article-related__media" aria-hidden="true">
+                    {{- if $image.exists -}}
+                        {{- if $image.resource -}}
+                            {{- $thumbnail := $image.resource.Fill "160x110 Center" -}}
+                            <img src="{{ $thumbnail.RelPermalink }}" width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}" alt="" loading="lazy">
+                        {{- else -}}
+                            <img src="{{ $image.permalink }}" alt="" loading="lazy">
+                        {{- end -}}
+                    {{- else if $resourceImage -}}
+                        {{- $thumbnail := $resourceImage.Fill "160x110 Center" -}}
+                        <img src="{{ $thumbnail.RelPermalink }}" width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}" alt="" loading="lazy">
+                    {{- else -}}
+                        {{ partial "helper/icon" "music-note" }}
+                    {{- end -}}
+                </span>
+                <span class="article-related__content">
+                    <span class="article-related__name">{{ .Title }}</span>
+                    {{- if not .Date.IsZero -}}
+                    <time datetime="{{ .Date.Format `2006-01-02T15:04:05Z07:00` }}">{{ .Date | time.Format (or .Site.Params.dateFormat.published "2006-01-02") }}</time>
+                    {{- end -}}
+                </span>
+            </a>
+        {{- end -}}
+    </div>
+</aside>
+{{- end -}}

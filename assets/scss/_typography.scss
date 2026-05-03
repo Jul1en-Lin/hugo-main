@@ -1,0 +1,68 @@
+.melody-shell {
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0 0 var(--space-4);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    letter-spacing: 0;
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 7vw, 5.75rem);
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  p {
+    margin: 0 0 var(--space-5);
+  }
+
+  a {
+    color: var(--color-link);
+    text-decoration: none;
+    text-underline-offset: 0.18em;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  a:hover {
+    color: var(--color-link-hover);
+  }
+
+  .script-accent {
+    font-family: var(--font-script);
+    font-weight: 600;
+  }
+}
+
+.article-content {
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1.03rem;
+  line-height: var(--leading-relaxed);
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4 {
+  margin-top: var(--space-7);
+}
+
+.article-content a {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.article-content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}

@@ -1,0 +1,154 @@
+$defaultTagBackgrounds: #f4f4f4, #ececec, #dedede, #d4d4d4, #c8c8c8;
+$defaultTagColors: #171717, #171717, #171717, #171717, #171717;
+
+:root {
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f7f7f7;
+  --color-surface: #ffffff;
+  --color-text: #171717;
+  --color-text-secondary: #5f5f5f;
+  --color-text-muted: #8a8a8a;
+  --color-border: #dddddd;
+  --color-border-light: #eeeeee;
+  --color-accent: #171717;
+  --color-link: #262626;
+  --color-link-hover: #000000;
+  --color-card-bg: #ffffff;
+  --color-quote-bg: #f8f8f8;
+
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-script: "Dancing Script", cursive;
+  --font-body: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.5rem;
+  --text-4xl: 3.5rem;
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.65;
+  --leading-relaxed: 1.85;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+  --space-10: 120px;
+
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+  --z-header: 100;
+  --z-decor: 0;
+  --z-content: 1;
+  --z-top-btn: 80;
+
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --header-height: 72px;
+  --layout-wide: 1360px;
+  --layout-reading: 720px;
+
+  --body-background: var(--color-bg);
+  --body-text-color: var(--color-text-secondary);
+  --card-background: var(--color-card-bg);
+  --card-background-selected: var(--color-bg-secondary);
+  --card-text-color-main: var(--color-text);
+  --card-text-color-secondary: var(--color-text-secondary);
+  --card-text-color-tertiary: var(--color-text-muted);
+  --card-separator-color: var(--color-border-light);
+  --card-padding: var(--space-5);
+  --small-card-padding: var(--space-5);
+  --accent-color: var(--color-accent);
+  --accent-color-darker: var(--color-link-hover);
+  --accent-color-text: var(--color-bg);
+  --base-text-color: var(--color-text);
+  --base-font-family: var(--font-body);
+  --code-font-family: var(--font-mono);
+  --article-font-family: var(--font-body);
+  --article-font-size: 1.05rem;
+  --article-line-height: var(--leading-relaxed);
+  --pre-background-color: #f5f5f5;
+  --pre-text-color: #222222;
+  --code-background-color: #f3f3f3;
+  --code-text-color: #222222;
+  --blockquote-border-size: 1px;
+  --blockquote-background-color: var(--color-quote-bg);
+  --heading-border-size: 1px;
+  --link-background-color: 0, 0, 0;
+  --link-background-opacity: 0.08;
+  --link-background-opacity-hover: 0.14;
+  --table-border-color: var(--color-border);
+  --tr-even-background-color: var(--color-bg-secondary);
+  --kbd-border-color: var(--color-border);
+  --card-border-radius: var(--radius-sm);
+  --tag-border-radius: var(--radius-full);
+  --section-separation: var(--space-6);
+  --scrollbar-thumb: #bdbdbd;
+  --scrollbar-track: var(--color-bg);
+  --shadow-l1: var(--shadow-sm);
+  --shadow-l2: var(--shadow-md);
+  --shadow-l3: var(--shadow-hover);
+  --shadow-l4: var(--shadow-hover);
+  --menu-icon-separation: 40px;
+  --container-padding: 16px;
+  --widget-separation: var(--space-6);
+}
+
+:root[data-scheme="dark"] {
+  --color-bg: #090909;
+  --color-bg-secondary: #141414;
+  --color-surface: #0f0f0f;
+  --color-text: #ededed;
+  --color-text-secondary: #b7b7b7;
+  --color-text-muted: #8c8c8c;
+  --color-border: #2a2a2a;
+  --color-border-light: #1f1f1f;
+  --color-accent: #ffffff;
+  --color-link: #f2f2f2;
+  --color-link-hover: #ffffff;
+  --color-card-bg: #0f0f0f;
+  --color-quote-bg: #141414;
+
+  --body-background: var(--color-bg);
+  --body-text-color: var(--color-text-secondary);
+  --card-background: var(--color-card-bg);
+  --card-background-selected: #171717;
+  --card-text-color-main: var(--color-text);
+  --card-text-color-secondary: var(--color-text-secondary);
+  --card-text-color-tertiary: var(--color-text-muted);
+  --card-separator-color: var(--color-border-light);
+  --accent-color: var(--color-accent);
+  --accent-color-darker: var(--color-link-hover);
+  --accent-color-text: var(--color-bg);
+  --base-text-color: var(--color-text);
+  --pre-background-color: #101010;
+  --pre-text-color: #f0f0f0;
+  --code-background-color: #171717;
+  --code-text-color: #f0f0f0;
+  --blockquote-background-color: var(--color-quote-bg);
+  --table-border-color: var(--color-border);
+  --tr-even-background-color: #121212;
+  --kbd-border-color: var(--color-border);
+  --scrollbar-thumb: #3d3d3d;
+  --scrollbar-track: var(--color-bg);
+}

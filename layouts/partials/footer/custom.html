@@ -1,360 +1,52 @@
-<style>
-  /* 代码块高度随内容增长，不使用纵向滚动 */
-  .article-content .highlight,
-  .editorial-content-column .article-content .highlight,
-  .article-content pre,
-  .editorial-content-column .article-content pre {
-    max-height: none !important;
-    overflow-y: visible !important;
-    overflow-x: auto !important;
-    scrollbar-width: auto;
-    scrollbar-color: #3c3d3e transparent;
-  }
-
-  .article-content .highlight pre,
-  .editorial-content-column .article-content .highlight pre,
-  .article-content .highlight .chroma,
-  .editorial-content-column .article-content .highlight .chroma {
-    overflow: visible !important;
-  }
-
-  .article-content .highlight::-webkit-scrollbar,
-  .editorial-content-column .article-content .highlight::-webkit-scrollbar,
-  .article-content pre::-webkit-scrollbar,
-  .editorial-content-column .article-content pre::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-  }
-
-  .article-content .highlight::-webkit-scrollbar-track,
-  .editorial-content-column .article-content .highlight::-webkit-scrollbar-track,
-  .article-content pre::-webkit-scrollbar-track,
-  .editorial-content-column .article-content pre::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .article-content .highlight::-webkit-scrollbar-thumb,
-  .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb,
-  .article-content pre::-webkit-scrollbar-thumb,
-  .editorial-content-column .article-content pre::-webkit-scrollbar-thumb {
-    background: #3c3d3e;
-    border-radius: 999px;
-  }
-
-  .article-content .highlight::-webkit-scrollbar-thumb:hover,
-  .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb:hover,
-  .article-content pre::-webkit-scrollbar-thumb:hover,
-  .editorial-content-column .article-content pre::-webkit-scrollbar-thumb:hover {
-    background: #48494a;
-  }
-
-  :root[data-scheme="dark"] .article-content .highlight,
-  :root[data-scheme="dark"] .editorial-content-column .article-content .highlight,
-  :root[data-scheme="dark"] .article-content pre,
-  :root[data-scheme="dark"] .editorial-content-column .article-content pre {
-    scrollbar-color: #3c3d3e transparent;
-  }
-
-  :root[data-scheme="dark"] .article-content .highlight::-webkit-scrollbar-thumb,
-  :root[data-scheme="dark"] .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb,
-  :root[data-scheme="dark"] .article-content pre::-webkit-scrollbar-thumb,
-  :root[data-scheme="dark"] .editorial-content-column .article-content pre::-webkit-scrollbar-thumb {
-    background: #3c3d3e;
-  }
-
-  :root[data-scheme="dark"] .article-content .highlight::-webkit-scrollbar-thumb:hover,
-  :root[data-scheme="dark"] .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb:hover,
-  :root[data-scheme="dark"] .article-content pre::-webkit-scrollbar-thumb:hover,
-  :root[data-scheme="dark"] .editorial-content-column .article-content pre::-webkit-scrollbar-thumb:hover {
-    background: #48494a;
-  }
-
-  /* 浅色模式同步深色滚动条样式 */
-  :root[data-scheme="light"] .article-content .highlight,
-  :root[data-scheme="light"] .editorial-content-column .article-content .highlight,
-  :root[data-scheme="light"] .article-content pre,
-  :root[data-scheme="light"] .editorial-content-column .article-content pre {
-    scrollbar-color: #3c3d3e transparent;
-    scrollbar-width: thin;
-  }
-
-  :root[data-scheme="light"] .article-content .highlight::-webkit-scrollbar,
-  :root[data-scheme="light"] .editorial-content-column .article-content .highlight::-webkit-scrollbar,
-  :root[data-scheme="light"] .article-content pre::-webkit-scrollbar,
-  :root[data-scheme="light"] .editorial-content-column .article-content pre::-webkit-scrollbar {
-    width: 14px;
-    height: 14px;
-  }
-
-  :root[data-scheme="light"] .article-content .highlight::-webkit-scrollbar-track,
-  :root[data-scheme="light"] .editorial-content-column .article-content .highlight::-webkit-scrollbar-track,
-  :root[data-scheme="light"] .article-content pre::-webkit-scrollbar-track,
-  :root[data-scheme="light"] .editorial-content-column .article-content pre::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  :root[data-scheme="light"] .article-content .highlight::-webkit-scrollbar-thumb,
-  :root[data-scheme="light"] .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb,
-  :root[data-scheme="light"] .article-content pre::-webkit-scrollbar-thumb,
-  :root[data-scheme="light"] .editorial-content-column .article-content pre::-webkit-scrollbar-thumb {
-    background: #3c3d3e;
-    border-radius: 999px;
-  }
-
-  :root[data-scheme="light"] .article-content .highlight::-webkit-scrollbar-thumb:hover,
-  :root[data-scheme="light"] .editorial-content-column .article-content .highlight::-webkit-scrollbar-thumb:hover,
-  :root[data-scheme="light"] .article-content pre::-webkit-scrollbar-thumb:hover,
-  :root[data-scheme="light"] .editorial-content-column .article-content pre::-webkit-scrollbar-thumb:hover {
-    background: #48494a;
-  }
-
-  /* 隐藏滚动条按钮箭头，保持细圆条 */
-  .article-content .highlight::-webkit-scrollbar-button,
-  .editorial-content-column .article-content .highlight::-webkit-scrollbar-button,
-  .article-content pre::-webkit-scrollbar-button,
-  .editorial-content-column .article-content pre::-webkit-scrollbar-button {
-    display: none;
-  }
-</style>
-<script src="/js/particles.js"></script>
-
-
-<!-- 引入礼花动画脚本 -->
-<script src="/js/fireworks.js"></script>
-
-<!-- 头像颜色自动提取 -->
-<script src="/js/avatar-colors.js"></script>
-
-<!-- =========================================
-     回到顶部按钮 (Back to Top Button)
-     ========================================= -->
-
-<!-- 1. HTML 按钮元素 -->
-<button id="back-to-top" class="back-to-top-btn" aria-label="回到顶部" title="回到顶部">
-  <!-- 使用 SVG 图标 -->
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="18 15 12 9 6 15"></polyline>
-  </svg>
+<button id="back-to-top" class="back-to-top" type="button" aria-label="回到顶部" title="回到顶部">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M6 14.5 12 8l6 6.5" />
+    </svg>
 </button>
 
-<!-- 2. CSS 样式 -->
-<style>
-  /* 回到顶部按钮基础样式 */
-  .back-to-top-btn {
-    /* 固定定位 */
-    position: fixed;
-    z-index: 999;
-
-    /* 新的位置策略：在左侧导航栏主菜单和底部切换按钮之间 */
-    left: 50px;
-    /* 默认值，会被 JavaScript 动态调整 */
-    top: auto;
-    /* 由 JavaScript 动态计算 */
-    bottom: auto;
-    /* 不使用 bottom 定位 */
-
-    /* 按钮尺寸 */
-    width: 24px;
-    height: 24px;
-
-    /* 圆形按钮 */
-    border-radius: 20%;
-
-    /* 背景和边框 - Notion 风格浅色模式 */
-    background: rgba(252, 249, 244, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-
-    /* 阴影效果 - 精致柔和 */
-    box-shadow: 0 4px 16px rgba(180, 170, 160, 0.2);
-
-    /* 光标样式 */
-    cursor: pointer;
-
-    /* 图标居中 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    /* 图标颜色 - 深色图标 */
-    color: #555555;
-
-    /* 初始状态：不可见且不可点击 */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-
-    /* 过渡动画 */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* 移除默认按钮样式 */
-    outline: none;
-  }
-
-  /* 按钮显示状态 */
-  .back-to-top-btn.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  /* 悬停效果 - 更柔和的交互 */
-  .back-to-top-btn:hover {
-    transform: translateY(-4px) scale(1.05);
-    background: rgba(252, 249, 244, 0.95);
-    box-shadow: 0 8px 24px rgba(180, 170, 160, 0.3);
-    border-color: rgba(0, 0, 0, 0.12);
-    color: #333333;
-  }
-
-  /* 点击效果 */
-  .back-to-top-btn:active {
-    transform: translateY(-2px) scale(0.98);
-  }
-
-  /* SVG 图标样式 */
-  .back-to-top-btn svg {
-    width: 24px;
-    height: 24px;
-    stroke-width: 2.5;
-  }
-
-  /* 深色模式适配 - Notion 风格 */
-  :root[data-scheme="dark"] .back-to-top-btn {
-    /* 深色半透明背景 */
-    background: rgba(40, 40, 40, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-
-    /* 浅色图标 */
-    color: #e0e0e0;
-  }
-
-  :root[data-scheme="dark"] .back-to-top-btn:hover {
-    background: rgba(50, 50, 50, 0.9);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-  }
-
-  /* 响应式布局调整 */
-  /* 注意：按钮位置完全由 JavaScript 动态计算，以定位在主菜单和底部切换按钮之间 */
-
-  /* 手机端：调整尺寸 */
-  @media (max-width: 768px) {
-    .back-to-top-btn {
-      /* 手机端尺寸稍小 */
-      width: 18px;
-      height: 18px;
-    }
-
-    .back-to-top-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
-</style>
-
-<!-- 3. JavaScript 逻辑 -->
 <script>
-  (function () {
-    'use strict';
+    (function () {
+        'use strict';
 
-    // 获取按钮元素
-    const backToTopBtn = document.getElementById('back-to-top');
+        const menuToggle = document.querySelector('.site-menu-toggle');
+        const nav = document.getElementById('primary-navigation');
 
-    if (!backToTopBtn) return;
-
-    // 滚动阈值（滚动超过此距离时显示按钮）
-    const SCROLL_THRESHOLD = 300;
-
-    // 节流函数（优化性能）
-    function throttle(func, delay) {
-      let lastCall = 0;
-      return function (...args) {
-        const now = Date.now();
-        if (now - lastCall >= delay) {
-          lastCall = now;
-          func.apply(this, args);
+        function setMenuOpen(open) {
+            if (!menuToggle || !nav) return;
+            menuToggle.classList.toggle('is-open', open);
+            nav.classList.toggle('is-open', open);
+            document.body.classList.toggle('site-nav-open', open);
+            menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         }
-      };
-    }
 
-    // 检查滚动位置并显示/隐藏按钮
-    function checkScroll() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (menuToggle && nav) {
+            menuToggle.addEventListener('click', function () {
+                setMenuOpen(!nav.classList.contains('is-open'));
+            });
 
-      if (scrollTop > SCROLL_THRESHOLD) {
-        backToTopBtn.classList.add('show');
-      } else {
-        backToTopBtn.classList.remove('show');
-      }
-    }
+            nav.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    setMenuOpen(false);
+                });
+            });
 
-    // 平滑滚动到顶部
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') setMenuOpen(false);
+            });
+        }
 
-    // 监听滚动事件（使用节流优化性能）
-    window.addEventListener('scroll', throttle(checkScroll, 100));
+        const backToTop = document.getElementById('back-to-top');
+        if (!backToTop) return;
 
-    // 监听按钮点击事件
-    backToTopBtn.addEventListener('click', scrollToTop);
+        function updateBackToTop() {
+            backToTop.classList.toggle('is-visible', window.scrollY > 420);
+        }
 
-    // 动态定位按钮到左侧导航栏主菜单和底部切换按钮之间
-    function positionButton() {
-      // 查找左侧导航栏和底部区域
-      const mainMenu = document.getElementById('main-menu');
-      const bottomSection = document.querySelector('.menu-bottom-section');
+        backToTop.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-      if (!mainMenu || !bottomSection) {
-        // 如果找不到必要元素，使用默认定位
-        return;
-      }
-
-      // 获取导航栏的水平位置信息（居中对齐）
-      const menuRect = mainMenu.getBoundingClientRect();
-      const menuCenter = menuRect.left + (menuRect.width / 2);
-
-      // 获取底部区域的垂直位置信息
-      const bottomRect = bottomSection.getBoundingClientRect();
-      const bottomTop = bottomRect.top;
-
-      // 计算按钮的水平位置（导航栏水平中心 - 按钮宽度的一半）
-      const buttonWidth = 24; // 按钮宽度
-      const buttonHeight = 24; // 按钮高度
-      const buttonLeft = menuCenter - (buttonWidth / 2);
-
-      // 计算按钮的垂直位置（在 bottom-section 上方，留出间距）
-      const spacing = 15; // 按钮与底部区域的间距
-      const buttonTop = bottomTop - buttonHeight - spacing;
-
-      // 设置按钮的位置（使用 fixed 定位）
-      backToTopBtn.style.left = buttonLeft + 'px';
-      backToTopBtn.style.top = buttonTop + 'px';
-      backToTopBtn.style.bottom = 'auto'; // 取消 bottom 定位
-      backToTopBtn.style.right = 'auto'; // 取消 right 定位
-    }
-
-    // 初始定位
-    positionButton();
-
-    // 初始检查（页面加载时）
-    checkScroll();
-
-    // 监听窗口大小变化，重新定位按钮
-    window.addEventListener('resize', throttle(positionButton, 200));
-
-    // 页面加载完成后再次定位（确保所有元素都已渲染）
-    window.addEventListener('load', positionButton);
-  })();
-
+        window.addEventListener('scroll', updateBackToTop, { passive: true });
+        updateBackToTop();
+    })();
 </script>

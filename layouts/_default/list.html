@@ -1,0 +1,106 @@
+{{ define "body-class" }}template-blog-list{{ end }}
+
+{{ define "main" }}
+{{ $isTaxonomyIndex := eq .Kind "taxonomy" }}
+{{ $isTermPage := eq .Kind "term" }}
+
+{{ if $isTaxonomyIndex }}
+    {{ partial "hero-section.html" (dict
+        "context" .
+        "title" "Browse by <span class=\"script-accent\">category</span>."
+        "description" "A quiet index of the subjects that keep recurring."
+        "avatar" false
+        "class" "hero-section--page"
+    ) }}
+
+    <section class="taxonomy-list" aria-label="{{ .Title }}">
+        {{ range .Pages }}
+        <a class="taxonomy-list__item" href="{{ .RelPermalink }}">
+            <span>{{ .Title }}</span>
+            <small>{{ len .Pages }} stories</small>
+        </a>
+        {{ end }}
+    </section>
+{{ else }}
+    {{ $rawPages := .Pages }}
+    {{ if not $isTermPage }}
+        {{ $rawPages = where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+    {{ end }}
+    {{ $notHidden := where $rawPages "Params.hidden" "!=" true }}
+    {{ $posts := sort $notHidden "Date" "desc" }}
+    {{ $featuredPages := where $posts "Params.featured" true }}
+    {{ $featured := "" }}
+    {{ if gt (len $featuredPages) 0 }}
+        {{ $featured = index $featuredPages 0 }}
+    {{ else if gt (len $posts) 0 }}
+        {{ $featured = index $posts 0 }}
+    {{ end }}
+    {{ $rest := $posts }}
+    {{ with $featured }}
+        {{ $rest = $posts | complement (slice .) }}
+    {{ end }}
+
+    {{ if $isTermPage }}
+        {{ partial "hero-section.html" (dict
+            "context" .
+            "title" (printf "%s <span class=\"script-accent\">stories</span>." .Title)
+            "description" "A quiet index of posts collected under this category."
+            "avatar" false
+            "class" "hero-section--page"
+        ) }}
+
+        {{ with $featured }}
+        <section class="featured-section" aria-label="Featured post">
+            {{ partial "featured-post.html" (dict "page" .) }}
+        </section>
+        {{ end }}
+    {{ else }}
+        <section class="blog-preview-composition" aria-label="Blog preview">
+            <div class="blog-preview-composition__intro">
+                {{ partial "hero-section.html" (dict
+                    "context" .
+                    "title" "Stories in <span class=\"script-accent\">rhythm.</span>"
+                    "description" "Thoughts, moments, and little melodies from everyday life."
+                    "primaryLabel" "Explore the blog"
+                    "primaryURL" "#blog-index"
+                    "avatar" false
+                    "class" "hero-section--page hero-section--blog"
+                ) }}
+            </div>
+
+            {{ with $featured }}
+            <section class="featured-section featured-section--blog" aria-label="Featured post">
+                <p class="featured-section__label">Featured Post</p>
+                {{ partial "featured-post.html" (dict "page" . "moreLabel" "Read more") }}
+            </section>
+            {{ end }}
+
+            <div class="blog-preview-composition__aside">
+                {{ partial "quote-block.html" (dict
+                    "context" .
+                    "quote" "Every thought has a melody."
+                    "signature" "Melody"
+                    "class" "quote-block--blog"
+                ) }}
+            </div>
+        </section>
+    {{ end }}
+
+    <section class="blog-index" aria-labelledby="blog-index-title">
+        <h2 id="blog-index-title" class="sr-only">All stories</h2>
+
+        {{ partial "category-tabs.html" (dict "context" . "pages" $rest) }}
+
+        <div class="post-grid" data-blog-grid>
+            {{ range $rest }}
+                {{ partial "blog-card.html" (dict "page" .) }}
+            {{ end }}
+        </div>
+
+        <p class="post-grid__empty" data-blog-empty hidden>No stories found in this rhythm.</p>
+        <p class="post-index-note">More stories, more melodies.</p>
+    </section>
+{{ end }}
+
+{{ partialCached "footer/footer" . }}
+{{ end }}

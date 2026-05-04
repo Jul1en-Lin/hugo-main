@@ -1,0 +1,27 @@
+{{- $page := .page -}}
+{{- $size := .size | default "640x360 Center" -}}
+{{- $alt := .alt | default "" -}}
+{{- $class := .class | default "" -}}
+{{- $loading := .loading | default "lazy" -}}
+{{- $image := "" -}}
+{{- $resourceImage := "" -}}
+{{- if $page -}}
+    {{- $image = partialCached "helper/image" (dict "Context" $page "Type" "articleList") $page.RelPermalink "pageCover" $size -}}
+    {{- with $page.Resources.ByType "image" -}}
+        {{- $resourceImage = index . 0 -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if and $page $image.exists -}}
+    {{- if $image.resource -}}
+        {{- $cover := $image.resource.Fill $size -}}
+        <img class="{{ $class }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="{{ $loading }}">
+    {{- else -}}
+        <img class="{{ $class }}" src="{{ $image.permalink }}" alt="{{ $alt }}" loading="{{ $loading }}">
+    {{- end -}}
+{{- else if $resourceImage -}}
+    {{- $cover := $resourceImage.Fill $size -}}
+    <img class="{{ $class }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="{{ $loading }}">
+{{- else -}}
+    <span class="page-media__fallback {{ $class }}" aria-hidden="true">{{ partial "helper/icon" "music-note" }}</span>
+{{- end -}}

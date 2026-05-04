@@ -273,8 +273,8 @@ markup:
         codeFences: true
         guessSyntax: true
         lineNoStart: 1
-        lineNos: true
-        lineNumbersInTable: true
+        lineNos: false
+        lineNumbersInTable: false
         tabWidth: 4
         
 # 更新时间：优先读取git时间 -> git时间不存在，就读取本地文件修改时间

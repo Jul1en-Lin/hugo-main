@@ -1,12 +1,199 @@
 # Changelog
 
-## 2026-05-03 - Phase 0: Preflight Review
+## 2026-05-04 - Blog Detail Reading And Code Block Refinement
 
-- Saved the execution preflight review to `docs/pre-refactor-review.md`.
-- Confirmed the project is a Hugo site based on `hugo-theme-stack`.
-- Confirmed current global shell was still inherited from the Stack theme before Phase 1.
-- Identified missing core pages: About, Journal, Music, Contact.
-- Identified the previous `assets/scss/custom.scss` as a large centralized override file and a major refactor risk.
+- Increased Blog detail title, summary, body text, headings, and reading column width for a more comfortable article page.
+- Reworked article code blocks into a cleaner editorial code surface with larger monospace text and more breathing room.
+- Disabled Hugo code-block line numbers in `hugo.yaml`.
+- Added CSS fallback rules to hide existing Chroma line-number table/spans in rendered detail pages.
+- Hid the Stack-generated copy bubble on Blog detail code blocks so the block has no floating message-style control.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Browser check on a code-heavy Blog detail page confirmed no rendered `.lnt`, `.ln`, or line-number table column is visible.
+- Code block font size increased and the copy bubble no longer renders in Blog detail code blocks.
+
+## 2026-05-04 - Blog Card Hover Motion Refinement
+
+- Refined Blog card hover states with a clearer editorial lift, stronger but restrained shadow, subtle image push, content follow-through, bottom hairline reveal, arrow movement, and a slightly more expressive title note.
+- Applied the same interaction language to featured Blog cards for consistency.
+- Kept all hover transitions at or below 460ms and avoided image filters so uploaded and post images keep their original colors.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Browser hover check confirmed Blog cards and featured cards animate transform, image movement, arrow movement, and the bottom hairline reveal.
+- Rendered Blog images still compute `filter: none`.
+
+## 2026-05-04 - Phase 5: Responsive Refinements And Motion
+
+- Added `assets/scss/_animations.scss` and wired it into `assets/scss/custom.scss`.
+- Added restrained page entry, scroll reveal, title note hover, timeline node reveal, card/link hover, FAQ content, and staff-line parallax motion.
+- Kept motion lightweight and below the Phase 5 500ms cap, with reduced-motion fallbacks.
+- Strengthened responsive behavior in `assets/scss/_responsive.scss`, including mobile page widths, post media ratios, Music album grids, and compact form/list layouts.
+- Expanded mobile navigation behavior in `layouts/partials/footer/custom.html`:
+  - body scroll lock while open
+  - outside-click close
+  - Escape close
+  - automatic close when returning to desktop width
+- Deleted legacy visual scripts from `static/js/`:
+  - `avatar-colors.js`
+  - `fireworks.js`
+  - `particles.js`
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Generated 96 pages and processed 702 images.
+- Browser automation checked 7 routes across desktop, tablet, and mobile viewports.
+- No horizontal overflow detected on checked routes.
+- All checked rendered images computed `filter: none`.
+- Rendered HTML includes no `particles.js`, `fireworks.js`, or `avatar-colors.js` script references.
+- Mobile navigation opens, sets `aria-expanded="true"`, locks body scroll, and closes from outside click.
+- Staff-line parallax and scroll reveal initialize in the browser.
+- Music page still renders no `audio`, `video`, player, playlist, progress, or playback-control UI.
+
+## 2026-05-04 - Global Image Color Reset
+
+- Removed project-level grayscale filters from real image surfaces across:
+  - Home and Blog cards
+  - Featured Blog images
+  - Blog detail cover images
+  - Blog detail inline images
+  - Related post thumbnails
+  - Author and page portrait images
+  - Journal entry images
+  - Legacy list thumbnails
+  - Music page image slots
+- Kept non-image decorative music elements unchanged.
+- Updated the image styling baseline so newly added real images render in their original colors by default.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Source search found no remaining `grayscale()` in project-level `assets`, `layouts`, or `content`.
+- Browser verification checked Home, Blog, Blog detail, About, Journal, Music, and Contact.
+- All rendered `<img>` elements on checked pages computed `filter: none`.
+- No horizontal overflow detected.
+- Music page verification found no `audio`, `video`, or player/progress UI elements.
+
+## 2026-05-04 - Music Favorite Album Cover Ratio
+
+- Adjusted Favorite Albums cover generation from `220x160` to `260x260` square crops.
+- Updated Music page CSS so Favorite Albums covers use a stable square aspect ratio and are not stretched by generated image dimensions.
+- Preserved original cover colors for uploaded album images.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Music desktop screenshot checked at `1920x1080`.
+- Music mobile smoke screenshot checked at `390x844`.
+- Favorite Albums covers measured as square in the rendered desktop layout.
+- No horizontal overflow detected.
+- Music page verification found no `audio`, `video`, or player/progress UI elements.
+
+## 2026-05-04 - Music Album Cover Color Refinement
+
+- Updated `assets/scss/_music.scss` so uploaded Music cover images keep their original colors.
+- Kept grayscale treatment for other editorial images and code-native music panels.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Music desktop screenshot checked at `1920x1080`.
+- Music mobile smoke screenshot checked at `390x844`.
+- All 5 uploaded Music cover images now compute `filter: none`.
+- No horizontal overflow detected.
+- Music page verification found no `audio`, `video`, or player/progress UI elements.
+
+## 2026-05-04 - Music Album Cover Upload
+
+- Copied five supplied album images into the Music page bundle:
+  - `content/page/music/album-1.jpg`
+  - `content/page/music/album-2.jpg`
+  - `content/page/music/album-3.jpg`
+  - `content/page/music/album-4.jpg`
+  - `content/page/music/album-5.jpg`
+- Added `layouts/partials/music-cover.html` so Music cards can render real page-bundle images with a code-native fallback.
+- Updated `content/page/music/index.md` with `image` and `alt` fields for the supplied covers.
+- Updated `layouts/page/music.html` to render real images in Favorite Albums and Recommended Records.
+- Kept the monochrome editorial treatment by styling the uploaded covers through the existing Music page visual system.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Generated 96 pages and processed 702 images.
+- Music desktop screenshot checked at `1920x1080`.
+- Music mobile smoke screenshot checked at `390x844`.
+- Music page rendered 3 Favorite Album cover images and 2 Recommended Record cover images.
+- No horizontal overflow detected.
+- Music page verification found no `audio`, `video`, or player/progress UI elements.
+
+## 2026-05-04 - Music Page Content Refinement
+
+- Refined the Music page so the content no longer reuses Blog post titles, images, or links.
+- Added Music-specific structured content in `content/page/music/index.md` for:
+  - Original lyric fragments
+  - Favorite albums and composers
+  - Songwriter notes
+  - Recommended records
+  - Curated music inspirations
+- Reworked `layouts/page/music.html` to read Music page data from front matter instead of querying regular Blog posts.
+- Replaced Blog-sourced thumbnails with code-native monochrome music art tiles in `assets/scss/_music.scss`.
+- Kept the page editorial and non-player-oriented: no audio, playback, progress, playlist, or streaming UI was added.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Generated 96 pages and processed 697 images.
+- Music desktop screenshot checked at `1920x1080`.
+- Music mobile smoke screenshot checked at `390x844`.
+- No horizontal overflow detected.
+- Music content area has no `/post/` links and no Blog post images.
+- Music page verification found no `audio`, `video`, or player/progress UI elements.
+
+## 2026-05-04 - Phase 4: About, Journal, Music, And Contact
+
+- Added lightweight content entries for the remaining primary routes:
+  - `content/page/about/index.md`
+  - `content/page/journal/index.md`
+  - `content/page/music/index.md`
+  - `content/page/contact/index.md`
+- Added project-level page templates:
+  - `layouts/page/about.html`
+  - `layouts/page/journal.html`
+  - `layouts/page/music.html`
+  - `layouts/page/contact.html`
+- Added `layouts/partials/page-cover.html` as a reusable cover helper with image-resource fallback support.
+- Added Phase 4 SCSS modules:
+  - `assets/scss/_about.scss`
+  - `assets/scss/_journal.scss`
+  - `assets/scss/_music.scss`
+  - `assets/scss/_contact.scss`
+- Imported the Phase 4 modules from `assets/scss/custom.scss`.
+- Added small line icons for Phase 4 page accents:
+  - `assets/icons/leaf.svg`
+  - `assets/icons/heart.svg`
+  - `assets/icons/pencil.svg`
+  - `assets/icons/map-pin.svg`
+  - `assets/icons/plus.svg`
+- Matched the provided About, Journal, Music, and Contact concept directions with:
+  - Editorial hero layouts
+  - Circular monochrome author image treatment
+  - Timeline-style Journal entries
+  - Multi-column Music editorial sections without playback controls
+  - Contact form, contact details, and FAQ rows
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Generated 96 pages and processed 711 images.
+- `/about/`, `/journal/`, `/music/`, and `/contact/` returned HTTP 200.
+- Desktop screenshots checked at `1920x1080`.
+- Mobile smoke screenshots checked at `390x844`.
+- No horizontal overflow detected on the four Phase 4 pages.
+- Music page verification found no `audio`, `video`, or player/progress UI elements.
 
 ## 2026-05-03 - Phase 1: Visual System And Global Shell
 

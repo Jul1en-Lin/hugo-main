@@ -455,10 +455,10 @@ label: "厂牌"
 - [ ] 样式: `_about.scss`, `_journal.scss`, `_music.scss`, `_contact.scss`
 
 ### 第五阶段：响应式与动效 (Days 14–15)
-- [ ] 完善 `_responsive.scss` (所有断点)
-- [ ] 实现 `_animations.scss` (入场淡入、卡片 hover、parallax)
-- [ ] 移动端导航 hamburger 菜单
-- [ ] 移除 `particles.js`, `fireworks.js`, `avatar-colors.js`
+- [x] 完善 `_responsive.scss` (所有断点)
+- [x] 实现 `_animations.scss` (入场淡入、卡片 hover、parallax)
+- [x] 移动端导航 hamburger 菜单
+- [x] 移除 `particles.js`, `fireworks.js`, `avatar-colors.js`
 
 ### 第六阶段：性能、SEO、可访问性 (Days 16–17)
 - [ ] 每页添加 `<title>` + `<meta description>`
@@ -488,19 +488,19 @@ label: "厂牌"
 - [ ] 回到顶部按钮正常工作
 
 ### 交互
-- [ ] 导航 hover 出现细线
-- [ ] 卡片 hover 上浮 + 阴影变化
-- [ ] 页面入场淡入效果
+- [x] 导航 hover 出现细线
+- [x] 卡片 hover 上浮 + 阴影变化
+- [x] 页面入场淡入效果
 - [ ] 暗色模式切换动画平滑
-- [ ] 所有动效 ≤500ms，无夸张弹跳
+- [x] 所有动效 ≤500ms，无夸张弹跳
 
 ### 技术
 - [ ] 不直接修改 `themes/` 目录下的文件
 - [ ] `custom.scss` 模块化，无 108KB 巨型文件
-- [ ] `particles.js` / `fireworks.js` 已移除
-- [ ] Hugo 构建无报错
+- [x] `particles.js` / `fireworks.js` 已移除
+- [x] Hugo 构建无报错
 - [ ] Lighthouse Performance ≥ 90
-- [ ] 所有页面响应式 (mobile/tablet/desktop)
+- [x] 所有页面响应式 (mobile/tablet/desktop)
 
 ---
 

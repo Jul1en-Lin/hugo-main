@@ -1,0 +1,21 @@
+{{- $page := .page -}}
+{{- $imageName := .image -}}
+{{- $size := .size | default "220x160 Center" -}}
+{{- $alt := .alt | default "Album cover" -}}
+{{- $imageClass := .imageClass | default "music-cover-image" -}}
+{{- $fallbackClass := .fallbackClass | default "music-art music-art--album" -}}
+{{- $mark := .mark | default "♪" -}}
+{{- $caption := .caption | default "album" -}}
+{{- $image := "" -}}
+{{- with $imageName -}}
+    {{- $image = $page.Resources.GetMatch . -}}
+{{- end -}}
+{{- if $image -}}
+    {{- $cover := $image.Fill $size -}}
+    <img class="{{ $imageClass }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="lazy">
+{{- else -}}
+    <span class="{{ $fallbackClass }}" aria-hidden="true">
+        <span class="music-art__mark">{{ $mark }}</span>
+        <span class="music-art__caption">{{ $caption }}</span>
+    </span>
+{{- end -}}

@@ -1,0 +1,73 @@
+{{ define "body-class" }}template-journal{{ end }}
+
+{{ define "main" }}
+{{- $posts := where .Site.RegularPages "Section" "post" -}}
+{{- $posts = where $posts "Params.hidden" "!=" true -}}
+{{- $posts = sort $posts "Date" "desc" -}}
+{{- $visualPosts := slice -}}
+{{- range $posts -}}
+    {{- if or (.Params.image) (gt (len (.Resources.ByType "image")) 0) -}}
+        {{- $visualPosts = $visualPosts | append . -}}
+    {{- end -}}
+{{- end -}}
+{{- $entries := slice
+    (dict "date" "May 12, 2024" "day" "Sunday" "title" "A soft kind of light" "body" "The afternoon was quiet in the best way. I opened the window, let the light in, and wrote a little just for myself." "kind" "image" "image" 0)
+    (dict "date" "May 9, 2024" "day" "Thursday" "title" "A gentle reminder" "body" "You are allowed to grow at your own pace. Some days, that is all I need to hear." "kind" "quote" "quote" "Growth is quiet. But it is happening.")
+    (dict "date" "May 5, 2024" "day" "Sunday" "title" "Small joys" "body" "A warm cup of tea. A good book. A song that understands me. These little things make the days so much softer." "kind" "image" "image" 2)
+    (dict "date" "May 1, 2024" "day" "Wednesday" "title" "New month, new breath" "body" "May feels like a beginning. I am letting go of what is heavy, and making space for what is real." "kind" "quote" "quote" "Every new month is a chance to begin again.")
+-}}
+
+<section class="phase4-page journal-page">
+    <section class="journal-hero" aria-labelledby="journal-title">
+        <div class="journal-hero__copy">
+            <h1 id="journal-title">My Journal.<br>Notes from a life <span class="script-accent">in rhythm</span>.</h1>
+            <p>Little thoughts. Quiet days.<br>Moments that stay.</p>
+        </div>
+        {{- with resources.Get "img/avatar.png" -}}
+            {{- $avatar := .Fill "520x520 Center" -}}
+            <figure class="journal-hero__portrait">
+                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager">
+            </figure>
+        {{- end -}}
+        {{ partial "quote-block.html" (dict
+            "context" .
+            "quote" "I don't write to be heard. I write to understand."
+            "signature" "Melody"
+            "class" "quote-block--phase4 journal-hero__quote"
+        ) }}
+    </section>
+
+    <section class="journal-timeline" aria-label="Journal entries">
+        {{ range $entries }}
+        <article class="journal-entry journal-entry--{{ .kind }}">
+            <div class="journal-entry__date">
+                <time>{{ .date }}</time>
+                <span>{{ .day }}</span>
+            </div>
+            <div class="journal-entry__dot" aria-hidden="true"></div>
+            <div class="journal-entry__body">
+                <h2>{{ .title }} <span aria-hidden="true">♪</span></h2>
+                <p>{{ .body }}</p>
+            </div>
+            <div class="journal-entry__feature">
+                {{ if eq .kind "image" }}
+                    {{- $imagePage := index $visualPosts .image -}}
+                    <figure class="journal-entry__image">
+                        {{ partial "page-cover.html" (dict "page" $imagePage "size" "720x260 Center" "alt" .title) }}
+                    </figure>
+                {{ else }}
+                    {{ partial "quote-block.html" (dict
+                        "context" $
+                        "quote" .quote
+                        "signature" "Melody"
+                        "class" "quote-block--phase4 quote-block--timeline"
+                    ) }}
+                {{ end }}
+            </div>
+        </article>
+        {{ end }}
+    </section>
+</section>
+
+{{ partialCached "footer/footer" . }}
+{{ end }}

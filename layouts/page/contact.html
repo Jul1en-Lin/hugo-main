@@ -1,0 +1,81 @@
+{{ define "body-class" }}template-contact{{ end }}
+
+{{ define "main" }}
+<section class="phase4-page contact-page">
+    <section class="contact-hero" aria-labelledby="contact-title">
+        <div class="contact-hero__copy">
+            <h1 id="contact-title">Let's stay<br>in <span class="script-accent">rhythm</span>.</h1>
+            <p>I would love to hear from you. Whether you have a question, a collaboration idea, or just want to say hello - drop me a line.</p>
+        </div>
+        {{- with resources.Get "img/avatar.png" -}}
+            {{- $avatar := .Fill "520x520 Center" -}}
+            <figure class="contact-hero__portrait">
+                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager">
+            </figure>
+        {{- end -}}
+        {{ partial "quote-block.html" (dict
+            "context" .
+            "quote" "Music connects us in ways words alone cannot."
+            "signature" "Melody"
+            "class" "quote-block--phase4 contact-hero__quote"
+        ) }}
+    </section>
+
+    <section class="contact-grid" aria-label="Contact form and details">
+        <form class="contact-form" action="mailto:hello@melody.com" method="post" enctype="text/plain">
+            <h2>Send a Message <span class="script-accent">~♪</span></h2>
+            <div class="contact-form__row">
+                <label>
+                    <span class="sr-only">Your Name</span>
+                    <input name="name" type="text" placeholder="Your Name" autocomplete="name">
+                </label>
+                <label>
+                    <span class="sr-only">Your Email</span>
+                    <input name="email" type="email" placeholder="Your Email" autocomplete="email">
+                </label>
+            </div>
+            <label>
+                <span class="sr-only">Subject</span>
+                <input name="subject" type="text" placeholder="Subject">
+            </label>
+            <label>
+                <span class="sr-only">Your Message</span>
+                <textarea name="message" placeholder="Your Message" rows="7"></textarea>
+            </label>
+            <button type="submit">
+                <span>Send Message</span>
+                {{ partial "helper/icon" "arrow-right" }}
+            </button>
+            <p>I will do my best to reply within 2-3 business days.</p>
+        </form>
+
+        <aside class="contact-side">
+            <section class="contact-links" aria-labelledby="connect-title">
+                <h2 id="connect-title">Let's Connect</h2>
+                <a href="mailto:hello@melody.com">{{ partial "helper/icon" "mail" }} <span>hello@melody.com</span></a>
+                <a href="/contact/">{{ partial "helper/icon" "brand-instagram" }} <span>@melody.writes</span></a>
+                <a href="/contact/">{{ partial "helper/icon" "brand-twitter" }} <span>@melody_writes</span></a>
+                <a href="/contact/">{{ partial "helper/icon" "map-pin" }} <span>Seoul, South Korea</span></a>
+            </section>
+
+            <section class="contact-faq" aria-labelledby="faq-title">
+                <h2 id="faq-title">Frequently Asked</h2>
+                <details>
+                    <summary>Do you accept collaborations? {{ partial "helper/icon" "plus" }}</summary>
+                    <p>Yes, when the project feels thoughtful, humane, and aligned with this space.</p>
+                </details>
+                <details>
+                    <summary>How can I feature your writing? {{ partial "helper/icon" "plus" }}</summary>
+                    <p>Please send the context, publication details, and timing through the form.</p>
+                </details>
+                <details>
+                    <summary>Do you offer writing or music services? {{ partial "helper/icon" "plus" }}</summary>
+                    <p>Occasionally. Share what you have in mind and I will reply if it fits.</p>
+                </details>
+            </section>
+        </aside>
+    </section>
+</section>
+
+{{ partialCached "footer/footer" . }}
+{{ end }}

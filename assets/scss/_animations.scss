@@ -1,0 +1,124 @@
+@keyframes melody-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body.is-loaded .home-composition,
+  body.is-loaded .blog-preview-composition,
+  body.is-loaded .article-detail,
+  body.is-loaded .phase4-page {
+    animation: melody-fade-up 480ms var(--ease-out) both;
+  }
+
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition:
+      opacity 480ms var(--ease-out) var(--reveal-delay, 0ms),
+      transform 480ms var(--ease-out) var(--reveal-delay, 0ms);
+  }
+
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .music-staff-bg.is-parallax-ready {
+    will-change: transform;
+  }
+
+  .template-home .blog-card__title::after,
+  .template-blog-list .blog-card__title::after,
+  .template-blog-list .featured-post__title::after,
+  .article-detail__title-note,
+  .phase4-page h2 span[aria-hidden="true"] {
+    display: inline-block;
+    transform-origin: 50% 65%;
+    transition: transform var(--duration-normal) var(--ease-out);
+  }
+
+  .blog-card__link:hover .blog-card__title::after,
+  .blog-card__link:focus-visible .blog-card__title::after,
+  .featured-post__link:hover .featured-post__title::after,
+  .featured-post__link:focus-visible .featured-post__title::after,
+  .article-detail__header:hover .article-detail__title-note,
+  .phase4-page h2:hover span[aria-hidden="true"] {
+    transform: translate(2px, -2px) rotate(-10deg);
+  }
+
+  .music-list__item,
+  .record-item,
+  .songwriter-card,
+  .curated-card,
+  .phase4-text-link,
+  .contact-links a,
+  .about-values article {
+    transition:
+      border-color var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out),
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
+  }
+
+  .music-list__item:hover,
+  .record-item:hover,
+  .songwriter-card:hover,
+  .curated-card:hover,
+  .phase4-text-link:hover,
+  .contact-links a:hover {
+    transform: translateY(-2px);
+  }
+
+  .album-card img {
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .album-card:hover img {
+    transform: scale(1.025);
+  }
+
+  .contact-faq details p {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition:
+      max-height var(--duration-normal) var(--ease-out),
+      opacity var(--duration-normal) var(--ease-out);
+  }
+
+  .contact-faq details[open] p {
+    max-height: 180px;
+    opacity: 1;
+  }
+
+  .journal-entry__dot,
+  .about-milestones__track li::before {
+    transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
+  }
+
+  .journal-entry.is-visible .journal-entry__dot,
+  .about-milestones__track li.is-visible::before {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-text) 8%, transparent);
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .music-staff-bg {
+    transform: none !important;
+  }
+}

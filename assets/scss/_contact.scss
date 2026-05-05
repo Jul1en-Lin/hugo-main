@@ -1,24 +1,29 @@
 .contact-hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(260px, 340px) minmax(300px, 460px) minmax(260px, 330px);
-  gap: clamp(var(--space-7), 7vw, var(--space-10));
-  align-items: center;
-  min-height: 480px;
-  padding: var(--space-5) 0 var(--space-8);
+  grid-template-columns: minmax(270px, 360px) minmax(300px, 340px);
+  gap: clamp(220px, 20vw, 360px);
+  align-items: start;
+  min-height: 412px;
+  padding: var(--space-5) 0 var(--space-6);
   border-bottom: 1px solid var(--color-border-light);
 }
 
 .contact-hero::after {
   position: absolute;
-  left: -70px;
-  bottom: 72px;
+  left: clamp(-10px, 0.5vw, 8px);
+  bottom: 52px;
   z-index: -1;
   content: "𝄞";
   color: var(--color-border);
   font-family: var(--font-display);
   font-size: clamp(5rem, 8vw, 8rem);
   line-height: 1;
+}
+
+.contact-hero__copy {
+  padding-top: var(--space-6);
+  margin-left: clamp(var(--space-7), 5.5vw, var(--space-9));
 }
 
 .contact-hero__copy h1::after {
@@ -41,18 +46,25 @@
 
 .contact-hero__portrait {
   position: relative;
-  width: 390px;
+  width: 340px;
   aspect-ratio: 1;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .contact-hero__portrait::before {
   position: absolute;
-  inset: -54px;
+  inset: -44px;
   z-index: -1;
   content: "";
   border-radius: 50%;
   background: radial-gradient(circle at center, #eeeeee 0 64%, transparent 65%);
+}
+
+.contact-hero__quote {
+  position: absolute;
+  top: 43%;
+  right: clamp(-28px, -1.5vw, -12px);
+  width: 300px;
 }
 
 .contact-grid {
@@ -60,12 +72,12 @@
   grid-template-columns: minmax(0, 560px) minmax(300px, 390px);
   gap: var(--space-8);
   justify-content: center;
-  padding-top: var(--space-7);
+  padding-top: var(--space-5);
 }
 
 .contact-form {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .contact-form h2,
@@ -73,6 +85,10 @@
 .contact-faq h2 {
   margin-bottom: var(--space-3);
   font-size: clamp(1.55rem, 2vw, 1.9rem);
+}
+
+.contact-form h2 {
+  margin-bottom: 0;
 }
 
 .contact-links h2::after,
@@ -89,10 +105,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-4);
+  height: 44px;
+  align-items: start;
 }
 
 .contact-form input,
 .contact-form textarea {
+  display: block;
   width: 100%;
   padding: 0 var(--space-4);
   border: 1px solid var(--color-border);
@@ -100,15 +119,29 @@
   background: transparent;
   color: var(--color-text);
   font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.35;
   outline: none;
 }
 
+.contact-form label {
+  display: block;
+  height: 44px;
+  font-size: 0;
+  line-height: 0;
+}
+
+.contact-form label:has(textarea) {
+  height: 112px;
+}
+
 .contact-form input {
-  min-height: 48px;
+  min-height: 44px;
 }
 
 .contact-form textarea {
-  min-height: 132px;
+  height: 112px;
+  min-height: 112px;
   padding-top: var(--space-4);
   resize: vertical;
 }
@@ -125,7 +158,8 @@
   gap: var(--space-5);
   width: max-content;
   min-width: 210px;
-  min-height: 48px;
+  height: 42px;
+  min-height: 42px;
   padding: 0 var(--space-6);
   border: 1px solid var(--color-text);
   border-radius: var(--radius-sm);
@@ -133,6 +167,7 @@
   color: var(--color-bg);
   font-family: var(--font-display);
   font-size: 1rem;
+  line-height: 1;
   cursor: pointer;
 }
 
@@ -220,8 +255,22 @@
     grid-template-columns: 1fr;
   }
 
+  .contact-hero {
+    gap: var(--space-7);
+  }
+
+  .contact-hero__copy {
+    padding-top: 0;
+    margin-left: 0;
+  }
+
   .contact-hero__portrait {
-    width: unquote("min(74vw, 360px)");
+    width: unquote("min(74vw, 330px)");
+  }
+
+  .contact-hero__quote {
+    position: static;
+    width: unquote("min(520px, 100%)");
   }
 
   .contact-side {

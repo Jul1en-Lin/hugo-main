@@ -28,6 +28,26 @@ body.template-home .music-staff-bg__lines path {
   stroke: #d7d7d7;
 }
 
+body.template-contact .music-staff-bg {
+  top: 205px;
+  height: 410px;
+  opacity: 0.58;
+}
+
+body.template-contact .music-staff-bg__lines path {
+  stroke: #dedede;
+}
+
+body.template-about .music-staff-bg {
+  top: 170px;
+  height: 390px;
+  opacity: 0.52;
+}
+
+body.template-about .music-staff-bg__lines path {
+  stroke: #dedede;
+}
+
 body.template-blog-list .music-staff-bg {
   top: 228px;
   height: 390px;

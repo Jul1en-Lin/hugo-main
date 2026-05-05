@@ -11,8 +11,8 @@
     {{- $image = $page.Resources.GetMatch . -}}
 {{- end -}}
 {{- if $image -}}
-    {{- $cover := $image.Fill $size -}}
-    <img class="{{ $imageClass }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="lazy">
+    {{- $cover := $image.Fill (printf "%s webp q86" $size) -}}
+    <img class="{{ $imageClass }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="lazy" decoding="async">
 {{- else -}}
     <span class="{{ $fallbackClass }}" aria-hidden="true">
         <span class="music-art__mark">{{ $mark }}</span>

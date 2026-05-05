@@ -24,9 +24,9 @@
             <p>Little thoughts. Quiet days.<br>Moments that stay.</p>
         </div>
         {{- with resources.Get "img/avatar.png" -}}
-            {{- $avatar := .Fill "520x520 Center" -}}
+            {{- $avatar := .Fill "520x520 Center webp q86" -}}
             <figure class="journal-hero__portrait">
-                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager">
+                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager" decoding="async" fetchpriority="high">
             </figure>
         {{- end -}}
         {{ partial "quote-block.html" (dict

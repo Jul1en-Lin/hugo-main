@@ -4,9 +4,9 @@
 <section class="phase4-page about-page">
     <section class="about-hero" aria-labelledby="about-title">
         {{- with resources.Get "img/avatar.png" -}}
-            {{- $avatar := .Fill "680x680 Center" -}}
+            {{- $avatar := .Fill "680x680 Center webp q86" -}}
             <figure class="about-hero__portrait">
-                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager">
+                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager" decoding="async" fetchpriority="high">
             </figure>
         {{- end -}}
 

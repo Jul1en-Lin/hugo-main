@@ -14,14 +14,14 @@
 
 {{- if and $page $image.exists -}}
     {{- if $image.resource -}}
-        {{- $cover := $image.resource.Fill $size -}}
-        <img class="{{ $class }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="{{ $loading }}">
+        {{- $cover := $image.resource.Fill (printf "%s webp q84" $size) -}}
+        <img class="{{ $class }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async">
     {{- else -}}
-        <img class="{{ $class }}" src="{{ $image.permalink }}" alt="{{ $alt }}" loading="{{ $loading }}">
+        <img class="{{ $class }}" src="{{ $image.permalink }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async">
     {{- end -}}
 {{- else if $resourceImage -}}
-    {{- $cover := $resourceImage.Fill $size -}}
-    <img class="{{ $class }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="{{ $loading }}">
+    {{- $cover := $resourceImage.Fill (printf "%s webp q84" $size) -}}
+    <img class="{{ $class }}" src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async">
 {{- else -}}
     <span class="page-media__fallback {{ $class }}" aria-hidden="true">{{ partial "helper/icon" "music-note" }}</span>
 {{- end -}}

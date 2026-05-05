@@ -33,9 +33,9 @@
 
     {{- if $showAvatar -}}
     {{- with resources.Get $avatarSrc -}}
-    {{- $avatar := .Fill "520x520 Center" -}}
+    {{- $avatar := .Fill "520x520 Center webp q86" -}}
     <figure class="hero-section__portrait">
-        <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $context.Site.Title }}" loading="eager">
+        <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $context.Site.Title }}" loading="eager" decoding="async" fetchpriority="high">
     </figure>
     {{- end -}}
     {{- end -}}

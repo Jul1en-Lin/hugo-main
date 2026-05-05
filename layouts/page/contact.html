@@ -8,9 +8,9 @@
             <p>I would love to hear from you. Whether you have a question, a collaboration idea, or just want to say hello - drop me a line.</p>
         </div>
         {{- with resources.Get "img/avatar.png" -}}
-            {{- $avatar := .Fill "520x520 Center" -}}
+            {{- $avatar := .Fill "520x520 Center webp q86" -}}
             <figure class="contact-hero__portrait">
-                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager">
+                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager" decoding="async" fetchpriority="high">
             </figure>
         {{- end -}}
         {{ partial "quote-block.html" (dict

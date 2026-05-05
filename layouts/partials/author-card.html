@@ -8,9 +8,9 @@
 <aside class="author-card" aria-labelledby="author-card-title">
     <h2 id="author-card-title" class="author-card__title">{{ $title }}</h2>
     {{- with resources.Get $avatarSrc -}}
-        {{- $avatar := .Fill "220x220 Center" -}}
+        {{- $avatar := .Fill "220x220 Center webp q86" -}}
         <figure class="author-card__avatar">
-            <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $context.Site.Params.brandName | default $context.Site.Title }}" loading="lazy">
+            <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $context.Site.Params.brandName | default $context.Site.Title }}" loading="lazy" decoding="async">
         </figure>
     {{- end -}}
     <p class="author-card__description">{{ $description }}</p>

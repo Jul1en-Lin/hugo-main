@@ -1,10 +1,10 @@
 # Project Status
 
-Last updated: 2026-05-04
+Last updated: 2026-05-05
 
 ## Current State
 
-Phase 5 is complete. Home, Blog preview, Blog detail, About, Journal, Music, and Contact have all been refined or implemented against the provided concept images. The project now has the target homepage structure, a concept-aligned Blog list composition, a larger centered Blog detail reading layout, cleaner code blocks without visible line numbers, standalone editorial layouts for the remaining primary pages, reusable post/media presentation components, category filters, search input, modular styling for hero/cards/article/page surfaces, responsive breakpoints, lightweight motion, refined Blog card hover interactions, and a Music page that uses dedicated music content plus page-bundle album covers instead of Blog post content. Real images now render in their original colors by default.
+Phase 6 is complete. Home, Blog preview, Blog detail, About, Journal, Music, and Contact have all been refined or implemented against the provided concept images. The latest visual pass tightened Home, Contact, and About against their concept screenshots, reduced oversized portrait/avatar presentation, widened the header rail, and recentered the theme-toggle icon. The project now has the target homepage structure, a concept-aligned Blog list composition, a wider Blog detail reading layout without a right sidebar, cleaner code blocks without visible line numbers, larger Blog detail tables constrained to the main reading column, a Codex-docs-inspired syntax palette, standalone editorial layouts for the remaining primary pages, reusable post/media presentation components, category filters, search input, modular styling for hero/cards/article/page surfaces, responsive breakpoints, lightweight motion, refined Blog card hover interactions, project-level SEO metadata, WebP image processing, keyboard-accessible Blog filtering, stronger focus states, and a Music page that uses dedicated music content plus page-bundle album covers instead of Blog post content. Real images now render in their original colors by default.
 
 The project still depends on `hugo-theme-stack`, but the visual shell is now controlled from project-level templates instead of the theme sidebar layout.
 
@@ -16,7 +16,7 @@ The project still depends on `hugo-theme-stack`, but the visual shell is now con
 - [x] Phase 3: Blog detail
 - [x] Phase 4: About, Journal, Music, Contact
 - [x] Phase 5: Responsive refinements and motion
-- [ ] Phase 6: Performance, SEO, accessibility
+- [x] Phase 6: Performance, SEO, accessibility
 
 ## Phase 1 Files
 
@@ -146,6 +146,44 @@ Deleted:
 - `static/js/fireworks.js`
 - `static/js/particles.js`
 
+## Phase 6 Files
+
+Added:
+
+- `content/post/_index.md`
+- `layouts/_default/_markup/render-image.html`
+- `layouts/partials/data/title.html`
+- `layouts/partials/data/description.html`
+
+Modified:
+
+- `hugo.yaml`
+- `content/_index.md`
+- `assets/scss/_animations.scss`
+- `assets/scss/_reset.scss`
+- `assets/scss/_variables.scss`
+- `assets/ts/custom.ts`
+- `layouts/_default/list.html`
+- `layouts/_default/single.html`
+- `layouts/page/about.html`
+- `layouts/page/contact.html`
+- `layouts/page/journal.html`
+- `layouts/page/music.html`
+- `layouts/partials/article/components/related-content.html`
+- `layouts/partials/author-card.html`
+- `layouts/partials/blog-card.html`
+- `layouts/partials/category-tabs.html`
+- `layouts/partials/featured-post.html`
+- `layouts/partials/footer/custom.html`
+- `layouts/partials/head/custom.html`
+- `layouts/partials/hero-section.html`
+- `layouts/partials/music-cover.html`
+- `layouts/partials/page-cover.html`
+- `layouts/partials/site-header.html`
+- `docs/changelog.md`
+- `docs/project_status.md`
+- `docs/blog-refactor-plan.md`
+
 ## Decisions
 
 - Keep using `hugo-theme-stack` for the underlying Hugo pipeline and theme scripts.
@@ -162,6 +200,17 @@ Deleted:
 - Use the footer custom script for small global behaviors only: mobile navigation, back-to-top, reveal, and staff-line parallax.
 - Keep Blog card hover interactions layered but restrained: card lift, image push, note movement, arrow response, and a thin hairline reveal without image filters.
 - Keep Blog detail code blocks line-number-free, larger, and visually quiet; hide the Stack-generated copy bubble on detail pages.
+- Use a restrained technical-doc syntax palette for Blog detail code blocks so code remains readable and token types are clearly differentiated in both light and dark modes.
+- Keep generated Blog detail summaries short enough to support the concept composition and avoid repeating the article title.
+- Keep Blog detail tables at the same readable scale as the enlarged article body, including table inline code.
+- Keep Blog detail pages as a wide no-right-sidebar reading layout; place the quote in the header area and related posts after the article body.
+- Use project-level title and description partials instead of relying on the default Stack metadata behavior.
+- Prefer WebP derivatives for project-level generated images and Markdown content images while preserving original colors.
+- Treat Blog category filters as toggle buttons with keyboard navigation rather than ARIA tabs.
+- Keep article body Markdown `h1` headings demoted under the article title so detail pages have a single primary `h1`.
+- Keep above-the-fold Blog detail content out of reveal animations to protect LCP.
+- Keep the global header rail wider than the main content rail so the logo and theme toggle match the concept-image edge spacing.
+- Keep hero portraits smaller and lighter across Home, About, Journal, Music, Contact, and article author surfaces.
 
 ## Known Gaps
 
@@ -173,22 +222,24 @@ Deleted:
 - Music album and record entries now support real page-bundle cover images through `layouts/partials/music-cover.html`; uploaded covers preserve their original colors and Favorite Albums covers render as square album crops.
 - Project-level real image styles have been reset so newly added images and portraits are not forced to grayscale.
 - Phase 5 responsive and motion refinements are complete.
-- Phase 6 performance, SEO, and accessibility review is still pending.
+- Phase 6 performance, SEO, and accessibility review is complete.
+- Home, Contact, and About received a post-Phase-6 concept-alignment pass for header edge spacing, portrait scale, theme-toggle centering, and first-viewport rhythm.
 - Legacy visual scripts `static/js/particles.js`, `static/js/fireworks.js`, and `static/js/avatar-colors.js` have been deleted.
+- Remaining optional optimization: deeper CSS pruning could reduce unused CSS reported by Lighthouse, but the current desktop Lighthouse targets are met.
 
 ## Latest Verification
 
 Command:
 
 ```powershell
-.\hugo.exe -D --printI18nWarnings --printPathWarnings
+.\hugo.exe -D --cleanDestinationDir --printI18nWarnings --printPathWarnings
 ```
 
 Result:
 
 - Build passed.
 - Generated 96 pages.
-- Processed 702 images.
+- Processed 701 images.
 
 Local preview:
 
@@ -210,11 +261,12 @@ Local preview:
 - Blog mobile smoke was checked at `390x844` with no horizontal overflow.
 - Blog detail desktop screenshot was checked at `1920x1080` with no horizontal overflow.
 - Blog detail mobile smoke was checked at `390x844` with no horizontal overflow.
-- Blog detail rendered the back link, share rail, article header, cover image, author card, related posts, and article content.
+- Blog detail rendered the back link, share rail, article header, cover image, bottom related posts, and article content.
 - About, Journal, Music, and Contact desktop screenshots were checked at `1920x1080` with no horizontal overflow.
 - About, Journal, Music, and Contact mobile smoke screenshots were checked at `390x844` with no horizontal overflow.
 - About, Journal, Music, and Contact active navigation states render correctly.
 - Contact renders one form and three FAQ rows.
+- Playwright fallback screenshots checked Home, Contact, and About at `1670x950` against the provided concept images; theme-toggle icon centering, smaller portrait dimensions, first-viewport positions, and no horizontal overflow were verified.
 - Music content area renders no `/post/` links and no Blog post images.
 - Music renders 3 Favorite Album cover images and 2 Recommended Record cover images from `content/page/music/`, with uploaded covers displayed in original color.
 - Favorite Albums covers render as square crops and no longer stretch vertically.
@@ -222,3 +274,12 @@ Local preview:
 - Music renders no `audio`, `video`, player, progress, or playback-control UI.
 - Blog and featured card hover checks confirmed transform, image movement, arrow movement, and bottom hairline reveal while keeping image filters disabled.
 - Blog detail code-block verification confirmed line numbers are disabled, old Chroma line-number elements are hidden as a fallback, code text is larger, and the copy bubble is hidden.
+- Blog detail code palette verification confirmed differentiated token colors for comments, keywords, strings, numbers, functions, types, attributes, punctuation, and diff tokens.
+- Blog detail proportion tune brought the title, summary, cover image, share rail, and sidebar rhythm closer to the provided concept while retaining larger body/code text.
+- Blog detail table verification confirmed the `执行时间` table uses larger text, larger inline code tags, roomier cells, and no horizontal page overflow.
+- Blog detail wide-layout verification confirmed the right sidebar is removed, the quote appears in the header, related posts render below the article body, and the `执行时间` table stays inside the widened reading column with no horizontal page overflow.
+- Phase 6 browser audit checked Home, Blog, Blog detail, About, Journal, Music, and Contact for stable titles, meta descriptions, semantic landmarks, a single page `h1`, image alt/loading/decoding attributes, WebP output, labeled buttons, duplicate IDs, no horizontal overflow, and no audio/video/progress controls.
+- Blog category keyboard audit confirmed ArrowRight focus movement, `aria-pressed` state updates, visible focus outlines, and encoded Chinese category matching with visible filtered cards.
+- Lighthouse desktop audit:
+  - Home: Performance 90, Accessibility 100, Best Practices 100, SEO 100.
+  - Blog detail: Performance 97, Accessibility 100, Best Practices 100, SEO 100.

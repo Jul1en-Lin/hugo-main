@@ -43,7 +43,7 @@ Logo (Melody ♪)  ·  Home  ·  About  ·  Blog  ·  Journal  ·  Music  ·  Co
 | Home | 第一印象 + 最新文章入口 | 个人标题、人物视觉、最新文章卡片 | 时间线归档、Welcome 跳字动画、emoji |
 | About | 个人品牌叙事 | 头像、介绍、价值观 | 无（新建页面） |
 | Blog | 文章浏览与筛选 | 分类筛选、搜索、文章卡片 | 无（新建页面） |
-| Blog Detail | 长文阅读 | 标题/日期/分类/正文/作者卡 | 当前 editorial 双栏（改为居中） |
+| Blog Detail | 长文阅读 | 标题/日期/分类/正文/左侧分享/底部相关文章 | 右侧作者/相关文章栏 |
 | Journal | 碎片化日记 | 时间线 | 无（新建页面） |
 | Music | 音乐随笔/推荐 | 听歌笔记、推荐唱片 | ❌播放器/播放按钮/进度条 |
 | Contact | 联系入口 | 表单、社交链接、FAQ | 无（新建页面） |
@@ -86,14 +86,13 @@ Logo (Melody ♪)  ·  Home  ·  About  ·  Blog  ·  Journal  ·  Music  ·  Co
 **结构**:
 1. SiteHeader
 2. **BackButton** — ← Back to Blog
-3. **ArticleHeader** — 日期 + 分类 + H1 标题 + 摘要
-4. **HeroCover** — 全宽封面图
-5. **ArticleBody** — 居中正文 (max-width: 720px)，左侧可选分享按钮
-6. **AuthorCard** — 圆形头像 + 简介
-7. **RelatedPosts** — 3 列相关文章
+3. **ArticleHeader** — 日期 + 分类 + H1 标题 + 摘要 + 轻量引用语
+4. **HeroCover** — 宽正文封面图
+5. **ArticleBody** — 宽正文阅读列，左侧分享按钮
+6. **RelatedPosts** — 正文结束后的 3 列相关文章
 8. Footer
 
-**响应式**: 正文始终居中，侧边分享按钮在移动端移至底部。
+**响应式**: 正文始终居中，侧边分享按钮在窄屏移至顶部横排，表格在正文列内滚动。
 
 ### 3.4 About 关于页
 
@@ -424,35 +423,35 @@ label: "厂牌"
 ## 8. 重构执行顺序
 
 ### 第一阶段：视觉系统与基础布局 (Days 1–3)
-- [ ] 创建 `_variables.scss` design tokens
-- [ ] 创建 `_reset.scss` + `_typography.scss`
-- [ ] 重写 `custom.scss` 为模块化入口
-- [ ] 创建 `baseof.html` (顶部导航骨架)
-- [ ] 创建 `site-header.html` partial
-- [ ] 创建 `music-staff-bg.html` + `music-note-decor.html` SVG 装饰
-- [ ] 添加自定义 SVG 图标到 `assets/icons/`
-- [ ] 引入 Google Fonts
+- [x] 创建 `_variables.scss` design tokens
+- [x] 创建 `_reset.scss` + `_typography.scss`
+- [x] 重写 `custom.scss` 为模块化入口
+- [x] 创建 `baseof.html` (顶部导航骨架)
+- [x] 创建 `site-header.html` partial
+- [x] 创建 `music-staff-bg.html` + `music-note-decor.html` SVG 装饰
+- [x] 添加自定义 SVG 图标到 `assets/icons/`
+- [x] 引入 Google Fonts
 
 ### 第二阶段：首页与博客列表页 (Days 4–6)
-- [ ] 重写 `layouts/index.html` (Hero + 最新文章卡片)
-- [ ] 创建 `hero-section.html`, `blog-card.html`, `featured-post.html`
-- [ ] 创建 `quote-block.html`
-- [ ] 创建 `layouts/_default/list.html` (博客列表)
-- [ ] 创建 `category-tabs.html` + 客户端筛选 JS
-- [ ] 样式: `_hero.scss`, `_cards.scss`, `_header.scss`
+- [x] 重写 `layouts/index.html` (Hero + 最新文章卡片)
+- [x] 创建 `hero-section.html`, `blog-card.html`, `featured-post.html`
+- [x] 创建 `quote-block.html`
+- [x] 创建 `layouts/_default/list.html` (博客列表)
+- [x] 创建 `category-tabs.html` + 客户端筛选 JS
+- [x] 样式: `_hero.scss`, `_cards.scss`, `_header.scss`
 
 ### 第三阶段：博客详情页 (Days 7–8)
-- [ ] 重写 `layouts/_default/single.html` (居中阅读布局)
-- [ ] 创建 `author-card.html`
-- [ ] 恢复 `related-content.html`
-- [ ] 样式: `_article.scss`
+- [x] 重写 `layouts/_default/single.html` (宽正文阅读布局)
+- [x] 创建 `author-card.html`
+- [x] 恢复 `related-content.html`
+- [x] 样式: `_article.scss`
 
 ### 第四阶段：About / Journal / Music / Contact (Days 9–13)
-- [ ] 创建 `page/about.html` + `content/page/about/index.md`
-- [ ] 创建 `page/journal.html` + `journal-entry.html` + `content/journal/`
-- [ ] 创建 `page/music.html` + `album-card.html` + `content/music/`
-- [ ] 创建 `page/contact.html` + `contact-form.html` + `faq-accordion.html`
-- [ ] 样式: `_about.scss`, `_journal.scss`, `_music.scss`, `_contact.scss`
+- [x] 创建 `page/about.html` + `content/page/about/index.md`
+- [x] 创建 `page/journal.html` + `content/page/journal/index.md`
+- [x] 创建 `page/music.html` + `content/page/music/index.md` + `music-cover.html`
+- [x] 创建 `page/contact.html`，内联 ContactForm + FAQ 结构
+- [x] 样式: `_about.scss`, `_journal.scss`, `_music.scss`, `_contact.scss`
 
 ### 第五阶段：响应式与动效 (Days 14–15)
 - [x] 完善 `_responsive.scss` (所有断点)
@@ -461,11 +460,11 @@ label: "厂牌"
 - [x] 移除 `particles.js`, `fireworks.js`, `avatar-colors.js`
 
 ### 第六阶段：性能、SEO、可访问性 (Days 16–17)
-- [ ] 每页添加 `<title>` + `<meta description>`
-- [ ] 语义 HTML 检查 (`<header>`, `<nav>`, `<main>`, `<article>`, `<footer>`)
-- [ ] 图片懒加载 + WebP 优化
-- [ ] ARIA 属性 + 键盘导航
-- [ ] Lighthouse 审计 (目标 90+)
+- [x] 每页添加 `<title>` + `<meta description>`
+- [x] 语义 HTML 检查 (`<header>`, `<nav>`, `<main>`, `<article>`, `<footer>`)
+- [x] 图片懒加载 + WebP 优化
+- [x] ARIA 属性 + 键盘导航
+- [x] Lighthouse 审计 (目标 90+)
 
 ---
 
@@ -479,13 +478,13 @@ label: "厂牌"
 - [ ] 暗色模式完整适配所有页面
 
 ### 功能
-- [ ] 7 个页面全部可访问 (Home/About/Blog/Detail/Journal/Music/Contact)
-- [ ] 博客列表支持分类筛选 + 搜索
-- [ ] 博客详情页正文居中，阅读体验舒适
-- [ ] Journal 时间线按日期倒序排列
-- [ ] Music 页面展示随笔/推荐，**无任何播放控件**
-- [ ] Contact 表单可提交（或显示 mailto 链接）
-- [ ] 回到顶部按钮正常工作
+- [x] 7 个页面全部可访问 (Home/About/Blog/Detail/Journal/Music/Contact)
+- [x] 博客列表支持分类筛选 + 搜索
+- [x] 博客详情页正文居中，阅读体验舒适
+- [x] Journal 时间线按日期倒序排列
+- [x] Music 页面展示随笔/推荐，**无任何播放控件**
+- [x] Contact 表单可提交（或显示 mailto 链接）
+- [x] 回到顶部按钮正常工作
 
 ### 交互
 - [x] 导航 hover 出现细线
@@ -495,11 +494,11 @@ label: "厂牌"
 - [x] 所有动效 ≤500ms，无夸张弹跳
 
 ### 技术
-- [ ] 不直接修改 `themes/` 目录下的文件
-- [ ] `custom.scss` 模块化，无 108KB 巨型文件
+- [x] 不直接修改 `themes/` 目录下的文件
+- [x] `custom.scss` 模块化，无 108KB 巨型文件
 - [x] `particles.js` / `fireworks.js` 已移除
 - [x] Hugo 构建无报错
-- [ ] Lighthouse Performance ≥ 90
+- [x] Lighthouse Performance ≥ 90
 - [x] 所有页面响应式 (mobile/tablet/desktop)
 
 ---

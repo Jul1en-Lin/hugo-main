@@ -14,9 +14,9 @@
             <p>Thoughts on the music that moves me.<br>Pieces, people, and the stories between the notes.</p>
         </div>
         {{- with resources.Get "img/avatar.png" -}}
-            {{- $avatar := .Fill "420x420 Center" -}}
+            {{- $avatar := .Fill "420x420 Center webp q86" -}}
             <figure class="music-hero__portrait">
-                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager">
+                <img src="{{ $avatar.RelPermalink }}" width="{{ $avatar.Width }}" height="{{ $avatar.Height }}" alt="{{ $.Site.Title }}" loading="eager" decoding="async" fetchpriority="high">
             </figure>
         {{- end -}}
     </section>

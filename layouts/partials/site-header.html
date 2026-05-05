@@ -1,8 +1,9 @@
 {{- $nav := .Site.Params.primaryNav -}}
+{{- $brand := default .Site.Title .Site.Params.brandName -}}
 <header class="site-header" role="banner">
     <div class="site-header__inner">
-        <a class="site-brand" href="{{ .Site.Home.RelPermalink }}" aria-label="{{ .Site.Title }} home">
-            <span class="site-brand__text">{{ default .Site.Title .Site.Params.brandName }}</span>
+        <a class="site-brand" href="{{ .Site.Home.RelPermalink }}" aria-label="{{ $brand }} home">
+            <span class="site-brand__text">{{ $brand }}</span>
             <span class="site-brand__mark" aria-hidden="true">{{ partial "helper/icon" "music-note" }}</span>
         </a>
 

@@ -1,0 +1,18 @@
+{{- $description := "" -}}
+
+{{- if .Params.description -}}
+    {{- $description = .Params.description -}}
+{{- else if .Description -}}
+    {{- $description = .Description -}}
+{{- else if and .IsPage .Summary -}}
+    {{- $description = .Summary -}}
+{{- else if .Site.Params.description -}}
+    {{- $description = .Site.Params.description -}}
+{{- else if .Site.Params.sidebar.subtitle -}}
+    {{- $description = .Site.Params.sidebar.subtitle -}}
+{{- else -}}
+    {{- $description = .Site.Title -}}
+{{- end -}}
+
+{{- $description = $description | plainify | replaceRE `\s+` " " | strings.TrimSpace | truncate 160 -}}
+{{- return $description -}}

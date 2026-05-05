@@ -36,13 +36,28 @@ function initPostFilters() {
 
     buttons.forEach((button) => {
         button.addEventListener('click', () => {
-            activeCategory = button.dataset.blogFilter || 'all';
+            activeCategory = normalize(button.dataset.blogFilter || 'all');
             buttons.forEach((item) => {
                 const isActive = item === button;
                 item.classList.toggle('is-active', isActive);
-                item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                item.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             });
             applyFilters();
+        });
+
+        button.addEventListener('keydown', (event) => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+
+            event.preventDefault();
+            const currentIndex = buttons.indexOf(button);
+            let nextIndex = currentIndex;
+
+            if (event.key === 'ArrowLeft') nextIndex = currentIndex <= 0 ? buttons.length - 1 : currentIndex - 1;
+            if (event.key === 'ArrowRight') nextIndex = currentIndex >= buttons.length - 1 ? 0 : currentIndex + 1;
+            if (event.key === 'Home') nextIndex = 0;
+            if (event.key === 'End') nextIndex = buttons.length - 1;
+
+            buttons[nextIndex]?.focus();
         });
     });
 
@@ -55,4 +70,3 @@ if (document.readyState === 'loading') {
 } else {
     initPostFilters();
 }
-

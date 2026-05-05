@@ -27,7 +27,7 @@
 
 .journal-hero__portrait {
   position: relative;
-  width: 330px;
+  width: 310px;
   aspect-ratio: 1;
   margin: 0 auto;
 }
@@ -140,7 +140,7 @@
   }
 
   .journal-hero__portrait {
-    width: unquote("min(72vw, 340px)");
+    width: unquote("min(72vw, 320px)");
   }
 
   .journal-timeline::before {

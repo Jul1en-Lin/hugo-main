@@ -9,15 +9,15 @@
 
 .home-composition {
   position: relative;
-  min-height: 500px;
+  min-height: 432px;
   margin-top: 0;
   border-bottom: 1px solid var(--color-border-light);
 }
 
 .home-composition::before {
   position: absolute;
-  left: clamp(-18px, -1.6vw, -8px);
-  bottom: 84px;
+  left: clamp(-62px, -4vw, -42px);
+  bottom: 66px;
   z-index: 2;
   content: "𝄞";
   color: var(--color-text);
@@ -95,10 +95,10 @@ body.template-blog-list .main-content {
   position: relative;
   z-index: 3;
   grid-template-columns: minmax(300px, 430px) minmax(360px, 1fr);
-  gap: clamp(var(--space-8), 8vw, 150px);
+  gap: clamp(var(--space-8), 10vw, 190px);
   align-items: start;
-  min-height: 410px;
-  padding: var(--space-6) 0 var(--space-7);
+  min-height: 380px;
+  padding: var(--space-5) 0 var(--space-6);
 }
 
 .hero-section--page {
@@ -149,6 +149,7 @@ body.template-blog-list .main-content {
 
 .hero-section--home .hero-section__content {
   max-width: 420px;
+  padding-top: var(--space-5);
 }
 
 .hero-section__title {
@@ -281,14 +282,14 @@ body.template-blog-list .main-content {
 
 .hero-section__portrait {
   position: relative;
-  width: unquote("min(100%, 360px)");
+  width: unquote("min(100%, 330px)");
   aspect-ratio: 1;
   justify-self: end;
   margin: 0;
 }
 
 .hero-section--home .hero-section__portrait {
-  width: unquote("min(32vw, 390px)");
+  width: unquote("min(28vw, 350px)");
   justify-self: start;
   margin-top: var(--space-2);
   transform: none;
@@ -303,7 +304,7 @@ body.template-blog-list .main-content {
 }
 
 .hero-section--home .hero-section__portrait::before {
-  inset: -54px;
+  inset: -44px;
   z-index: -1;
   border: 0;
   background: radial-gradient(circle at center, #eeeeee 0 64%, transparent 65%);
@@ -351,8 +352,8 @@ body.template-blog-list .main-content {
 
 .quote-block--home {
   position: absolute;
-  right: clamp(18px, 3vw, 54px);
-  top: 43%;
+  right: clamp(-108px, -6vw, -72px);
+  top: 42%;
   z-index: 4;
   width: 300px;
   margin: 0;
@@ -447,7 +448,7 @@ body.template-blog-list .main-content {
 
   .hero-section__portrait {
     justify-self: start;
-    width: unquote("min(72vw, 320px)");
+    width: unquote("min(72vw, 300px)");
   }
 
   .hero-section--home {
@@ -478,7 +479,7 @@ body.template-blog-list .main-content {
   }
 
   .hero-section--home .hero-section__portrait {
-    width: unquote("min(72vw, 360px)");
+    width: unquote("min(72vw, 330px)");
     justify-self: start;
     transform: none;
   }

@@ -1,5 +1,99 @@
 # Changelog
 
+## 2026-05-05 - Home, Contact, About Concept Alignment Tune
+
+- Widened the global header rail so the brand mark and theme toggle sit closer to the concept image edges while navigation remains centered.
+- Recentered the theme toggle icon inside the circular control and neutralized the inherited Stack `#dark-mode-toggle` layout rule.
+- Reduced portrait/avatar presentation sizes across hero surfaces and the article author card so the pages feel lighter.
+- Tuned Home hero height, portrait scale, quote placement, music clef placement, and Latest Posts spacing closer to the provided Home concept.
+- Tuned Contact hero columns, title position, portrait scale, staff-line placement, and form sizing so the first viewport better matches the provided Contact concept.
+- Tuned About page width, hero columns, title wrapping, portrait scale, values/milestone spacing, and staff-line placement closer to the provided About concept.
+
+Verification:
+
+- `.\hugo.exe -D --cleanDestinationDir --printI18nWarnings --printPathWarnings` passed.
+- Playwright fallback screenshots checked Home, Contact, and About at `1670x950` against the provided concept images.
+- Checked theme-toggle icon centering, portrait dimensions, section positions, and no horizontal overflow on Home, Contact, and About.
+
+## 2026-05-05 - Phase 6: Performance, SEO, Accessibility
+
+- Added project-level SEO title and description partial overrides so Home, Blog, pages, taxonomy terms, and article detail pages render stable `<title>` and `<meta name="description">` values.
+- Added site-level author/theme-color metadata, a default site description, Home description front matter, and a Blog section index description.
+- Added a project Markdown image render hook with responsive WebP `srcset`, lazy loading, async decoding, dimensions, and alt handling.
+- Converted project-level hero, cover, card, related-post, author, and Music cover image processing to WebP output with loading/decoding/fetch-priority hints.
+- Wired `assets/ts/custom.ts` into the head pipeline as a fingerprinted deferred script.
+- Improved Blog category filtering accessibility:
+  - changed category filters from pseudo-tabs to `aria-pressed` toggle buttons
+  - added arrow/Home/End keyboard navigation
+  - fixed encoded Chinese category matching
+  - added an `aria-live` empty-state message
+- Added global `:focus-visible` styles for links, buttons, form controls, summaries, and focusable elements.
+- Cleaned Blog detail heading semantics by demoting Markdown body `h1` headings to `h2` under the article title.
+- Removed Blog detail above-the-fold reveal animation from the LCP path.
+- Increased muted text contrast and fixed the brand link accessible name.
+
+Verification:
+
+- `.\hugo.exe -D --cleanDestinationDir --printI18nWarnings --printPathWarnings` passed.
+- Browser automation checked Home, Blog, Blog detail, About, Journal, Music, and Contact for titles, descriptions, semantic landmarks, one visible `h1`, image alt/loading/decoding, WebP output, labeled buttons, duplicate IDs, no horizontal overflow, and no audio/video/progress controls.
+- Blog filter keyboard check confirmed ArrowRight focus movement, `aria-pressed` state, focus outline, and Chinese category filtering with visible matching cards.
+- Lighthouse desktop audit:
+  - Home: Performance 90, Accessibility 100, Best Practices 100, SEO 100
+  - Blog detail: Performance 97, Accessibility 100, Best Practices 100, SEO 100
+
+## 2026-05-05 - Blog Detail Wide Reading Layout Refinement
+
+- Removed the Blog detail right sidebar from the page layout so the main article column has more horizontal room.
+- Moved the article quote into the header area as a lightweight inline editorial accent.
+- Moved related posts to a bottom section after the article content.
+- Changed article tables back to the main content width so they no longer visually spill outside the reading column.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Browser verification checked wide, desktop, and 1024px Blog detail viewports: no horizontal page overflow, no right sidebar, quote remains visible in the header, and related posts render below the article body.
+
+## 2026-05-05 - Blog Detail Table Readability Refinement
+
+- Enlarged Blog detail table typography and row spacing so tables match the updated article reading scale.
+- Gave table wrappers a wider, centered editorial surface with a stable horizontal-scroll fallback.
+- Improved table header, zebra rows, borders, vertical alignment, and inline code size inside table cells.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Browser verification checked the `执行时间` table in the Blog detail page: table text, headers, and inline code render larger with no horizontal page overflow.
+
+## 2026-05-04 - Blog Detail Concept Proportion Tune
+
+- Tuned Blog detail proportions closer to the provided concept image:
+  - slightly narrower outer canvas
+  - more balanced left share rail spacing
+  - calmer title scale
+  - shorter generated summaries without repeating the title
+  - earlier cover image placement
+  - tighter center and sidebar rhythm
+- Kept the larger article body and code-block readability improvements.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Desktop screenshot checked against the provided Blog detail concept.
+
+## 2026-05-04 - Blog Detail Code Palette Refinement
+
+- Added a Codex-docs-inspired syntax palette for Blog detail code blocks:
+  - neutral technical-doc background
+  - stronger keyword, string, number, function, type, attribute, comment, and diff colors
+  - matching dark-mode token colors
+- Updated inline code styling to match the new code-block palette.
+- Kept code blocks line-number-free and kept the Stack-generated copy bubble hidden on detail pages.
+
+Verification:
+
+- `.\hugo.exe -D --printI18nWarnings --printPathWarnings` passed.
+- Browser verification confirmed token colors are differentiated, code text remains larger, line numbers stay hidden, and no horizontal overflow appears on the checked Blog detail page.
+
 ## 2026-05-04 - Blog Detail Reading And Code Block Refinement
 
 - Increased Blog detail title, summary, body text, headings, and reading column width for a more comfortable article page.

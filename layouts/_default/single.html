@@ -7,16 +7,17 @@
 {{- with .Resources.ByType "image" -}}
     {{- $resourceImage = index . 0 -}}
 {{- end -}}
+{{- $escapedTitle := .Title | plainify | replaceRE `([\\\^\$\.\|\?\*\+\(\)\[\]\{\}])` `\\$1` -}}
 {{- $summary := "" -}}
 {{- with .Params.description -}}
     {{- $summary = . -}}
 {{- else -}}
-    {{- $summary = .Summary | plainify | truncate 116 -}}
+    {{- $summary = .Summary | plainify | replaceRE (printf `^\s*%s\s*` $escapedTitle) "" | truncate 88 -}}
 {{- end -}}
 {{- $wrappedTable := printf `<div class="table-wrapper">${1}</div>` -}}
 {{- $content := .Content -}}
-{{- $escapedTitle := .Title | plainify | replaceRE `([\\\^\$\.\|\?\*\+\(\)\[\]\{\}])` `\\$1` -}}
 {{- $content = $content | replaceRE (printf `(?s)^\s*<h1[^>]*>\s*%s\s*</h1>` $escapedTitle) "" -}}
+{{- $content = $content | replaceRE `<h1([^>]*)>` `<h2$1>` | replaceRE `</h1>` `</h2>` -}}
 {{- $shareURL := .Permalink | urlquery -}}
 {{- $shareTitle := .Title | urlquery -}}
 
@@ -68,17 +69,26 @@
                 <p class="article-detail__summary">{{ . }}</p>
                 {{- end -}}
 
+                <div class="article-detail__header-quote">
+                    {{ partial "quote-block.html" (dict
+                        "context" .
+                        "quote" "Life is like a song. Write your own lyrics."
+                        "signature" "Melody"
+                        "class" "quote-block--article"
+                    ) }}
+                </div>
+
                 <figure class="article-detail__cover">
                     {{- if $image.exists -}}
                         {{- if $image.resource -}}
-                            {{- $cover := $image.resource.Fill "1120x520 Center" -}}
-                            <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ .Title }}" loading="eager">
+                            {{- $cover := $image.resource.Fill "1120x520 Center webp q86" -}}
+                            <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ .Title }}" loading="eager" decoding="async" fetchpriority="high">
                         {{- else -}}
-                            <img src="{{ $image.permalink }}" alt="{{ .Title }}" loading="eager">
+                            <img src="{{ $image.permalink }}" alt="{{ .Title }}" loading="eager" decoding="async" fetchpriority="high">
                         {{- end -}}
                     {{- else if $resourceImage -}}
-                        {{- $cover := $resourceImage.Fill "1120x520 Center" -}}
-                        <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ .Title }}" loading="eager">
+                        {{- $cover := $resourceImage.Fill "1120x520 Center webp q86" -}}
+                        <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ .Title }}" loading="eager" decoding="async" fetchpriority="high">
                     {{- else -}}
                         <div class="article-detail__cover-fallback" aria-hidden="true">
                             {{ partial "helper/icon" "music-note" }}
@@ -90,20 +100,11 @@
             <section class="article-content article-detail__content">
                 {{ $content | replaceRE `(<table>(?:.|\n)+?</table>)` $wrappedTable | safeHTML }}
             </section>
+
+            <footer class="article-detail__footer">
+                {{ partial "article/components/related-content.html" (dict "context" . "limit" 3) }}
+            </footer>
         </div>
-
-        <aside class="article-detail__aside" aria-label="Article sidebar">
-            {{ partial "quote-block.html" (dict
-                "context" .
-                "quote" "Life is like a song. Write your own lyrics."
-                "signature" "Melody"
-                "class" "quote-block--article"
-            ) }}
-
-            {{ partial "author-card.html" (dict "context" .) }}
-
-            {{ partial "article/components/related-content.html" (dict "context" . "limit" 3) }}
-        </aside>
     </div>
 </article>
 

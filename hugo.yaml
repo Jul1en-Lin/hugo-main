@@ -45,6 +45,7 @@ permalinks:
 
 params:
     brandName: Melody
+    description: 一个关于生活、写作、音乐灵感与技术实践的个人博客。
     mainSections:
         - post
     primaryNav:

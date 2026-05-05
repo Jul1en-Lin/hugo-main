@@ -13,7 +13,6 @@
 @media (prefers-reduced-motion: no-preference) {
   body.is-loaded .home-composition,
   body.is-loaded .blog-preview-composition,
-  body.is-loaded .article-detail,
   body.is-loaded .phase4-page {
     animation: melody-fade-up 480ms var(--ease-out) both;
   }

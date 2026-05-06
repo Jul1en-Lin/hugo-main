@@ -32,8 +32,15 @@
     {{ $featured := "" }}
     {{ if gt (len $featuredPages) 0 }}
         {{ $featured = index $featuredPages 0 }}
-    {{ else if gt (len $posts) 0 }}
-        {{ $featured = index $posts 0 }}
+    {{ else }}
+        {{ range $posts }}
+            {{ if and (not $featured) (or (.Params.image) (gt (len (.Resources.ByType "image")) 0)) }}
+                {{ $featured = . }}
+            {{ end }}
+        {{ end }}
+        {{ if and (not $featured) (gt (len $posts) 0) }}
+            {{ $featured = index $posts 0 }}
+        {{ end }}
     {{ end }}
     {{ $rest := $posts }}
     {{ with $featured }}

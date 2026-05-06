@@ -15,9 +15,11 @@
 
 .template-home ~ .music-staff-bg,
 body.template-home .music-staff-bg {
-  top: 190px;
-  height: 430px;
-  opacity: 0.72;
+  top: 214px;
+  height: 380px;
+  opacity: 0.56;
+  transform: rotate(-2deg) scaleX(1.08);
+  transform-origin: 50% 45%;
 }
 
 body.template-home .music-staff-bg__curve {
@@ -25,7 +27,30 @@ body.template-home .music-staff-bg__curve {
 }
 
 body.template-home .music-staff-bg__lines path {
-  stroke: #d7d7d7;
+  stroke: #d9d9d9;
+}
+
+body.template-home .music-note-decor {
+  opacity: 0.2;
+}
+
+body.template-home .music-note-decor__note--one {
+  top: 39vh;
+  left: 31vw;
+  font-size: clamp(1.55rem, 2.4vw, 2.45rem);
+}
+
+body.template-home .music-note-decor__note--two {
+  top: 22vh;
+  right: 3vw;
+  bottom: auto;
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+}
+
+body.template-home .music-note-decor__note--three {
+  top: 34vh;
+  right: 48vw;
+  font-size: clamp(1.15rem, 1.7vw, 1.7rem);
 }
 
 body.template-contact .music-staff-bg {
@@ -49,9 +74,9 @@ body.template-about .music-staff-bg__lines path {
 }
 
 body.template-blog-list .music-staff-bg {
-  top: 228px;
-  height: 390px;
-  opacity: 0.6;
+  top: 235px;
+  height: 430px;
+  opacity: 0.66;
 }
 
 body.template-blog-list .music-staff-bg__curve {
@@ -59,7 +84,21 @@ body.template-blog-list .music-staff-bg__curve {
 }
 
 body.template-blog-list .music-staff-bg__lines path {
-  stroke: #dedede;
+  stroke: #d9d9d9;
+}
+
+body.template-journal .music-staff-bg {
+  top: 164px;
+  height: 440px;
+  opacity: 0.64;
+}
+
+body.template-journal .music-staff-bg__curve {
+  stroke-width: 1;
+}
+
+body.template-journal .music-staff-bg__lines path {
+  stroke: #d9d9d9;
 }
 
 body.template-article-detail .music-staff-bg {
@@ -150,6 +189,28 @@ body.template-blog-list .music-note-decor__note--three {
   top: 38vh;
   right: 20vw;
   font-size: clamp(1.2rem, 2vw, 1.9rem);
+}
+
+body.template-journal .music-note-decor {
+  opacity: 0.16;
+}
+
+body.template-journal .music-note-decor__note--one {
+  top: 28vh;
+  left: 37vw;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+}
+
+body.template-journal .music-note-decor__note--two {
+  right: 6vw;
+  bottom: 21vh;
+  font-size: clamp(1.5rem, 2.3vw, 2.2rem);
+}
+
+body.template-journal .music-note-decor__note--three {
+  top: 22vh;
+  right: 20vw;
+  font-size: clamp(1rem, 1.7vw, 1.55rem);
 }
 
 body.template-article-detail .music-note-decor {

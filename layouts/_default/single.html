@@ -78,8 +78,9 @@
                     ) }}
                 </div>
 
+                {{- if or (and $image.exists (not $image.isDefault)) $resourceImage -}}
                 <figure class="article-detail__cover">
-                    {{- if $image.exists -}}
+                    {{- if and $image.exists (not $image.isDefault) -}}
                         {{- if $image.resource -}}
                             {{- $cover := $image.resource.Fill "1120x520 Center webp q86" -}}
                             <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ .Title }}" loading="eager" decoding="async" fetchpriority="high">
@@ -89,12 +90,9 @@
                     {{- else if $resourceImage -}}
                         {{- $cover := $resourceImage.Fill "1120x520 Center webp q86" -}}
                         <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ .Title }}" loading="eager" decoding="async" fetchpriority="high">
-                    {{- else -}}
-                        <div class="article-detail__cover-fallback" aria-hidden="true">
-                            {{ partial "helper/icon" "music-note" }}
-                        </div>
                     {{- end -}}
                 </figure>
+                {{- end -}}
             </header>
 
             <section class="article-content article-detail__content">

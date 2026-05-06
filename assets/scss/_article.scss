@@ -274,6 +274,9 @@ body.template-article-detail .main-content {
   --code-inserted: #116329;
   --code-deleted: #cf222e;
   --code-highlight: #fff8c5;
+  --code-copy-bg: color-mix(in srgb, var(--code-bg) 86%, #fff);
+  --code-copy-bg-hover: color-mix(in srgb, var(--code-bg) 74%, #fff);
+  --code-copy-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
   position: relative;
   overflow: hidden;
   margin: var(--space-7) 0;
@@ -431,8 +434,73 @@ body.template-article-detail .main-content {
   width: 100%;
 }
 
-.article-content.article-detail__content .copyCodeButton {
-  display: none;
+.article-content.article-detail__content .code-copy-host {
+  position: relative;
+}
+
+.article-content.article-detail__content .copyCodeButton,
+.article-content.article-detail__content .code-copy-button {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  height: 30px;
+  padding: 0 11px;
+  border: 1px solid color-mix(in srgb, var(--code-border) 72%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--code-copy-bg);
+  box-shadow: var(--code-copy-shadow);
+  color: var(--code-muted);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.83rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-2px);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.article-content.article-detail__content .code-copy-host:hover > .copyCodeButton,
+.article-content.article-detail__content .code-copy-host:hover > .code-copy-button,
+.article-content.article-detail__content .code-copy-host:focus-within > .copyCodeButton,
+.article-content.article-detail__content .code-copy-host:focus-within > .code-copy-button {
+  opacity: 0.88;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.article-content.article-detail__content .copyCodeButton:hover,
+.article-content.article-detail__content .copyCodeButton:focus-visible,
+.article-content.article-detail__content .code-copy-button:hover,
+.article-content.article-detail__content .code-copy-button:focus-visible {
+  border-color: color-mix(in srgb, var(--code-text) 18%, var(--code-border));
+  background: var(--code-copy-bg-hover);
+  color: var(--code-text);
+  opacity: 1;
+}
+
+.article-content.article-detail__content .copyCodeButton.is-copied,
+.article-content.article-detail__content .code-copy-button.is-copied {
+  border-color: color-mix(in srgb, var(--code-inserted) 24%, var(--code-border));
+  color: var(--code-inserted);
+}
+
+.article-content.article-detail__content .copyCodeButton.is-error,
+.article-content.article-detail__content .code-copy-button.is-error {
+  border-color: color-mix(in srgb, var(--code-deleted) 24%, var(--code-border));
+  color: var(--code-deleted);
 }
 
 :root[data-scheme="dark"] .article-detail__content :not(pre) > code {
@@ -459,6 +527,9 @@ body.template-article-detail .main-content {
   --code-inserted: #7ee787;
   --code-deleted: #ffa198;
   --code-highlight: #2d333b;
+  --code-copy-bg: color-mix(in srgb, var(--code-bg) 90%, #fff);
+  --code-copy-bg-hover: color-mix(in srgb, var(--code-bg) 82%, #fff);
+  --code-copy-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
 }
 
 .article-detail__content .table-wrapper {

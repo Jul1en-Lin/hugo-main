@@ -1,9 +1,16 @@
 {{- $page := .page | default . -}}
 {{- $variant := .variant | default "" -}}
-{{- $image := partialCached "helper/image" (dict "Context" $page "Type" "articleList") $page.RelPermalink "articleList" -}}
+{{- $showMedia := true -}}
+{{- if isset . "showMedia" -}}
+    {{- $showMedia = .showMedia -}}
+{{- end -}}
+{{- $image := "" -}}
 {{- $resourceImage := "" -}}
-{{- with $page.Resources.ByType "image" -}}
-    {{- $resourceImage = index . 0 -}}
+{{- if $showMedia -}}
+    {{- $image = partialCached "helper/image" (dict "Context" $page "Type" "articleList") $page.RelPermalink "articleList" -}}
+    {{- with $page.Resources.ByType "image" -}}
+        {{- $resourceImage = index . 0 -}}
+    {{- end -}}
 {{- end -}}
 {{- $terms := $page.GetTerms "categories" -}}
 {{- $categoryKeys := slice -}}
@@ -19,6 +26,7 @@
 
 <article class="blog-card {{ with $variant }}blog-card--{{ . }}{{ end }}" data-blog-card data-categories="{{ delimit $categoryKeys ` ` }}" data-title="{{ $page.Title | plainify }}" data-summary="{{ $summary | plainify }}">
     <a class="blog-card__link" href="{{ $page.RelPermalink }}">
+        {{- if $showMedia -}}
         <div class="blog-card__media">
             {{- if $image.exists -}}
                 {{- if $image.resource -}}
@@ -36,6 +44,7 @@
                 </div>
             {{- end -}}
         </div>
+        {{- end -}}
 
         <div class="blog-card__body">
             <div class="blog-card__meta">

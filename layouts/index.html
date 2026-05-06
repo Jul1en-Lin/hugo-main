@@ -36,7 +36,7 @@
 
     <div class="post-grid post-grid--latest">
         {{ range $latest }}
-            {{ partial "blog-card.html" (dict "page" . "variant" "compact") }}
+            {{ partial "blog-card.html" (dict "page" . "variant" "home-strip" "showMedia" false) }}
         {{ end }}
     </div>
 </section>

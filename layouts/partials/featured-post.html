@@ -1,10 +1,18 @@
 {{- $page := .page | default . -}}
 {{- if $page -}}
 {{- $moreLabel := .moreLabel | default "Read featured story" -}}
-{{- $image := partialCached "helper/image" (dict "Context" $page "Type" "articleList") $page.RelPermalink "featuredPost" -}}
+{{- $variant := .variant | default "" -}}
+{{- $showMedia := true -}}
+{{- if isset . "showMedia" -}}
+    {{- $showMedia = .showMedia -}}
+{{- end -}}
+{{- $image := "" -}}
 {{- $resourceImage := "" -}}
-{{- with $page.Resources.ByType "image" -}}
-    {{- $resourceImage = index . 0 -}}
+{{- if $showMedia -}}
+    {{- $image = partialCached "helper/image" (dict "Context" $page "Type" "articleList") $page.RelPermalink "featuredPost" -}}
+    {{- with $page.Resources.ByType "image" -}}
+        {{- $resourceImage = index . 0 -}}
+    {{- end -}}
 {{- end -}}
 {{- $terms := $page.GetTerms "categories" -}}
 {{- $summary := "" -}}
@@ -14,8 +22,9 @@
     {{- $summary = $page.Summary | plainify | truncate 180 -}}
 {{- end -}}
 
-<article class="featured-post">
+<article class="featured-post {{ with $variant }}featured-post--{{ . }}{{ end }}">
     <a class="featured-post__link" href="{{ $page.RelPermalink }}">
+        {{- if $showMedia -}}
         <div class="featured-post__media">
             {{- if $image.exists -}}
                 {{- if $image.resource -}}
@@ -33,6 +42,7 @@
                 </div>
             {{- end -}}
         </div>
+        {{- end -}}
 
         <div class="featured-post__body">
             <div class="featured-post__meta">

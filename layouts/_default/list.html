@@ -78,7 +78,7 @@
             {{ with $featured }}
             <section class="featured-section featured-section--blog" aria-label="Featured post">
                 <p class="featured-section__label">Featured Post</p>
-                {{ partial "featured-post.html" (dict "page" . "moreLabel" "Read more") }}
+                {{ partial "featured-post.html" (dict "page" . "moreLabel" "Read more" "variant" "editorial" "showMedia" false) }}
             </section>
             {{ end }}
 
@@ -100,7 +100,7 @@
 
         <div class="post-grid" data-blog-grid>
             {{ range $rest }}
-                {{ partial "blog-card.html" (dict "page" .) }}
+                {{ partial "blog-card.html" (dict "page" . "variant" "editorial" "showMedia" false) }}
             {{ end }}
         </div>
 

@@ -92,6 +92,80 @@
             updateStaffPosition();
         }
 
+        function initArticleTocHover() {
+            const toc = document.querySelector('[data-article-toc]');
+            const articleMain = document.querySelector('.article-detail__main');
+            if (!toc || !articleMain) return;
+
+            const toggle = toc.querySelector('[data-article-toc-toggle]');
+            let lockedOpen = false;
+
+            function setVisible(visible) {
+                document.body.classList.toggle('is-article-toc-visible', visible);
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', visible ? 'true' : 'false');
+                    toggle.setAttribute('aria-label', visible ? '隐藏文章目录' : '显示文章目录');
+                }
+            }
+
+            function getLeftRevealZone() {
+                return Math.min(380, Math.max(280, window.innerWidth * 0.22));
+            }
+
+            function isInsideReadingColumn(x, y) {
+                const rect = articleMain.getBoundingClientRect();
+                const top = Math.min(rect.top, 0) - 48;
+                const bottom = Math.max(rect.bottom, window.innerHeight) + 48;
+
+                return x >= rect.left - 72 && x <= rect.right + 32 && y >= top && y <= bottom;
+            }
+
+            document.addEventListener('pointermove', function (event) {
+                if (lockedOpen) return;
+                setVisible(event.clientX <= getLeftRevealZone() || isInsideReadingColumn(event.clientX, event.clientY));
+            }, { passive: true });
+
+            document.addEventListener('pointerleave', function () {
+                if (!lockedOpen) setVisible(false);
+            });
+
+            toc.addEventListener('focusin', function () {
+                setVisible(true);
+            });
+
+            toc.addEventListener('focusout', function (event) {
+                if (lockedOpen || toc.contains(event.relatedTarget)) return;
+                setVisible(false);
+            });
+
+            if (toggle) {
+                toggle.addEventListener('click', function () {
+                    const isVisible = document.body.classList.contains('is-article-toc-visible');
+                    if (lockedOpen && isVisible) {
+                        lockedOpen = false;
+                        setVisible(false);
+                        return;
+                    }
+
+                    lockedOpen = true;
+                    setVisible(true);
+                });
+            }
+
+            document.addEventListener('click', function (event) {
+                if (!lockedOpen) return;
+                if (toc.contains(event.target) || articleMain.contains(event.target)) return;
+                lockedOpen = false;
+                setVisible(false);
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key !== 'Escape') return;
+                lockedOpen = false;
+                setVisible(false);
+            });
+        }
+
         function initRevealOnScroll() {
             if (reduceMotionQuery.matches || !('IntersectionObserver' in window)) return;
 
@@ -100,9 +174,8 @@
                 '.featured-section',
                 '.blog-card',
                 '.post-tools',
-                '.article-detail__content > p',
-                '.author-card',
-                '.article-related',
+                '.article-detail__content > *',
+                '.article-detail__footer',
                 '.about-values article',
                 '.about-milestones__track li',
                 '.journal-entry',
@@ -135,6 +208,7 @@
         }
 
         initStaffParallax();
+        initArticleTocHover();
         initRevealOnScroll();
 
         window.requestAnimationFrame(function () {

@@ -66,8 +66,8 @@
             <div class="blog-preview-composition__intro">
                 {{ partial "hero-section.html" (dict
                     "context" .
-                    "title" "Stories in <span class=\"script-accent\">rhythm.</span>"
-                    "description" "Thoughts, moments, and little melodies from everyday life."
+                    "title" "Technical notes in <span class=\"script-accent\">rhythm.</span>"
+                    "description" "Backend notes, testing records, tool experiments, and small lessons from building."
                     "primaryLabel" "Explore the blog"
                     "primaryURL" "#blog-index"
                     "avatar" false
@@ -85,8 +85,8 @@
             <div class="blog-preview-composition__aside">
                 {{ partial "quote-block.html" (dict
                     "context" .
-                    "quote" "Every thought has a melody."
-                    "signature" "Melody"
+                    "quote" "Every note here is a build log, a reminder, or a question."
+                    "signature" "Jul1en"
                     "class" "quote-block--blog"
                 ) }}
             </div>
@@ -104,8 +104,8 @@
             {{ end }}
         </div>
 
-        <p class="post-grid__empty" data-blog-empty hidden aria-live="polite">No stories found in this rhythm.</p>
-        <p class="post-index-note">More stories, more melodies.</p>
+        <p class="post-grid__empty" data-blog-empty hidden aria-live="polite">No posts found in this category.</p>
+        <p class="post-index-note">More notes, more context.</p>
     </section>
 {{ end }}
 

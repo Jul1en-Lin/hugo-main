@@ -134,7 +134,12 @@
   align-items: center;
   justify-content: center;
   gap: 0;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 0;
   margin-top: auto;
+  background: transparent;
   color: var(--color-text);
 }
 
@@ -147,6 +152,13 @@
   border-color: var(--color-text);
   background: var(--color-bg-secondary);
   transform: translateY(-1px);
+}
+
+#dark-mode-toggle.theme-toggle:hover,
+#dark-mode-toggle.theme-toggle:focus-visible {
+  border-color: transparent;
+  background: transparent;
+  color: var(--color-text);
 }
 
 .site-menu-toggle__bar {
@@ -180,7 +192,7 @@
 
 .theme-toggle__icon svg {
   display: block;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   transform: translate(1px, -1px);
 }

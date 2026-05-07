@@ -102,9 +102,11 @@ body.template-journal .music-staff-bg__lines path {
 }
 
 body.template-article-detail .music-staff-bg {
-  top: 220px;
-  height: 360px;
-  opacity: 0.5;
+  top: clamp(220px, 29vh, 300px);
+  right: -7vw;
+  left: 52vw;
+  height: 340px;
+  opacity: 0.34;
 }
 
 body.template-article-detail .music-staff-bg__curve {
@@ -218,9 +220,7 @@ body.template-article-detail .music-note-decor {
 }
 
 body.template-article-detail .music-note-decor__note--one {
-  top: 30vh;
-  left: 6vw;
-  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  display: none;
 }
 
 body.template-article-detail .music-note-decor__note--two {

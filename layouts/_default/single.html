@@ -18,35 +18,10 @@
 {{- $content := .Content -}}
 {{- $content = $content | replaceRE (printf `(?s)^\s*<h1[^>]*>\s*%s\s*</h1>` $escapedTitle) "" -}}
 {{- $content = $content | replaceRE `<h1([^>]*)>` `<h2$1>` | replaceRE `</h1>` `</h2>` -}}
-{{- $shareURL := .Permalink | urlquery -}}
-{{- $shareTitle := .Title | urlquery -}}
-
 <article class="article-detail">
+    {{ partial "article/components/floating-toc.html" . }}
+
     <div class="article-detail__layout">
-        <aside class="article-share-rail" aria-label="Article actions">
-            <a class="article-back-link" href="{{ `/post/` | relLangURL }}">
-                {{ partial "helper/icon" "arrow-left" }}
-                <span>Back to all posts</span>
-            </a>
-
-            <div class="article-share-rail__group">
-                <p class="article-share-rail__label">Share</p>
-                <a class="article-share-rail__link" href="{{ printf `https://twitter.com/intent/tweet?url=%s&text=%s` $shareURL $shareTitle | safeURL }}" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">
-                    {{ partial "helper/icon" "brand-twitter" }}
-                </a>
-                <a class="article-share-rail__link" href="{{ printf `https://www.facebook.com/sharer/sharer.php?u=%s` $shareURL | safeURL }}" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
-                    {{ partial "helper/icon" "brand-facebook" }}
-                </a>
-                <a class="article-share-rail__link" href="{{ .Permalink }}" aria-label="Open article permalink">
-                    {{ partial "helper/icon" "brand-instagram" }}
-                </a>
-                <a class="article-share-rail__link" href="{{ printf `mailto:?subject=%s&body=%s` $shareTitle $shareURL | safeURL }}" aria-label="Share by email">
-                    {{ partial "helper/icon" "mail" }}
-                </a>
-                <span class="article-share-rail__line" aria-hidden="true"></span>
-            </div>
-        </aside>
-
         <div class="article-detail__main">
             <header class="article-detail__header">
                 <div class="article-detail__meta">
@@ -72,8 +47,8 @@
                 <div class="article-detail__header-quote">
                     {{ partial "quote-block.html" (dict
                         "context" .
-                        "quote" "Life is like a song. Write your own lyrics."
-                        "signature" "Melody"
+                        "quote" "Document the path while the idea is still warm."
+                        "signature" "Jul1en"
                         "class" "quote-block--article"
                     ) }}
                 </div>
@@ -100,7 +75,7 @@
             </section>
 
             <footer class="article-detail__footer">
-                {{ partial "article/components/related-content.html" (dict "context" . "limit" 3) }}
+                {{ partial "article/components/closing.html" . }}
             </footer>
         </div>
     </div>
@@ -114,7 +89,6 @@
 {{ partial "comments/include" . }}
 {{ end }}
 
-{{ partialCached "footer/footer" . }}
 {{ partialCached "article/components/photoswipe" . }}
 {{ end }}
 

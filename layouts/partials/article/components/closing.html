@@ -1,0 +1,16 @@
+{{- $author := default .Site.Title .Site.Copyright -}}
+{{- $authorHandle := printf "@%s" $author -}}
+<div class="article-closing" aria-label="Article closing">
+    <ul class="article-closing__links">
+        <li>
+            <span class="article-closing__chevron" aria-hidden="true">›</span>
+            <span>written by <span class="article-closing__author">{{ $authorHandle }}</span></span>
+        </li>
+        <li>
+            <span class="article-closing__chevron" aria-hidden="true">›</span>
+            <a href="{{ `/post/` | relLangURL }}">cd ..</a>
+        </li>
+    </ul>
+
+    <p class="article-closing__license">CC BY-NC-SA 4.0 2025-PRESENT © {{ $authorHandle }}</p>
+</div>

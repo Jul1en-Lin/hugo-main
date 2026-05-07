@@ -58,7 +58,6 @@
   .songwriter-card,
   .curated-card,
   .phase4-text-link,
-  .contact-links a,
   .about-values article {
     transition:
       border-color var(--duration-normal) var(--ease-out),
@@ -71,8 +70,7 @@
   .record-item:hover,
   .songwriter-card:hover,
   .curated-card:hover,
-  .phase4-text-link:hover,
-  .contact-links a:hover {
+  .phase4-text-link:hover {
     transform: translateY(-2px);
   }
 
@@ -82,20 +80,6 @@
 
   .album-card:hover img {
     transform: scale(1.025);
-  }
-
-  .contact-faq details p {
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition:
-      max-height var(--duration-normal) var(--ease-out),
-      opacity var(--duration-normal) var(--ease-out);
-  }
-
-  .contact-faq details[open] p {
-    max-height: 180px;
-    opacity: 1;
   }
 
   .journal-entry__dot,

@@ -28,28 +28,14 @@ body.template-article-detail .site-header {
 }
 
 .article-detail__toc-rail {
-  --toc-expanded-width: clamp(312px, 21vw, 424px);
   position: fixed;
   z-index: calc(var(--z-header) + 2);
   top: 0;
   bottom: 0;
   left: 0;
-  width: 152px;
-  border-right: 1px solid transparent;
-  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  width: clamp(236px, 17vw, 304px);
   color: var(--color-text);
   overflow: hidden;
-  transition:
-    width var(--duration-slow) var(--ease-out),
-    border-color var(--duration-normal) var(--ease-out),
-    background-color var(--duration-normal) var(--ease-out);
-}
-
-body.is-article-toc-visible .article-detail__toc-rail,
-.article-detail__toc-rail:focus-within {
-  width: var(--toc-expanded-width);
-  border-right-color: var(--color-border);
-  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
 }
 
 .article-detail__toc-brand {
@@ -144,25 +130,29 @@ body.is-article-toc-visible .article-detail__toc-toggle,
 .article-detail__toc-panel {
   position: absolute;
   top: 188px;
-  right: 38px;
+  right: 24px;
   bottom: 162px;
   left: 42px;
   opacity: 0;
   pointer-events: none;
-  transform: translateX(-12px);
+  transform: translateY(4px);
   visibility: hidden;
   transition:
     opacity var(--duration-normal) var(--ease-out),
     transform var(--duration-normal) var(--ease-out),
-    visibility var(--duration-normal) var(--ease-out);
+    visibility 0s linear var(--duration-normal);
 }
 
 body.is-article-toc-visible .article-detail__toc-panel,
 .article-detail__toc-rail:focus-within .article-detail__toc-panel {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(0);
+  transform: translateY(0);
   visibility: visible;
+  transition:
+    opacity var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out),
+    visibility 0s linear 0s;
 }
 
 .article-detail__toc-nav {
@@ -190,50 +180,39 @@ body.is-article-toc-visible .article-detail__toc-panel,
 .article-detail__toc-nav #TableOfContents a {
   position: relative;
   display: block;
-  padding: 6px 0 6px 18px;
-  color: var(--color-text-secondary);
-  font-size: 15px;
-  line-height: 1.5;
-  text-decoration: none;
+  width: max-content;
+  max-width: 100%;
+  padding: 4px 0;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  font-family: var(--font-display), "Noto Sans SC", serif;
+  font-size: 14.5px;
+  line-height: 1.55;
+  letter-spacing: 0;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 24%, transparent);
+  text-underline-offset: 3px;
   transition:
     color var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
-}
-
-.article-detail__toc-nav #TableOfContents a::before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 5px;
-  height: 5px;
-  content: "";
-  background: currentColor;
-  border-radius: 50%;
-  opacity: 0;
-  transform: translateY(-50%);
-  transition: opacity var(--duration-fast) var(--ease-out);
+    text-decoration-color var(--duration-fast) var(--ease-out);
 }
 
 .article-detail__toc-nav #TableOfContents li li a {
-  font-size: 14.5px;
+  font-size: 14px;
 }
 
 .article-detail__toc-nav #TableOfContents li li li a {
-  font-size: 14px;
+  font-size: 13.5px;
 }
 
 .article-detail__toc-nav #TableOfContents a:hover,
 .article-detail__toc-nav #TableOfContents a:focus-visible,
 .article-detail__toc-nav #TableOfContents li.active-class > a {
   color: var(--color-text);
+  text-decoration-color: color-mix(in srgb, currentColor 48%, transparent);
 }
 
 .article-detail__toc-nav #TableOfContents li.active-class > a {
-  font-weight: 700;
-}
-
-.article-detail__toc-nav #TableOfContents li.active-class > a::before {
-  opacity: 1;
+  font-weight: 600;
 }
 
 .article-detail__toc-staff {
@@ -976,10 +955,6 @@ body.is-article-toc-visible .article-detail__toc-staff,
   .article-detail {
     padding-right: clamp(36px, 5vw, 72px);
     padding-left: clamp(300px, 30vw, 380px);
-  }
-
-  .article-detail__toc-rail {
-    --toc-expanded-width: clamp(270px, 28vw, 318px);
   }
 }
 

@@ -1,5 +1,6 @@
 {{- $nav := .Site.Params.primaryNav -}}
 {{- $brand := default .Site.Title .Site.Params.brandName -}}
+{{- $social := .Site.Menus.social -}}
 <header class="site-header" role="banner">
     <div class="site-header__inner">
         <a class="site-brand" href="{{ .Site.Home.RelPermalink }}" aria-label="{{ $brand }} home">
@@ -37,10 +38,19 @@
             </ul>
         </nav>
 
-        {{- if (default false .Site.Params.colorScheme.toggle) -}}
-        <button id="dark-mode-toggle" class="theme-toggle" type="button" aria-label="{{ T `darkMode` }}" title="{{ T `darkMode` }}">
-            <span class="theme-toggle__icon" aria-hidden="true">{{ partial "helper/icon" "music-note" }}</span>
-        </button>
-        {{- end -}}
+        <div class="site-actions" role="group" aria-label="Social links and theme">
+            {{- range $social -}}
+                {{- $icon := default "link" .Params.Icon -}}
+                <a class="site-action-link" href="{{ .URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .Name }}" title="{{ .Name }}">
+                    <span class="site-action-link__icon" aria-hidden="true">{{ partial "helper/icon" $icon }}</span>
+                </a>
+            {{- end -}}
+
+            {{- if (default false .Site.Params.colorScheme.toggle) -}}
+            <button id="dark-mode-toggle" class="theme-toggle" type="button" aria-label="{{ T `darkMode` }}" title="{{ T `darkMode` }}">
+                <span class="theme-toggle__icon" aria-hidden="true">{{ partial "helper/icon" "music-note" }}</span>
+            </button>
+            {{- end -}}
+        </div>
     </div>
 </header>

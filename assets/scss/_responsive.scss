@@ -13,7 +13,8 @@
     order: 3;
   }
 
-  .theme-toggle {
+  .site-actions {
+    justify-self: end;
     order: 2;
     margin-left: auto;
   }
@@ -167,13 +168,8 @@
     grid-template-columns: 86px minmax(0, 1fr);
   }
 
-  .contact-grid,
   .about-milestones {
     gap: var(--space-7);
-  }
-
-  .contact-form button {
-    max-width: 100%;
   }
 }
 
@@ -187,10 +183,27 @@ body.template-home .main-content {
   }
 
   .site-menu-toggle,
-  .theme-toggle,
   .back-to-top {
     width: 38px;
     height: 38px;
+  }
+
+  .site-actions {
+    gap: 4px;
+  }
+
+  .site-action-link,
+  #dark-mode-toggle.theme-toggle {
+    width: 28px;
+    height: 28px;
+  }
+
+  .site-action-link__icon,
+  .theme-toggle__icon,
+  .site-action-link__icon svg,
+  .theme-toggle__icon svg {
+    width: 18px;
+    height: 18px;
   }
 
   .search-form {
@@ -200,7 +213,6 @@ body.template-home .main-content {
   body.template-about .main-content,
   body.template-journal .main-content,
   body.template-music .main-content,
-  body.template-contact .main-content,
   body.template-article-detail .main-content {
     width: unquote("min(100% - 28px, var(--layout-wide))");
   }
@@ -214,7 +226,6 @@ body.template-home .main-content {
     grid-template-columns: 82px minmax(0, 1fr);
   }
 
-  .contact-hero,
   .journal-hero,
   .music-hero,
   .about-hero {

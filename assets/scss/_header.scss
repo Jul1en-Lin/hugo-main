@@ -111,8 +111,57 @@
   transform: translateX(-50%);
 }
 
-.site-menu-toggle,
-.theme-toggle {
+.site-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 6px;
+}
+
+.site-action-link,
+#dark-mode-toggle.theme-toggle {
+  display: inline-grid;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  line-height: 0;
+  transition: color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+
+.site-action-link:hover,
+.site-action-link:focus-visible,
+#dark-mode-toggle.theme-toggle:hover,
+#dark-mode-toggle.theme-toggle:focus-visible {
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+.site-action-link__icon,
+.theme-toggle__icon {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 0;
+}
+
+.site-action-link__icon svg,
+.theme-toggle__icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.site-menu-toggle {
   display: inline-grid;
   width: 42px;
   height: 42px;
@@ -125,40 +174,18 @@
   transition: border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
 }
 
-.theme-toggle {
-  justify-self: end;
-}
-
 #dark-mode-toggle.theme-toggle {
-  display: inline-grid;
-  align-items: center;
-  justify-content: center;
   gap: 0;
-  width: 30px;
-  height: 30px;
-  border: 0;
-  border-radius: 0;
-  margin-top: auto;
-  background: transparent;
-  color: var(--color-text);
 }
 
 .site-menu-toggle {
   display: none;
 }
 
-.site-menu-toggle:hover,
-.theme-toggle:hover {
+.site-menu-toggle:hover {
   border-color: var(--color-text);
   background: var(--color-bg-secondary);
   transform: translateY(-1px);
-}
-
-#dark-mode-toggle.theme-toggle:hover,
-#dark-mode-toggle.theme-toggle:focus-visible {
-  border-color: transparent;
-  background: transparent;
-  color: var(--color-text);
 }
 
 .site-menu-toggle__bar {
@@ -180,19 +207,6 @@
   transform: translateY(-6px) rotate(-45deg);
 }
 
-.theme-toggle__icon {
-  display: grid;
-  width: 20px;
-  height: 20px;
-  place-items: center;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  line-height: 0;
-}
-
 .theme-toggle__icon svg {
-  display: block;
-  width: 20px;
-  height: 20px;
   transform: translate(1px, -1px);
 }

@@ -1,6 +1,5 @@
 body.template-journal .main-content,
-body.template-music .main-content,
-body.template-contact .main-content {
+body.template-music .main-content {
   width: unquote("min(1500px, calc(100% - clamp(32px, 6vw, 112px)))");
   padding-top: var(--space-5);
 }
@@ -173,8 +172,7 @@ body.template-about .main-content {
 
 .about-hero__portrait img,
 .journal-hero__portrait img,
-.music-hero__portrait img,
-.contact-hero__portrait img {
+.music-hero__portrait img {
   width: 100%;
   height: 100%;
   object-fit: cover;

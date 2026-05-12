@@ -1,0 +1,58 @@
+{{- $nav := .Site.Params.primaryNav -}}
+{{- $brand := default .Site.Title .Site.Params.brandName -}}
+{{- $social := .Site.Menus.social -}}
+<header class="site-header" role="banner">
+    <div class="site-header__inner">
+        <a class="site-brand" href="{{ .Site.Home.RelPermalink }}" aria-label="{{ $brand }} home">
+            <span class="site-brand__text">{{ $brand }}</span>
+        </a>
+
+        <div class="site-header__right">
+            <nav id="primary-navigation" class="site-nav" aria-label="Primary navigation">
+                <ul class="site-nav__list">
+                    {{- range $nav -}}
+                        {{- $identifier := .identifier -}}
+                        {{- $section := default "" .section -}}
+                        {{- $url := .url | relLangURL -}}
+                        {{- $active := false -}}
+                        {{- if and $.IsHome (eq $identifier "home") -}}
+                            {{- $active = true -}}
+                        {{- else if and $section (eq $.Section $section) -}}
+                            {{- $active = true -}}
+                        {{- else if and (ne $url "/") (hasPrefix $.RelPermalink $url) -}}
+                            {{- $active = true -}}
+                        {{- end -}}
+                        <li class="site-nav__item">
+                            <a class="site-nav__link{{ if $active }} is-active{{ end }}" href="{{ $url }}"{{ if $active }} aria-current="page"{{ end }}>
+                                {{ .name }}
+                            </a>
+                        </li>
+                    {{- end -}}
+                </ul>
+            </nav>
+
+            <div class="site-actions" role="group" aria-label="Social links and theme">
+                {{- range $social -}}
+                    {{- $icon := default "link" .Params.Icon -}}
+                    <a class="site-action-link" href="{{ .URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .Name }}" title="{{ .Name }}">
+                        <span class="site-action-link__icon" aria-hidden="true">{{ partial "helper/icon" $icon }}</span>
+                    </a>
+                {{- end -}}
+
+                {{- if (default false .Site.Params.colorScheme.toggle) -}}
+                <button id="dark-mode-toggle" class="theme-toggle" type="button" aria-label="{{ T `darkMode` }}" title="{{ T `darkMode` }}">
+                    <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">{{ partial "helper/icon" "theme-sun" }}</span>
+                    <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">{{ partial "helper/icon" "theme-moon" }}</span>
+                </button>
+                {{- end -}}
+            </div>
+
+            <button class="site-menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">
+                <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+                <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+                <span class="site-menu-toggle__bar" aria-hidden="true"></span>
+                <span class="sr-only">Menu</span>
+            </button>
+        </div>
+    </div>
+</header>

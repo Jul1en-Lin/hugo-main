@@ -44,8 +44,21 @@ permalinks:
     page: /:slug/
 
 params:
+    brandName: Jul1en
+    description: 一个关于后端开发、测试、工具实践与生活记录的个人博客。
     mainSections:
         - post
+    primaryNav:
+        - identifier: blog
+          name: Blog
+          url: /post/
+          section: post
+        - identifier: journal
+          name: Journal
+          url: /journal/
+        - identifier: music
+          name: Music
+          url: /music/
     featuredImageField: image
     rssFullContent: true
     favicon: # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
@@ -70,9 +83,6 @@ params:
         math: false
         toc: true
         readingTime: false
-        license:
-            enabled: false
-            default: Licensed under CC BY-NC-SA 4.0
 
     comments:
         enabled: false
@@ -182,7 +192,7 @@ params:
         toggle: true
 
         # Available values: auto, light, dark
-        default: auto
+        default: light
 
     imageProcessing:
         cover:
@@ -192,28 +202,21 @@ params:
 
 ### Custom menu
 ### See https://stack.jimmycai.com/config/menu
-### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
 menu:
     main: []
 
     social:
-        - identifier: gitee
-          name: Gitee
-          url: https://gitee.com/Cary_C
-          params:
-              icon: gitee-logo
-
         - identifier: github
           name: GitHub
           url: https://github.com/Jul1en-Lin
           params:
               icon: brand-github
 
-        - identifier: csdn
-          name: CSDN
-          url: https://blog.csdn.net/TwoCat_C?type=blog
+        - identifier: instagram
+          name: Instagram
+          url: https://www.instagram.com/jul1en_lin
           params:
-              icon: csdn-logo
+              icon: brand-instagram
 
 related:
     includeNewer: true
@@ -252,8 +255,8 @@ markup:
         codeFences: true
         guessSyntax: true
         lineNoStart: 1
-        lineNos: true
-        lineNumbersInTable: true
+        lineNos: false
+        lineNumbersInTable: false
         tabWidth: 4
         
 # 更新时间：优先读取git时间 -> git时间不存在，就读取本地文件修改时间

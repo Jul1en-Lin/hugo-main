@@ -1,72 +1,86 @@
-{{- define "body-class" -}}
-article-page editorial-layout
-{{- end -}}
-
-{{ define "left-sidebar" }}{{ end }}
+{{- define "body-class" -}}template-article-detail article-page{{- end -}}
 
 {{ define "main" }}
-{{/* ===== Full-Width Editorial Layout ===== */}}
-<article class="editorial-article">
-    <div class="editorial-grid">
-        {{/* --- Left Column: Title & Metadata (anchored to left edge) --- */}}
-        <aside class="editorial-title-column">
-            {{/* Category badges */}}
-            {{ if .Params.categories }}
-            <div class="editorial-category">
-                {{ range (.GetTerms "categories") }}
-                <a href="{{ .RelPermalink }}" {{ with .Params.style
-                    }}style="background-color: {{ .background }}; color: {{ .color }};" {{ end }}>
-                    {{ .LinkTitle }}
-                </a>
-                {{ end }}
-            </div>
-            {{ end }}
+{{- $terms := .GetTerms "categories" -}}
+{{- $image := partialCached "helper/image" (dict "Context" . "Type" "articleList") .RelPermalink "articleDetail" -}}
+{{- $resourceImage := "" -}}
+{{- with .Resources.ByType "image" -}}
+    {{- $resourceImage = index . 0 -}}
+{{- end -}}
+{{- $escapedTitle := .Title | plainify | replaceRE `([\\\^\$\.\|\?\*\+\(\)\[\]\{\}])` `\\$1` -}}
+{{- $summary := "" -}}
+{{- with .Params.description -}}
+    {{- $summary = . -}}
+{{- else -}}
+    {{- $summary = .Summary | plainify | replaceRE (printf `^\s*%s\s*` $escapedTitle) "" | truncate 88 -}}
+{{- end -}}
+{{- $wrappedTable := printf `<div class="table-wrapper">${1}</div>` -}}
+{{- $content := .Content -}}
+{{- $content = $content | replaceRE (printf `(?s)^\s*<h1[^>]*>\s*%s\s*</h1>` $escapedTitle) "" -}}
+{{- $content = $content | replaceRE `<h1([^>]*)>` `<h2$1>` | replaceRE `</h1>` `</h2>` -}}
+<article class="article-detail">
+    {{ partial "article/components/floating-toc.html" . }}
 
-            {{/* Article title */}}
-            <h1 class="editorial-title">{{ .Title }}</h1>
+    <div class="article-detail__layout">
+        <div class="article-detail__main">
+            <header class="article-detail__header">
+                <div class="article-detail__meta">
+                    {{- if not .Date.IsZero -}}
+                    <time datetime="{{ .Date.Format `2006-01-02T15:04:05Z07:00` }}">{{ .Date | time.Format (or .Site.Params.dateFormat.published "2006-01-02") }}</time>
+                    {{- end -}}
+                    {{- with $terms -}}
+                        {{- with index . 0 -}}
+                        <span aria-hidden="true">•</span>
+                        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+                        {{- end -}}
+                    {{- end -}}
+                </div>
 
-            {{/* Subtitle / description */}}
-            {{ with .Params.description }}
-            <p class="editorial-subtitle">{{ . }}</p>
-            {{ end }}
-
-            {{/* Date & reading time */}}
-            <div class="editorial-meta">
-                {{ if not .Date.IsZero }}
-                <time datetime='{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}'>
-                    {{ .Date | time.Format (or .Site.Params.dateFormat.published "Jan 02, 2006") }}
-                </time>
-                {{ end }}
-
-                {{- if ne .Lastmod .Date -}}
-                <span class="editorial-meta-sep">·</span>
-                <span class="editorial-lastmod">
-                    更新于 {{ .Lastmod | time.Format (or .Site.Params.dateFormat.lastUpdated "2006-01-02") }}
-                </span>
+                <h1 class="article-detail__title">
+                    <span>{{ .Title }}</span>
+                    <span class="article-detail__title-note" aria-hidden="true">♪</span>
+                </h1>
+                {{- with $summary -}}
+                <p class="article-detail__summary">{{ . }}</p>
                 {{- end -}}
-            </div>
 
-            {{/* Tags */}}
-            {{ if .Params.Tags }}
-            <div class="editorial-tags">
-                {{ range (.GetTerms "tags") }}
-                <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-                {{ end }}
-            </div>
-            {{ end }}
-        </aside>
+                <div class="article-detail__header-quote">
+                    {{ partial "quote-block.html" (dict
+                        "context" .
+                        "quote" "Document the path while the idea is still warm."
+                        "signature" "Jul1en"
+                        "class" "quote-block--article"
+                    ) }}
+                </div>
 
-        {{/* --- Right Column: Article Content (constrained width) --- */}}
-        <div class="editorial-content-column">
-            <section class="article-content">
-                {{ $wrappedTable := printf `<div class="table-wrapper">${1}</div>` }}
-                {{ .Content | replaceRE `(<table>(?:.|\n)+?</table>)` $wrappedTable | safeHTML }}
+                {{- if or (and $image.exists (not $image.isDefault)) $resourceImage -}}
+                <figure class="article-detail__cover">
+                    {{- if and $image.exists (not $image.isDefault) -}}
+                        {{- if $image.resource -}}
+                            {{- $cover := $image.resource.Fill "1120x520 Center webp q86" -}}
+                            <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ .Title }}" loading="eager" decoding="async" fetchpriority="high">
+                        {{- else -}}
+                            <img src="{{ $image.permalink }}" alt="{{ .Title }}" loading="eager" decoding="async" fetchpriority="high">
+                        {{- end -}}
+                    {{- else if $resourceImage -}}
+                        {{- $cover := $resourceImage.Fill "1120x520 Center webp q86" -}}
+                        <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ .Title }}" loading="eager" decoding="async" fetchpriority="high">
+                    {{- end -}}
+                </figure>
+                {{- end -}}
+            </header>
+
+            <section class="article-content article-detail__content">
+                {{ $content | replaceRE `(<table>(?:.|\n)+?</table>)` $wrappedTable | safeHTML }}
             </section>
+
+            <footer class="article-detail__footer">
+                {{ partial "article/components/closing.html" . }}
+            </footer>
         </div>
     </div>
 </article>
 
-{{/* ===== Footer (below the grid) ===== */}}
 {{ if or .Params.math .Site.Params.article.math }}
 {{ partialCached "article/components/math.html" . }}
 {{ end }}
@@ -75,15 +89,8 @@ article-page editorial-layout
 {{ partial "comments/include" . }}
 {{ end }}
 
-{{ if (default false .Site.Params.colorScheme.toggle) }}
-<button id="dark-mode-toggle" class="editorial-dark-mode-toggle" type="button" aria-label="{{ T `darkMode` }}" title="{{ T `darkMode` }}">
-    {{ partial "helper/icon" "toggle-left" }}
-    {{ partial "helper/icon" "toggle-right" }}
-    <span>{{ T "darkMode" }}</span>
-</button>
-{{ end }}
-
 {{ partialCached "article/components/photoswipe" . }}
 {{ end }}
 
+{{ define "left-sidebar" }}{{ end }}
 {{ define "right-sidebar" }}{{ end }}

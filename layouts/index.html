@@ -1,48 +1,10 @@
-{{ define "body-class" }}template-archives{{ end }}
+{{ define "body-class" }}template-home{{ end }}
 
 {{ define "main" }}
 {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
-{{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
-{{ $filtered := ($pages | intersect $notHidden) }}
+{{ $notHidden := where $pages "Params.hidden" "!=" true }}
+{{ $posts := sort $notHidden "Date" "desc" }}
+{{ $latest := first 4 $posts }}
 
-<!-- 首页欢迎字幅板块 -->
-<div class="welcome">
-    <p style="font-size: 2rem; text-align: center; font-weight: bold">
-        <span class="firework-icon">🎉</span>
-        <span class="jump-text1">W</span><span class="jump-text2">e</span><span class="jump-text3">l</span><span
-            class="jump-text4">c</span><span class="jump-text5">o</span><span class="jump-text6">m</span><span
-            class="jump-text7">e</span>
-        <span class="jump-text8">&nbsp;</span>
-        <span class="jump-text9">T</span><span class="jump-text10">o</span>
-        <span class="jump-text11">&nbsp;</span>
-        <span class="jump-text12" style="color:#e99312">J</span><span class="jump-text13"
-            style="color:#e99312">u</span><span class="jump-text14" style="color:#e99312">l</span><span
-            class="jump-text15" style="color:#e99312">1</span><span class="jump-text16"
-            style="color:#e99312">e</span><span class="jump-text17" style="color:#e99312">n</span>
-        <span class="jump-text18" style="color:#e99312">'</span><span class="jump-text19"
-            style="color:#e99312">s</span><span class="jump-text20" style="color:#e99312">&nbsp;</span><span
-            class="jump-text21" style="color:#e99312">C</span><span class="jump-text22"
-            style="color:#e99312">h</span><span class="jump-text23" style="color:#e99312">a</span><span
-            class="jump-text24" style="color:#e99312">n</span><span class="jump-text25"
-            style="color:#e99312">n</span><span class="jump-text26" style="color:#e99312">e</span><span
-            class="jump-text27" style="color:#e99312">l</span><span class="jump-text28" style="color:#e99312">~</span>
-    </p>
-</div>
-
-<!-- 文章统计 (已移除) -->
-
-<!-- 时间线归档列表 (合集样式) -->
-{{ range $filtered.GroupByDate "2006" }}
-{{ $id := lower (replace .Key " " "-") }}
-<div class="archives-group" id="{{ $id }}">
-    <h2 class="archives-date section-title"><a href="#{{ $id }}">{{ .Key }}</a></h2>
-    <div class="article-list--compact">
-        {{ range .Pages }}
-        {{ partial "article-list/compact" . }}
-        {{ end }}
-    </div>
-</div>
-{{ end }}
-
-{{ partialCached "footer/footer" . }}
+{{ partial "home-profile.html" (dict "context" . "posts" $latest) }}
 {{ end }}

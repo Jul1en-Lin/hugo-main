@@ -1,0 +1,230 @@
+@media (max-width: 920px) {
+  body.site-nav-open {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .site-header__inner {
+    gap: var(--space-3);
+  }
+
+  .site-header__right {
+    gap: var(--space-3);
+  }
+
+  .site-menu-toggle {
+    display: inline-grid;
+  }
+
+  .site-actions {
+    margin-left: auto;
+  }
+
+  .site-nav {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    left: 0;
+    display: grid;
+    max-height: calc(100vh - var(--header-height));
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+    box-shadow: 0 22px 52px rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity var(--duration-normal) var(--ease-out), visibility var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
+  }
+
+  .site-nav.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .site-nav__list {
+    display: grid;
+    gap: var(--space-2);
+    width: unquote("min(420px, 100%)");
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .site-nav__link {
+    justify-content: center;
+    min-height: 52px;
+    font-size: 16px;
+  }
+
+  .site-nav__link.is-active::before {
+    top: 8px;
+  }
+
+  .editorial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .editorial-title-column {
+    position: static;
+  }
+
+  .featured-post__link,
+  .template-blog-list .featured-post__link {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  .site-header__inner,
+  .main-content {
+    width: unquote("min(100% - 28px, var(--layout-wide))");
+  }
+
+  .site-brand__text {
+    font-size: 24px;
+  }
+
+  .site-brand__mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .main-content {
+    padding: var(--space-7) 0 var(--space-8);
+  }
+
+  .phase4-page h1,
+  .hero-copy h1 {
+    font-size: clamp(2.55rem, 14vw, 3.65rem);
+  }
+
+  .phase4-page h2,
+  .section-heading h2 {
+    font-size: clamp(1.55rem, 8vw, 2rem);
+  }
+
+  .music-staff-bg {
+    height: 240px;
+    opacity: 0.42;
+  }
+
+  .music-note-decor__note--three {
+    display: none;
+  }
+
+  .article-list,
+  .article-list--compact {
+    grid-template-columns: 1fr;
+  }
+
+  .template-archives .archives-group {
+    padding-left: var(--space-6);
+  }
+
+  .template-archives .archives-date::before {
+    left: calc(var(--space-6) * -1 - 5px);
+  }
+
+  .search-form {
+    align-items: stretch;
+  }
+
+  .template-blog-list .featured-post__media {
+    aspect-ratio: 1.55 / 1;
+  }
+
+  .template-blog-list .blog-card__media,
+  .template-home .blog-card__media {
+    aspect-ratio: 1.65 / 1;
+  }
+
+  body.template-music .album-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  body.template-music .album-card figcaption {
+    min-height: 0;
+  }
+
+  body.template-music .album-card small {
+    font-size: 0.72rem;
+  }
+
+  body.template-music .music-panel .phase4-text-link {
+    margin-top: var(--space-5);
+  }
+
+  .music-list__item,
+  .record-item {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .songwriter-card {
+    grid-template-columns: 86px minmax(0, 1fr);
+  }
+
+}
+
+body.template-home .main-content {
+  padding-top: var(--space-4);
+}
+
+@media (max-width: 520px) {
+  .site-brand__text {
+    font-size: 22px;
+  }
+
+  .site-menu-toggle,
+  .back-to-top {
+    width: 38px;
+    height: 38px;
+  }
+
+  .site-actions {
+    gap: 4px;
+  }
+
+  .site-action-link,
+  #dark-mode-toggle.theme-toggle {
+    width: 28px;
+    height: 28px;
+  }
+
+  .site-action-link__icon,
+  .theme-toggle__icon,
+  .site-action-link__icon svg,
+  .theme-toggle__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .search-form {
+    display: grid;
+  }
+
+  body.template-journal .main-content,
+  body.template-music .main-content,
+  body.template-article-detail .main-content {
+    width: unquote("min(100% - 28px, var(--layout-wide))");
+  }
+
+  body.template-music .album-grid {
+    gap: 10px;
+  }
+
+  .music-list__item,
+  .record-item {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .journal-hero,
+  .music-hero {
+    min-height: 0;
+  }
+}

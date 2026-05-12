@@ -1,0 +1,31 @@
+{{- $image := .Page.Resources.GetMatch (printf "%s" (.Destination | safeURL)) -}}
+{{- $permalink := .Destination | relURL | safeURL -}}
+{{- $alt := .PlainText | plainify -}}
+{{- $width := 0 -}}
+{{- $height := 0 -}}
+{{- $srcset := "" -}}
+{{- $sizes := "(max-width: 860px) calc(100vw - 40px), 1060px" -}}
+{{- $galleryImage := false -}}
+
+{{- if $image -}}
+    {{- $notSVG := ne (path.Ext .Destination) ".svg" -}}
+    {{- $permalink = $image.RelPermalink -}}
+
+    {{- if $notSVG -}}
+        {{- $width = $image.Width -}}
+        {{- $height = $image.Height -}}
+        {{- $galleryImage = true -}}
+
+        {{- if (default true .Page.Site.Params.imageProcessing.content.enabled) -}}
+            {{- $small := $image.Resize `800x webp q84` -}}
+            {{- $medium := $image.Resize `1600x webp q84` -}}
+            {{- $large := $image.Resize `2400x webp q84` -}}
+            {{- $permalink = $medium.RelPermalink -}}
+            {{- $width = $medium.Width -}}
+            {{- $height = $medium.Height -}}
+            {{- $srcset = printf `%s 800w, %s 1600w, %s 2400w` $small.RelPermalink $medium.RelPermalink $large.RelPermalink -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+<img src="{{ $permalink }}" {{ with $width }}width="{{ . }}" {{ end }}{{ with $height }}height="{{ . }}" {{ end }}{{ with $srcset }}srcset="{{ . }}" sizes="{{ $sizes }}" {{ end }}loading="lazy" decoding="async" alt="{{ $alt }}"{{ if $galleryImage }} class="gallery-image" data-flex-grow="{{ div (mul $image.Width 100) $image.Height }}" data-flex-basis="{{ div (mul $image.Width 240) $image.Height }}px"{{ end }}>

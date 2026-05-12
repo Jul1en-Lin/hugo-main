@@ -1,0 +1,12 @@
+{{- $siteTitle := .Site.Title -}}
+{{- $title := $siteTitle -}}
+
+{{- if .IsHome -}}
+    {{- $title = $siteTitle -}}
+{{- else if eq .Kind "term" -}}
+    {{- $title = printf "%s: %s | %s" (title .Data.Singular) .Title $siteTitle -}}
+{{- else if .Title -}}
+    {{- $title = printf "%s | %s" .Title $siteTitle -}}
+{{- end -}}
+
+{{- return $title -}}

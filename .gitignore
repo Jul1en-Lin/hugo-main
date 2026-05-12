@@ -4,3 +4,7 @@ resources
 hugo.exe
 claude.md
 AGENTS.md
+
+# Local development research/reference artifacts
+docs/design-references/
+docs/research/

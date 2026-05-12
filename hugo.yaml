@@ -49,12 +49,6 @@ params:
     mainSections:
         - post
     primaryNav:
-        - identifier: home
-          name: Home
-          url: /
-        - identifier: about
-          name: About
-          url: /about/
         - identifier: blog
           name: Blog
           url: /post/
@@ -89,9 +83,6 @@ params:
         math: false
         toc: true
         readingTime: false
-        license:
-            enabled: false
-            default: Licensed under CC BY-NC-SA 4.0
 
     comments:
         enabled: false
@@ -211,7 +202,6 @@ params:
 
 ### Custom menu
 ### See https://stack.jimmycai.com/config/menu
-### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
 menu:
     main: []
 

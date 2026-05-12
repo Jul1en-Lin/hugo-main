@@ -8,14 +8,15 @@
     gap: var(--space-3);
   }
 
+  .site-header__right {
+    gap: var(--space-3);
+  }
+
   .site-menu-toggle {
     display: inline-grid;
-    order: 3;
   }
 
   .site-actions {
-    justify-self: end;
-    order: 2;
     margin-left: auto;
   }
 
@@ -53,7 +54,7 @@
   .site-nav__link {
     justify-content: center;
     min-height: 52px;
-    font-size: var(--text-lg);
+    font-size: 16px;
   }
 
   .site-nav__link.is-active::before {
@@ -85,7 +86,7 @@
   }
 
   .site-brand__text {
-    font-size: 1.55rem;
+    font-size: 24px;
   }
 
   .site-brand__mark {
@@ -168,9 +169,6 @@
     grid-template-columns: 86px minmax(0, 1fr);
   }
 
-  .about-milestones {
-    gap: var(--space-7);
-  }
 }
 
 body.template-home .main-content {
@@ -179,7 +177,7 @@ body.template-home .main-content {
 
 @media (max-width: 520px) {
   .site-brand__text {
-    font-size: 1.35rem;
+    font-size: 22px;
   }
 
   .site-menu-toggle,
@@ -210,7 +208,6 @@ body.template-home .main-content {
     display: grid;
   }
 
-  body.template-about .main-content,
   body.template-journal .main-content,
   body.template-music .main-content,
   body.template-article-detail .main-content {
@@ -227,8 +224,7 @@ body.template-home .main-content {
   }
 
   .journal-hero,
-  .music-hero,
-  .about-hero {
+  .music-hero {
     min-height: 0;
   }
 }

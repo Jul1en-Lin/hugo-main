@@ -11,33 +11,6 @@
   border-top: 1px solid var(--color-border-light);
 }
 
-.template-home .latest-posts::before {
-  position: absolute;
-  right: -28vw;
-  bottom: 28%;
-  z-index: -1;
-  width: unquote("min(58vw, 820px)");
-  height: 142px;
-  content: "";
-  background: repeating-linear-gradient(to bottom, transparent 0, transparent 15px, rgba(17, 17, 17, 0.11) 16px, transparent 17px);
-  border-radius: 50%;
-  opacity: 0.5;
-  transform: rotate(-7deg);
-}
-
-.template-home .latest-posts::after {
-  position: absolute;
-  right: -22vw;
-  bottom: 21%;
-  z-index: -1;
-  content: "𝄞";
-  color: var(--color-border);
-  font-family: var(--font-display);
-  font-size: clamp(6rem, 12vw, 13rem);
-  line-height: 1;
-  opacity: 0.85;
-}
-
 .section-heading {
   display: flex;
   align-items: end;
@@ -603,34 +576,6 @@
   padding-top: 0;
 }
 
-.template-blog-list .blog-index::before {
-  position: absolute;
-  top: -104px;
-  left: -28vw;
-  z-index: -1;
-  width: unquote("min(58vw, 820px)");
-  height: 132px;
-  content: "";
-  background: repeating-linear-gradient(to bottom, transparent 0, transparent 15px, rgba(17, 17, 17, 0.11) 16px, transparent 17px);
-  border-radius: 50%;
-  opacity: 0.46;
-  transform: rotate(6deg);
-}
-
-.template-blog-list .blog-index::after {
-  position: absolute;
-  right: -18vw;
-  bottom: -72px;
-  z-index: -1;
-  width: unquote("min(54vw, 780px)");
-  height: 156px;
-  content: "";
-  background: repeating-linear-gradient(to bottom, transparent 0, transparent 16px, rgba(17, 17, 17, 0.1) 17px, transparent 18px);
-  border-radius: 50%;
-  opacity: 0.58;
-  transform: rotate(-7deg);
-}
-
 .template-blog-list .post-tools {
   grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
   gap: var(--space-7);
@@ -850,14 +795,22 @@
 .template-blog-list .blog-card--editorial .blog-card__link {
   border-color: #e8e8e8;
   border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--color-bg) 97%, var(--color-bg-secondary));
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.04);
+  background: var(--color-card-bg);
+  box-shadow: 0 15px 34px rgba(0, 0, 0, 0.045);
+}
+
+.template-blog-list .blog-card--editorial .blog-card__link:hover,
+.template-blog-list .blog-card--editorial .blog-card__link:focus-visible {
+  border-color: var(--color-text);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
 }
 
 .template-blog-list .blog-card--editorial .blog-card__body {
   height: auto;
   min-height: 192px;
-  padding: 20px 24px;
+  align-items: flex-start;
+  padding: clamp(28px, 4vw, 42px);
   overflow: hidden;
 }
 
@@ -875,17 +828,31 @@
 
 .template-blog-list .blog-card--editorial .blog-card__summary {
   --card-summary-line-height: 1.62;
-  max-width: 25ch;
-  margin-top: 16px;
+  max-width: 42ch;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent);
   font-size: 1rem;
   line-height: var(--card-summary-line-height);
-  min-height: calc(2em * var(--card-summary-line-height));
-  max-height: calc(2em * var(--card-summary-line-height));
+  min-height: calc((2em * var(--card-summary-line-height)) + 24px);
+  max-height: calc((2em * var(--card-summary-line-height)) + 24px);
 }
 
 .template-blog-list .blog-card--editorial .blog-card__more {
   padding-top: 24px;
   font-size: 0.92rem;
+}
+
+.template-blog-list .blog-card--editorial .blog-card__link:hover .blog-card__body,
+.template-blog-list .blog-card--editorial .blog-card__link:focus-visible .blog-card__body,
+.template-blog-list .blog-card--editorial .blog-card__link:hover .blog-card__title,
+.template-blog-list .blog-card--editorial .blog-card__link:focus-visible .blog-card__title {
+  transform: none;
+}
+
+.template-blog-list .blog-card--editorial .blog-card__link:hover .blog-card__summary,
+.template-blog-list .blog-card--editorial .blog-card__link:focus-visible .blog-card__summary {
+  color: var(--color-text-secondary);
 }
 
 .post-index-note {
@@ -1017,7 +984,7 @@
 
   .template-blog-list .blog-card--editorial .blog-card__body {
     min-height: 0;
-    padding: 18px 20px;
+    padding: var(--space-5);
   }
 
   .template-blog-list .post-tools {

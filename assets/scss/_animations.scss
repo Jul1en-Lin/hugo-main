@@ -57,8 +57,7 @@
   .record-item,
   .songwriter-card,
   .curated-card,
-  .phase4-text-link,
-  .about-values article {
+  .phase4-text-link {
     transition:
       border-color var(--duration-normal) var(--ease-out),
       box-shadow var(--duration-normal) var(--ease-out),
@@ -82,13 +81,11 @@
     transform: scale(1.025);
   }
 
-  .journal-entry__dot,
-  .about-milestones__track li::before {
+  .journal-entry__dot {
     transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
   }
 
-  .journal-entry.is-visible .journal-entry__dot,
-  .about-milestones__track li.is-visible::before {
+  .journal-entry.is-visible .journal-entry__dot {
     box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-text) 8%, transparent);
     transform: scale(1.08);
   }

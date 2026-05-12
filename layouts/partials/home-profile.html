@@ -1,0 +1,94 @@
+{{- $ctx := .context -}}
+{{- $posts := .posts -}}
+{{- $profile := default dict $ctx.Params.homeProfile -}}
+{{- $brand := default $ctx.Site.Title $ctx.Site.Params.brandName -}}
+{{- $headline := default $brand $profile.headline -}}
+{{- $lead := default (default $ctx.Site.Params.description $ctx.Params.description) $profile.lead -}}
+{{- $recentLabel := default "Recently written" $profile.recentLabel -}}
+{{- $socialLabel := default "Find me on" $profile.socialLabel -}}
+{{- $dateFormat := or $ctx.Site.Params.dateFormat.published "2006-01-02" -}}
+
+<section class="home-profile" aria-labelledby="home-profile-title">
+    <h1 id="home-profile-title" class="home-profile__title">{{ $headline }}</h1>
+
+    {{- with $lead -}}
+    <p class="home-profile__lead">{{ . }}</p>
+    {{- end -}}
+
+    {{- with $profile.linkGroups -}}
+    <div class="home-profile__link-groups" aria-label="Profile links">
+        {{- range . -}}
+        <p class="home-profile__line">
+            <span class="home-profile__line-label">{{ .label }}</span>
+            {{- range .items -}}
+                {{- $icon := .icon -}}
+                {{- $iconFile := "" -}}
+                {{- with $icon -}}
+                    {{- $iconFile = resources.GetMatch (printf "icons/%s.svg" .) -}}
+                {{- end -}}
+                <a class="home-chip" href="{{ .url | relLangURL }}">
+                    {{- with $iconFile -}}
+                    <span class="home-chip__icon" aria-hidden="true">{{ .Content | safeHTML }}</span>
+                    {{- end -}}
+                    <span>{{ .name }}</span>
+                </a>
+            {{- end -}}
+        </p>
+        {{- end -}}
+    </div>
+    {{- end -}}
+
+    {{- with $profile.paragraphs -}}
+    <div class="home-profile__prose">
+        {{- range . -}}
+        <p>{{ . | markdownify }}</p>
+        {{- end -}}
+    </div>
+    {{- end -}}
+
+    {{- if $posts -}}
+    <hr class="home-profile__divider">
+    <section class="home-profile__recent" aria-labelledby="home-recent-title">
+        <p id="home-recent-title" class="home-profile__section-label">{{ $recentLabel }}</p>
+        <div class="home-profile__recent-list">
+            {{- range $posts -}}
+            <a class="home-profile__post-link" href="{{ .RelPermalink }}">
+                <span>{{ .Title }}</span>
+                {{- if not .Date.IsZero -}}
+                <time datetime="{{ .Date.Format `2006-01-02T15:04:05Z07:00` }}">{{ .Date | time.Format $dateFormat }}</time>
+                {{- end -}}
+            </a>
+            {{- end -}}
+        </div>
+    </section>
+    {{- end -}}
+
+    {{- with $ctx.Site.Menus.social -}}
+    <hr class="home-profile__divider">
+    <section class="home-profile__find" aria-labelledby="home-social-title">
+        <p id="home-social-title" class="home-profile__section-label">{{ $socialLabel }}</p>
+        <p class="home-profile__social">
+            {{- range . -}}
+                {{- $icon := default "link" .Params.Icon -}}
+                {{- $iconFile := resources.GetMatch (printf "icons/%s.svg" $icon) -}}
+                <a class="home-profile__social-link" href="{{ .URL }}" target="_blank" rel="noopener noreferrer">
+                    {{- with $iconFile -}}
+                    <span aria-hidden="true">{{ .Content | safeHTML }}</span>
+                    {{- end -}}
+                    <span>{{ .Name }}</span>
+                </a>
+            {{- end -}}
+        </p>
+    </section>
+    {{- end -}}
+
+    {{- with $profile.contactLine -}}
+    <p class="home-profile__contact">{{ . | markdownify }}</p>
+    {{- end -}}
+
+    {{- with $profile.closingNote -}}
+    <p class="home-profile__closing">{{ . }}</p>
+    {{- else -}}
+    <p class="home-profile__closing">© {{ now.Format "2006" }} {{ $ctx.Site.Copyright | default $brand }}</p>
+    {{- end -}}
+</section>

@@ -4,42 +4,7 @@
 {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
 {{ $notHidden := where $pages "Params.hidden" "!=" true }}
 {{ $posts := sort $notHidden "Date" "desc" }}
-{{ $latest := first 3 $posts }}
+{{ $latest := first 4 $posts }}
 
-<section class="home-composition" aria-label="Home introduction">
-    {{ partial "hero-section.html" (dict
-        "context" .
-        "title" "Hi, I&rsquo;m Jul1en.<br>Notes on code, life, and <span class=\"script-accent\">rhythm</span>."
-        "description" "I write about backend development, testing, tools, and the thoughts that surface while building."
-        "primaryLabel" "Explore my blog"
-        "primaryURL" "/post/"
-        "avatar" true
-        "class" "hero-section--home"
-    ) }}
-
-    {{ partial "quote-block.html" (dict
-        "context" .
-        "quote" "Build quietly. Think clearly. Leave useful notes."
-        "signature" "Jul1en"
-        "class" "quote-block--home"
-    ) }}
-</section>
-
-<section class="latest-posts section-band" aria-labelledby="latest-posts-title">
-    <div class="section-heading">
-        <h2 id="latest-posts-title">Latest Posts <span aria-hidden="true">⌁ ♪</span></h2>
-        <a class="section-heading__link" href="{{ `/post/` | relLangURL }}">
-            View all articles
-            {{ partial "helper/icon" "arrow-right" }}
-        </a>
-    </div>
-
-    <div class="post-grid post-grid--latest">
-        {{ range $latest }}
-            {{ partial "blog-card.html" (dict "page" . "variant" "home-strip" "showMedia" false) }}
-        {{ end }}
-    </div>
-</section>
-
-{{ partialCached "footer/footer" . }}
+{{ partial "home-profile.html" (dict "context" . "posts" $latest) }}
 {{ end }}

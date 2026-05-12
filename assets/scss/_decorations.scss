@@ -13,68 +13,12 @@
   opacity: 0.42;
 }
 
-.template-home ~ .music-staff-bg,
-body.template-home .music-staff-bg {
-  top: 214px;
-  height: 380px;
-  opacity: 0.56;
-  transform: rotate(-2deg) scaleX(1.08);
-  transform-origin: 50% 45%;
-}
-
-body.template-home .music-staff-bg__curve {
-  stroke-width: 1;
-}
-
-body.template-home .music-staff-bg__lines path {
-  stroke: #d9d9d9;
-}
-
-body.template-home .music-note-decor {
-  opacity: 0.2;
-}
-
-body.template-home .music-note-decor__note--one {
-  top: 39vh;
-  left: 31vw;
-  font-size: clamp(1.55rem, 2.4vw, 2.45rem);
-}
-
-body.template-home .music-note-decor__note--two {
-  top: 22vh;
-  right: 3vw;
-  bottom: auto;
-  font-size: clamp(1.9rem, 3.2vw, 3rem);
-}
-
-body.template-home .music-note-decor__note--three {
-  top: 34vh;
-  right: 48vw;
-  font-size: clamp(1.15rem, 1.7vw, 1.7rem);
-}
-
-body.template-about .music-staff-bg {
-  top: 170px;
-  height: 390px;
-  opacity: 0.52;
-}
-
-body.template-about .music-staff-bg__lines path {
-  stroke: #dedede;
-}
-
-body.template-blog-list .music-staff-bg {
-  top: 235px;
-  height: 430px;
-  opacity: 0.66;
-}
-
-body.template-blog-list .music-staff-bg__curve {
-  stroke-width: 1;
-}
-
-body.template-blog-list .music-staff-bg__lines path {
-  stroke: #d9d9d9;
+body.template-home .music-staff-bg,
+body.template-home .music-note-decor,
+body.template-blog-list .music-staff-bg,
+body.template-blog-list .music-note-decor,
+body.template-article-detail .music-staff-bg {
+  display: none;
 }
 
 body.template-journal .music-staff-bg {
@@ -89,22 +33,6 @@ body.template-journal .music-staff-bg__curve {
 
 body.template-journal .music-staff-bg__lines path {
   stroke: #d9d9d9;
-}
-
-body.template-article-detail .music-staff-bg {
-  top: clamp(220px, 29vh, 300px);
-  right: -7vw;
-  left: 52vw;
-  height: 340px;
-  opacity: 0.34;
-}
-
-body.template-article-detail .music-staff-bg__curve {
-  stroke-width: 1;
-}
-
-body.template-article-detail .music-staff-bg__lines path {
-  stroke: #dedede;
 }
 
 .music-staff-bg svg {
@@ -159,28 +87,6 @@ body.template-article-detail .music-staff-bg__lines path {
   top: 48vh;
   right: 26vw;
   font-size: clamp(1rem, 1.8vw, 1.6rem);
-}
-
-body.template-blog-list .music-note-decor {
-  opacity: 0.18;
-}
-
-body.template-blog-list .music-note-decor__note--one {
-  top: 23vh;
-  left: 77vw;
-  font-size: clamp(1.4rem, 2.3vw, 2.2rem);
-}
-
-body.template-blog-list .music-note-decor__note--two {
-  right: 5vw;
-  bottom: 9vh;
-  font-size: clamp(1.35rem, 2.1vw, 2rem);
-}
-
-body.template-blog-list .music-note-decor__note--three {
-  top: 38vh;
-  right: 20vw;
-  font-size: clamp(1.2rem, 2vw, 1.9rem);
 }
 
 body.template-journal .music-note-decor {

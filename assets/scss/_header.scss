@@ -9,10 +9,10 @@
 }
 
 .site-header__inner {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
-  gap: var(--space-5);
+  justify-content: space-between;
+  gap: clamp(var(--space-5), 4vw, var(--space-8));
   width: unquote("calc(100% - clamp(48px, 6vw, 104px))");
   min-height: var(--header-height);
   margin: 0 auto;
@@ -25,6 +25,15 @@
   justify-self: start;
   min-width: max-content;
   color: var(--color-text);
+}
+
+.site-header__right {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(var(--space-4), 2.2vw, var(--space-6));
+  min-width: 0;
+  margin-left: auto;
 }
 
 .site-brand__mark {
@@ -46,20 +55,19 @@
 
 .site-brand__text {
   font-family: var(--font-script);
-  font-size: 2.05rem;
+  font-size: 28px;
   font-weight: 600;
   line-height: 1;
 }
 
 .site-nav {
-  justify-self: center;
   margin: 0;
 }
 
 .site-nav__list {
   display: flex;
   align-items: center;
-  gap: clamp(var(--space-5), 3.4vw, var(--space-8));
+  gap: clamp(var(--space-4), 2.4vw, var(--space-7));
   padding: 0;
   margin: 0;
   list-style: none;
@@ -71,8 +79,9 @@
   align-items: center;
   min-height: 58px;
   color: var(--color-text-secondary);
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font-family: var(--font-display), "Noto Sans SC", serif;
+  font-size: 13px;
+  font-weight: 600;
   letter-spacing: 0;
 }
 
@@ -114,8 +123,7 @@
 .site-actions {
   display: inline-flex;
   align-items: center;
-  justify-self: end;
-  gap: 6px;
+  gap: 8px;
 }
 
 .site-action-link,
@@ -129,7 +137,7 @@
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: var(--color-text-secondary);
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
   cursor: pointer;
   line-height: 0;
   transition: color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
@@ -145,13 +153,13 @@
 
 .site-action-link__icon,
 .theme-toggle__icon {
-  display: grid;
+  display: inline-grid;
   width: 20px;
   height: 20px;
   place-items: center;
   font-family: var(--font-display);
   font-size: 1.25rem;
-  line-height: 0;
+  line-height: 1;
 }
 
 .site-action-link__icon svg,
@@ -176,6 +184,22 @@
 
 #dark-mode-toggle.theme-toggle {
   gap: 0;
+}
+
+.theme-toggle__icon--moon {
+  display: none;
+}
+
+:root[data-scheme="dark"] .theme-toggle__icon--sun {
+  display: none;
+}
+
+:root[data-scheme="dark"] .theme-toggle__icon--moon {
+  display: inline-grid;
+}
+
+:root[data-scheme="dark"] .theme-toggle__icon--moon svg {
+  transform: translateY(1px);
 }
 
 .site-menu-toggle {
@@ -205,8 +229,4 @@
 
 .site-menu-toggle.is-open .site-menu-toggle__bar:nth-child(3) {
   transform: translateY(-6px) rotate(-45deg);
-}
-
-.theme-toggle__icon svg {
-  transform: translate(1px, -1px);
 }

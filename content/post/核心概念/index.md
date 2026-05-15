@@ -1,14 +1,14 @@
 +++
-title = "核心概念"
-slug = "核心概念"
+title = "Spring Cloud 核心概念"
+slug = "Spring-Cloud-核心概念"
 date = "2026-05-10T13:00:35.000Z"
-lastmod = "2026-05-15T08:21:52.000Z"
+lastmod = "2026-05-15T08:22:39.000Z"
 draft = false
 categories = ["微服务"]
 siyuan_id = "20260510210035-stmxq9g"
-siyuan_path = "/核心概念"
+siyuan_path = "/Spring Cloud 核心概念"
 +++
-# 核心概念
+# Spring Cloud 核心概念
 
 # Spring Cloud 简单概念笔记：Eureka、Nacos、OpenFeign 与 Gateway
 

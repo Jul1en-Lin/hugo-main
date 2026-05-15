@@ -2,7 +2,7 @@
 title = "Git stash"
 slug = "Git-stash"
 date = "2026-05-15T05:40:20.000Z"
-lastmod = "2026-05-15T07:24:20.000Z"
+lastmod = "2026-05-15T08:04:22.000Z"
 draft = false
 categories = ["Git"]
 siyuan_id = "20260515134020-r7ulkbb"
@@ -317,24 +317,6 @@ git stash drop stash@{0}
 |`git stash push -u`|保存未跟踪文件|
 |`git stash push -a`|保存所有文件，包括 ignored 文件|
 |`git stash branch new-branch stash@{0}`|从 stash 创建新分支并恢复修改|
-
----
-
-## 十五、学习时最容易记混的点
-
-第一，`git stash` 默认不会保存未跟踪文件。新建文件如果没有被 Git 跟踪，需要使用：
-
-```
-git stash push -u
-```
-
-第二，`apply` 和 `pop` 都能恢复代码，但 `apply` 不删除 stash，`pop` 会尝试删除 stash。
-
-第三，stash 不是用来长期保存代码的。如果代码已经是一个完整阶段，应该 commit，而不是一直堆在 stash 里。
-
-第四，stash 恢复时可能冲突。它不是“无痛传送门”，只是帮你临时保存现场，后续恢复时仍然要遵守 Git 的合并规则。
-
-第五，stash 记录多了以后一定要加说明，否则过几天再看 `stash@{0}`、`stash@{1}`，很容易完全不知道哪一条是什么。
 
 ## 理解图
 

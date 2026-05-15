@@ -2,7 +2,7 @@
 title = "Spring Cloud 核心概念"
 slug = "Spring-Cloud-核心概念"
 date = "2026-05-10T13:00:35.000Z"
-lastmod = "2026-05-15T08:22:39.000Z"
+lastmod = "2026-05-15T08:22:57.000Z"
 draft = false
 categories = ["微服务"]
 siyuan_id = "20260510210035-stmxq9g"
@@ -57,7 +57,7 @@ flowchart LR
 |外部请求从哪里进|Spring Cloud Gateway|API 网关、统一入口|
 |配置怎么统一管|Nacos Config / Spring Cloud Config|配置中心、动态配置|
 
-![](assets/image-20260510212744-wo0u8vw.png)
+![](assets/image-20260510212744-wo0u8vw.png "test")
 
 > 服务启动后注册到注册中心；调用方从注册中心发现目标服务实例；负载均衡器从多个实例中选一个；OpenFeign 发起服务间调用；Gateway 负责外部入口和公共过滤逻辑；Nacos 还可以统一管理配置。
 

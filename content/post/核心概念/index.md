@@ -2,8 +2,9 @@
 title = "核心概念"
 slug = "核心概念"
 date = "2026-05-10T13:00:35.000Z"
-lastmod = "2026-05-15T05:35:06.000Z"
+lastmod = "2026-05-15T08:21:52.000Z"
 draft = false
+categories = ["微服务"]
 siyuan_id = "20260510210035-stmxq9g"
 siyuan_path = "/核心概念"
 +++
@@ -56,13 +57,13 @@ flowchart LR
 |外部请求从哪里进|Spring Cloud Gateway|API 网关、统一入口|
 |配置怎么统一管|Nacos Config / Spring Cloud Config|配置中心、动态配置|
 
-![image](assets/image-20260510212744-wo0u8vw.png)
+![](assets/image-20260510212744-wo0u8vw.png)
 
 > 服务启动后注册到注册中心；调用方从注册中心发现目标服务实例；负载均衡器从多个实例中选一个；OpenFeign 发起服务间调用；Gateway 负责外部入口和公共过滤逻辑；Nacos 还可以统一管理配置。
 
 ## Eureka：注册中心、服务注册与服务发现
 
-![image](assets/image-20260510212924-9tiveuh.png)
+![](assets/image-20260510212924-9tiveuh.png)
 
 ### Eureka 是什么
 
@@ -237,7 +238,7 @@ eureka:
 
 ## 负载均衡：为什么不能只调用一个实例
 
-![image](assets/image-20260510213117-m7thvqb.png)
+![](assets/image-20260510213117-m7thvqb.png)
 
 ### 负载均衡解决什么问题
 
@@ -284,7 +285,7 @@ http://user-service/users/1
 
 ## Nacos：注册中心 + 配置中心
 
-![image](assets/image-20260510213220-0g15lcw.png)
+![](assets/image-20260510213220-0g15lcw.png)
 
 ### Nacos
 
@@ -619,7 +620,7 @@ spring:
 
 ## Eureka 与 Nacos 的区别
 
-![image](assets/image-20260510213514-6abjoi7.png)
+![](assets/image-20260510213514-6abjoi7.png)
 
 |对比项|Eureka|Nacos|
 | ------------| ------------------------------------------| --------------------------------------------------|
@@ -634,7 +635,7 @@ spring:
 
 ## OpenFeign：声明式服务调用
 
-![image](assets/image-20260510213558-ps0u4ej.png)
+![](assets/image-20260510213558-ps0u4ej.png)
 
 ### OpenFeign 是什么
 
@@ -762,7 +763,7 @@ public class OrderController {
 
 ## Gateway：网关服务
 
-![image](assets/image-20260510213833-wuurt3g.png)
+![](assets/image-20260510213833-wuurt3g.png)
 
 ### Gateway
 
@@ -875,7 +876,7 @@ StripPrefix=1 后：/users/1
 
 ## GatewayFilter、GlobalFilter 与自定义 Filter
 
-![image](assets/image-20260510214028-d03ujw3.png)
+![](assets/image-20260510214028-d03ujw3.png)
 
 ### GatewayFilter
 
@@ -1118,6 +1119,6 @@ sequenceDiagram
 - OpenFeign：负责服务内部之间的声明式 HTTP 调用；
 - Nacos Config：虽然不在请求链路中，但负责服务启动和运行时读取配置。
 
-![image](assets/image-20260510214143-e9vlpp0.png)
+![](assets/image-20260510214143-e9vlpp0.png)
 
 ‍

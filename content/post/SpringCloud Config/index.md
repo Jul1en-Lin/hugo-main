@@ -2,7 +2,7 @@
 title = "SpringCloud Config"
 slug = "SpringCloud-Config"
 date = "2026-05-14T16:38:45.000Z"
-lastmod = "2026-05-15T07:57:48.000Z"
+lastmod = "2026-05-15T07:59:22.000Z"
 draft = false
 categories = ["微服务"]
 siyuan_id = "20260515003845-j8gldfp"
@@ -14,7 +14,7 @@ Spring Cloud Config 解决的是微服务项目中“配置分散、环境复杂
 
 配置中心的思路就是把配置从服务代码里抽出来，交给一个统一的服务管理。Spring Cloud Config 中，承担统一管理角色的是 Config Server，真正使用配置的业务服务是 Config Client。Config Server 从 Git、本地文件系统、Vault、JDBC 等后端读取配置，再通过 HTTP 接口提供给各个客户端。Config Client 启动时访问 Config Server，拉取属于自己的配置并加载到 Spring Environment 中。
 
-![](assets/image-20260515153553-efbbqze.png "test")
+![test](assets/image-20260515153553-efbbqze.png)
 
 ## 为什么需要 Spring Cloud Config
 

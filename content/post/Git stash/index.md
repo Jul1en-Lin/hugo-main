@@ -2,7 +2,7 @@
 title = "Git stash"
 slug = "Git-stash"
 date = "2026-05-15T05:40:20.000Z"
-lastmod = "2026-05-15T08:04:47.000Z"
+lastmod = "2026-05-15T08:19:08.000Z"
 draft = false
 categories = ["Git"]
 siyuan_id = "20260515134020-r7ulkbb"
@@ -320,7 +320,7 @@ git stash drop stash@{0}
 
 ## 理解图
 
-![ChatGPT Image 2026年5月15日 15_23_33](assets/ChatGPT%20Image%202026年5月15日%2015_23_33-20260515152402-v7p9m2v.png)
+![git stash](assets/git%20stash-20260515161908-u50h01u.png)
 
 `git stash` 本质上是 Git 提供的临时保存现场机制。它适合在代码还没完成、不想提交，但又必须切换任务时使用。它不会替代 commit，而是补充 commit 之前那段混乱、临时、半成品的开发过程。用得好的话，stash 可以让你在多个任务之间切换时更从容，不至于因为工作区不干净而手忙脚乱~
 

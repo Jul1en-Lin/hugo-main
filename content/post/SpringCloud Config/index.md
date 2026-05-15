@@ -4,7 +4,7 @@ slug = "SpringCloud-Config"
 date = "2026-05-14T16:38:45.000Z"
 lastmod = "2026-05-15T07:36:50.000Z"
 draft = false
-categories = ["Spring"]
+categories = ["微服务"]
 siyuan_id = "20260515003845-j8gldfp"
 siyuan_path = "/SpringCloud Config"
 +++
